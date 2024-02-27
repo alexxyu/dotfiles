@@ -1,0 +1,57 @@
+# This is Git's per-user configuration file.
+[user]
+  name = Alex Yu
+  email = yu.alexanderx@gmail.com
+[alias]
+  amend = commit --amend
+  br = branch
+  brd = branch -D
+  bru = branch --unset-upstream
+  cam = commit -am
+  cb = checkout -b
+  cm = commit -m
+  co = checkout
+  cp = cherry-pick
+  df = diff --color-words
+  dummy = commit --allow-empty
+  ignore = update-index --assume-unchanged
+  unignore = update-index --no-assume-unchanged
+  lg = log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
+  pls = pull --rebase
+  rs = reset
+  rsh = reset --hard
+  st = stash
+  stat = status
+  stl = stash list
+  stls = stash list --stat
+  stm = stash -m
+  stp = stash pop
+  sts = stash show -p
+  undo = reset @~1
+  unstage = restore --staged
+  alias = "! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /"
+  count-lines = "! git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf \"added lines: %s, removed lines: %s, total lines: %s\\n\", add, subs, loc }' #"
+[commit]
+  gpgsign = false
+[core]
+  excludesfile = ~/.gitignore
+[diff]
+  mnemonicPrefix = true
+  renames = true
+  tool = vscode
+[difftool]
+  prompt = false
+[difftool "vscode"]
+  cmd = code --wait --diff $LOCAL $REMOTE
+[gpg]
+  format = ssh
+[http]
+  postBuffer = 524288000
+[merge]
+  ff = false
+[pull]
+  rebase = true
+[push]
+  autoSetupRemote = true
+[init]
+  defaultBranch = main
