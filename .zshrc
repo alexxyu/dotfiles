@@ -21,7 +21,6 @@ alias code="code -n"
 alias nano="nano -ET4"
 alias dc="docker-compose"
 alias fly="flyctl"
-alias jp="jupyter notebook"
 
 #####################
 # Terminal settings #
@@ -29,6 +28,9 @@ alias jp="jupyter notebook"
 
 # Disable terminal ctrl-s behavior to allow bpython to save
 stty -ixon
+
+# Explicitly set emacs controls
+set -o emacs
 
 # Allow case-insensitive autocompletion for lowercase characters
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -61,9 +63,4 @@ export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}$(parse_git_branch)${C
 ##################
 # Misc. settings #
 ##################
-
-# pyenv initialize
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 
