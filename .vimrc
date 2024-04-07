@@ -67,7 +67,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'airblade/vim-gitgutter'
 
-Plug 'junegunn/seoul256.vim'
+Plug 'tpope/vim-fugitive'
+
+Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
@@ -97,6 +99,5 @@ autocmd ColorScheme * highlight! link SignColumn LineNr
 """""""""
 " theme "
 """""""""
-let g:seoul256_background = 256
-colo seoul256-light
+colorscheme PaperColor
 
