@@ -34,7 +34,7 @@
 [commit]
   gpgsign = false
 [core]
-  excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore_global
 [diff]
   mnemonicPrefix = true
   renames = true
