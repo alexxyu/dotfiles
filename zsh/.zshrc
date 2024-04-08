@@ -25,6 +25,9 @@ alias code="code -n"
 alias nano="nano -ET4"
 alias dc="docker compose"
 
+# Source any other custom aliases
+[ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
+
 #####################
 # Terminal settings #
 #####################
