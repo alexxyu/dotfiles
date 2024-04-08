@@ -1,37 +1,24 @@
 #!/bin/bash
 
-apt_install () {
-    sudo apt -y install $1
-    echo "$1 installed"
-}
-
+# update apt
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 
-apt_install zsh
-apt_install zsh-syntax-highlighting
-apt_install zsh-autosuggestions
-apt_install vim
+# apt install packages
+sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions vim-gtk \
+    curl python3 python-pip bpython tmux tree fzf bat jq stow btop
 
-apt_install curl
+# cleanup
+ln -s /usr/bin/batcat ~/.local/bin/bat
+
+# install packages that rely on custom scripts
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-apt_install python3
-apt_install python-pip
 
-apt_install bpython
-apt_install tmux
-apt_install tree
-apt_install fzf
-apt_install bat
-apt_install jq
-apt_install stow
-sudo ln -s /usr/bin/batcat /usr/local/bin/bat
+curl -LSfs https://raw.githubusercontent.com/Byron/dua-cli/master/ci/install.sh | \
+    sh -s -- --git Byron/dua-cli --crate dua --tag v2.17.4
 
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
-echo "zoxide installed"
 
 curl https://pyenv.run | bash
-echo "pyenv installed"
 
 curl -fsSL https://get.docker.com | sh
-echo "docker installed"
 

@@ -23,7 +23,7 @@ alias cd="z"
 # Dev aliases
 alias code="code -n"
 alias nano="nano -ET4"
-alias dc="docker-compose"
+alias dc="docker compose"
 
 #####################
 # Terminal settings #
@@ -44,7 +44,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 if [ "$(uname)" = "Darwin" ]; then
     INSTALL_PATH="$(brew --prefix)/share"
 else
-    INSTALL_PATH="/usr/local/share"
+    INSTALL_PATH="/usr/share"
 fi
 source $INSTALL_PATH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $INSTALL_PATH/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -94,4 +94,6 @@ eval "$(zoxide init zsh)"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+export PATH=~/.local/bin:$PATH
 

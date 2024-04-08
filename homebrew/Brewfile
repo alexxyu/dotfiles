@@ -9,6 +9,8 @@ brew "zoxide"
 cask "visual-studio-code"
 brew "jq"
 brew "tlrc"
+brew "btop"
+brew "dua-cli"
 
 # platform devtools
 cask "docker"
