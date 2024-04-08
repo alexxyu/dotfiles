@@ -71,6 +71,8 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
+Plug 'junegunn/fzf'
+
 call plug#end()
 
 """"""""""""
