@@ -41,8 +41,13 @@ setopt mark_dirs
 
 # Allow case-insensitive autocompletion for lowercase characters
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ "$(uname)" = "Darwin" ]; then
+    INSTALL_PATH="$(brew --prefix)/share"
+else
+    INSTALL_PATH="/usr/local/share"
+fi
+source $INSTALL_PATH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $INSTALL_PATH/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^I'       complete-word       # tab               | complete
 bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
 
@@ -84,4 +89,9 @@ export NVM_DIR="$HOME/.nvm"
 # setup other utils
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
+
+# pyenv initialize
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
