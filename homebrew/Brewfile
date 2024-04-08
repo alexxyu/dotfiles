@@ -1,9 +1,16 @@
-# shell tools
+# core tools
 brew "vim"
 brew "coreutils"
-
-# other devtools
+brew "stow"
+brew "tree"
+brew "bat"
+brew "fzf"
+brew "zoxide"
 cask "visual-studio-code"
+brew "jq"
+brew "tlrc"
+
+# platform devtools
 cask "docker"
 brew "helm"
 brew "minikube"

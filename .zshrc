@@ -18,6 +18,7 @@ else
     alias ls="ls -lh --color --group-directories-first"
 fi
 alias la="ls -a"
+alias cd="z"
 
 # Dev aliases
 alias code="code -n"
@@ -74,4 +75,13 @@ export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}$(parse_git_branch)${C
 ##################
 # Misc. settings #
 ##################
+
+# nvm sourcing
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# setup other utils
+eval "$(fzf --zsh)"
+eval "$(zoxide init zsh)"
 

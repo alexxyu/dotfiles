@@ -22,6 +22,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # bpython
 pip install bpython
 
+# nvm
+PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
+
 ################################
 # Set zsh as the default shell #
 ################################
