@@ -7,20 +7,22 @@ alias pip="pip3"
 function python () {
     test -z "$1" && bpython || python3 "$@";
 }
-alias actenv="source .venv/bin/activate"
+alias pyvenv="source .venv/bin/activate"
 alias pycrenv="python -m venv .venv --system-site-packages && actenv"
-alias deact="deactivate"
 
 # Shell aliases
-alias ls="gls -lh --color --group-directories-first"
+if [ "$(uname)" = "Darwin" ]; then
+    alias ls="gls -lh --color --group-directories-first"
+    alias rmds="find . -name \".DS_Store\" -delete"
+else
+    alias ls="ls -lh --color --group-directories-first"
+fi
 alias la="ls -a"
-alias rmds="find . -name \".DS_Store\" -delete"     # wow is this a lifesaver
 
 # Dev aliases
 alias code="code -n"
 alias nano="nano -ET4"
 alias dc="docker-compose"
-alias fly="flyctl"
 
 #####################
 # Terminal settings #
@@ -29,8 +31,12 @@ alias fly="flyctl"
 # Disable terminal ctrl-s behavior to allow bpython to save
 stty -ixon
 
-# Explicitly set emacs controls
+# Explicitly set emacs keybindings
 set -o emacs
+# Show filetypes in autocompletion list
+setopt list_types
+# Append trailing slash to directories from filename generation (globbing)
+setopt mark_dirs
 
 # Allow case-insensitive autocompletion for lowercase characters
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -38,6 +44,11 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 bindkey '^I'       complete-word       # tab               | complete
 bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
+
+# Case-sensitive file sorting
+export LC_COLLATE=C
+export LANG=en_US.UTF-8
+export LC_ALL=$LANG
 
 # Set terminal colors
 export CLICOLOR=1
