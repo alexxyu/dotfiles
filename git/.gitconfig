@@ -2,6 +2,7 @@
 [user]
   name = Alex Yu
   email = yu.alexanderx@gmail.com
+  signingkey = ~/.ssh/id_ed25519.pub
 [alias]
   amend = commit --amend
   br = branch
