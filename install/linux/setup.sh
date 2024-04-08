@@ -5,12 +5,14 @@ apt_install () {
     echo "$1 installed"
 }
 
+sudo apt update && sudo apt upgrade && sudo apt autoremove
+
 apt_install zsh
 apt_install zsh-syntax-highlighting
 apt_install zsh-autosuggestions
 apt_install vim
 
-apt install curl
+apt_install curl
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 apt_install python3
 apt_install python-pip
