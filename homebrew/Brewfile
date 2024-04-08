@@ -10,6 +10,8 @@ brew "tlrc"
 brew "tree"
 brew "vim"
 brew "zoxide"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
 
 # platform devtools
 cask "docker"
