@@ -6,14 +6,12 @@ apt_install () {
 }
 
 apt_install zsh
-apt_install zsh_syntax_highlighting
-apt_install zsh_autosuggestions
+apt_install zsh-syntax-highlighting
+apt_install zsh-autosuggestions
 apt_install vim
 
 apt install curl
-apt_install node
-apt_install npm
-
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 apt_install python3
 apt_install python-pip
 
