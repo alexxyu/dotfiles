@@ -22,3 +22,14 @@ curl https://pyenv.run | bash
 
 curl -fsSL https://get.docker.com | sh
 
+# git setup
+echo "Setting up git-credential-manager..."
+curl -L https://aka.ms/gcm/linux-install-source.sh | sh
+sudo apt -y install pass
+gpg --gen-key
+read -p "Enter the gpg uid that you just created: " gpg_uid
+pass init $gpg_uid
+
+# set zsh as default shell
+chsh -s $(which zsh)
+

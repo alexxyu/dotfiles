@@ -9,8 +9,8 @@ brew update
 #########################
 # Install brew packages #
 #########################
-parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-brew bundle --file="$parent_path/../../homebrew/Brewfile"
+REPO_PATH=$(git rev-parse --show-toplevel)
+brew bundle --file="$REPO_PATH/homebrew/Brewfile"
 
 ##################################
 # Install any extra dependencies #
@@ -28,5 +28,5 @@ PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm
 ################################
 # Set zsh as the default shell #
 ################################
-chsh -s /bin/zsh
+chsh -s $(which zsh)
 
