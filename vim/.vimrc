@@ -69,7 +69,7 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'tpope/vim-fugitive'
 
-Plug 'NLKNguyen/papercolor-theme'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 call plug#end()
 
@@ -99,5 +99,5 @@ autocmd ColorScheme * highlight! link SignColumn LineNr
 """""""""
 " theme "
 """""""""
-colorscheme PaperColor
+colorscheme catppuccin-latte
 
