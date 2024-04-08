@@ -1,16 +1,15 @@
 # core tools
-brew "vim"
-brew "coreutils"
-brew "stow"
-brew "tree"
 brew "bat"
-brew "fzf"
-brew "zoxide"
-cask "visual-studio-code"
-brew "jq"
-brew "tlrc"
 brew "btop"
+brew "coreutils"
 brew "dua-cli"
+brew "fzf"
+brew "jq"
+brew "stow"
+brew "tlrc"
+brew "tree"
+brew "vim"
+brew "zoxide"
 
 # platform devtools
 cask "docker"
@@ -22,10 +21,16 @@ brew "node"
 brew "pyenv"
 brew "zlib"
 
-# other tools
+# tools and apps
+cask "firefox"
+cask "iterm2"
+cask "spotify"
+cask "visual-studio-code"
+
 cask "background-music"
 brew "imagemagick"
 brew "img2pdf"
 cask "maccy"
 cask "rectangle"
+cask "the-unarchiver"
 
