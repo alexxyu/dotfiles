@@ -1,0 +1,22 @@
+# shell tools
+brew "vim"
+brew "coreutils"
+
+# other devtools
+cask "visual-studio-code"
+cask "docker"
+brew "helm"
+brew "minikube"
+
+# languages
+brew "node"
+brew "pyenv"
+brew "zlib"
+
+# other tools
+cask "background-music"
+brew "imagemagick"
+brew "img2pdf"
+cask "maccy"
+cask "rectangle"
+
