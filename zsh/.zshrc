@@ -19,11 +19,15 @@ else
 fi
 alias la="ls -a"
 alias cd="z"
+alias cat="bat -p"
+alias diff="delta"
+alias diffy="delta --side-by-side"
 
 # Dev aliases
 alias code="code -n"
 alias nano="nano -ET4"
 alias dc="docker compose"
+alias lzd="lazydocker"
 
 # Source any other custom aliases
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
@@ -99,4 +103,6 @@ eval "$(zoxide init zsh)"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+eval $(thefuck --alias)
 

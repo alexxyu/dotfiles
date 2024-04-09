@@ -33,26 +33,31 @@
   alias = "! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /"
   count-lines = "! git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf \"added lines: %s, removed lines: %s, total lines: %s\\n\", add, subs, loc }' #"
 [commit]
-  gpgsign = false
+    gpgsign = false
 [core]
-  excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
+    pager = delta --side-by-side
 [diff]
-  mnemonicPrefix = true
-  renames = true
-  tool = vscode
+    mnemonicPrefix = true
+    renames = true
+    colorMoved = default
+    tool = vscode
 [difftool]
-  prompt = false
+    prompt = false
 [difftool "vscode"]
-  cmd = code --wait --diff $LOCAL $REMOTE
+    cmd = code --wait --diff $LOCAL $REMOTE
 [gpg]
-  format = ssh
+    format = ssh
 [http]
-  postBuffer = 524288000
+    postBuffer = 524288000
+[interactive]
+    diffFilter = delta --color-only
 [merge]
-  ff = false
+    ff = false
+    conflictStyle = diff3
 [pull]
-  rebase = true
+    rebase = true
 [push]
-  autoSetupRemote = true
+    autoSetupRemote = true
 [init]
-  defaultBranch = main
+    defaultBranch = main

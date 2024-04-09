@@ -2,10 +2,12 @@
 brew "bat"
 brew "btop"
 brew "coreutils"
+brew "git-delta"
 brew "dua-cli"
 brew "fzf"
 brew "jq"
 brew "stow"
+brew "thefuck"
 brew "tlrc"
 brew "tree"
 brew "vim"
@@ -15,8 +17,9 @@ brew "zsh-syntax-highlighting"
 
 # platform devtools
 cask "docker"
-brew "helm"
-brew "minikube"
+
+tap "jesseduffield/lazydocker"
+brew "jesseduffield/lazydocker/lazydocker"
 
 # languages
 brew "node"
