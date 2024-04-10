@@ -61,3 +61,6 @@
     autoSetupRemote = true
 [init]
     defaultBranch = main
+[include]
+    path = ~/.local/.gitconfig
+

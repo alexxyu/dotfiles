@@ -30,7 +30,7 @@ alias dc="docker compose"
 alias lzd="lazydocker"
 
 # Source any other custom aliases
-[ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
+[ -f "$HOME/.local/.zsh_aliases" ] && source "$HOME/.local/.zsh_aliases"
 
 #####################
 # Terminal settings #
@@ -88,21 +88,24 @@ export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}$(parse_git_branch)${C
 # Misc. settings #
 ##################
 
-export PATH=~/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 # nvm sourcing
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# setup other utils
-eval "$(fzf --zsh)"
-eval "$(zoxide init zsh)"
-
 # pyenv initialize
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-eval $(thefuck --alias)
+# setup other utils
+eval "$(fzf --zsh)"
+eval "$(zoxide init zsh)"
+eval "$(thefuck --alias)"
+
+export LESS="-IFS --mouse"
+
+[ -f "$HOME/.local/.zshrc" ] && source "$HOME/.local/.zshrc"
 

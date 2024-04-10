@@ -9,7 +9,7 @@ sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions vim-gtk \
     stow btop
 
 # cleanup
-ln -s /usr/bin/batcat ~/.local/bin/bat
+ln -s /usr/bin/batcat $HOME/.local/bin/bat
 
 # install packages that rely on custom scripts
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
