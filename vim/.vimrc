@@ -17,7 +17,6 @@ set ruler
 set number
 set cursorline
 set showmode
-set background=light
 syntax on
 highlight LineNr ctermfg=grey
 
@@ -63,15 +62,23 @@ endif
 
 call plug#begin()
 
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'preservim/nerdtree'
 
 Plug 'airblade/vim-gitgutter'
 
 Plug 'tpope/vim-fugitive'
 
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'tpope/vim-surround'
 
 Plug 'junegunn/fzf'
+
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 call plug#end()
 
@@ -101,5 +108,12 @@ autocmd ColorScheme * highlight! link SignColumn LineNr
 """""""""
 " theme "
 """""""""
-colorscheme catppuccin-latte
 
+if !empty($vim_background)
+    :let &background = $vim_background
+    set termguicolors
+    colorscheme dracula
+else
+    :let &background = 'light'
+    colorscheme catppuccin-latte
+endif
