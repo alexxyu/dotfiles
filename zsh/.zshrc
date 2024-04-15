@@ -98,6 +98,10 @@ if [ ! -f "$bat_themes_dir/Catppuccin Latte.tmTheme" ]; then
     bat cache --build
 fi
 
+if [[ ! -v TERM_BG && "$(uname)" = "Darwin" ]]; then
+    export TERM_BG="${$(defaults read -g AppleInterfaceStyle):l}"
+fi
+
 if [ "$TERM_BG" = "dark" ]; then
     export BAT_THEME='Dracula'
     export FZF_DEFAULT_OPTS=" \
