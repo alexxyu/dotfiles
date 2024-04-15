@@ -11,6 +11,8 @@ else
     exit 1
 fi
 
+./common.sh
+
 # Delete existing dotfiles
 BACKUP_DIR=~/.backup
 mkdir -p $BACKUP_DIR 2>/dev/null

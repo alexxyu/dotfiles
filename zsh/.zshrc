@@ -20,6 +20,7 @@ fi
 alias la="ls -a"
 alias cd="z"
 alias cat="bat -p"
+alias less="bat"
 alias diff="delta"
 alias diffy="delta --side-by-side"
 
@@ -46,6 +47,27 @@ setopt list_types
 # Append trailing slash to directories from filename generation (globbing)
 setopt mark_dirs
 
+# Enable git completion
+autoload -Uz compinit && compinit
+
+# Enable completion selections powered by fzf
+source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
+
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# preview directory's content with ls when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls' # 'eza -1 --color=always $realpath'
+# switch group using `[` and `]`
+zstyle ':fzf-tab:*' switch-group '[' ']'
+
+# Setup zsh plugins: syntax highlighting + autosuggestions
 # Allow case-insensitive autocompletion for lowercase characters
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 if [ "$(uname)" = "Darwin" ]; then
@@ -55,7 +77,7 @@ else
 fi
 source $INSTALL_PATH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $INSTALL_PATH/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^I'       complete-word       # tab               | complete
+# bindkey '^I'       complete-word       # tab               | complete
 bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
 
 # Case-sensitive file sorting
@@ -66,9 +88,6 @@ export LC_ALL=$LANG
 # Set terminal colors
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
-
-# Enable git completion
-autoload -Uz compinit && compinit
 
 # Stricter definition of word when using word-delete i.e. more bash-like
 export WORDCHARS='*?.[]~=&;!#$%^(){}<>'
