@@ -51,6 +51,7 @@ setopt mark_dirs
 autoload -Uz compinit && compinit
 
 # Enable completion selections powered by fzf
+[ -d "$HOME/.zsh/fzf-tab" ] || git clone https://github.com/Aloxaf/fzf-tab $HOME/.zsh/fzf-tab
 source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # disable sort when completing `git checkout`
