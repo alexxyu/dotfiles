@@ -996,6 +996,8 @@
 	<key>Default Bookmark Guid</key>
 	<string>301D71C3-2765-48EE-94E8-34D528EB89EB</string>
 	<key>DoubleClickPerformsSmartSelection</key>
+	<true/>
+	<key>EnterCopyModeAutomatically</key>
 	<false/>
 	<key>GlobalKeyMap</key>
 	<dict>
@@ -2008,8 +2010,12 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
+	<key>PromptOnQuit</key>
+	<false/>
 	<key>SoundForEsc</key>
 	<false/>
+	<key>TripleClickSelectsFullWrappedLines</key>
+	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>WordCharacters</key>
