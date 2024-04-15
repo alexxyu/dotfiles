@@ -89,6 +89,30 @@ export LC_ALL=$LANG
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
+# Terminal themes
+bat_themes_dir="$(bat --config-dir)/themes"
+mkdir -p $bat_themes_dir
+if [ ! -f "$bat_themes_dir/Catppuccin Latte.tmTheme" ]; then
+    curl -o "$bat_themes_dir/Catppuccin Latte.tmTheme" https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Latte.tmTheme
+    bat cache --build
+fi
+
+if [ "$TERM_BG" = "dark" ]; then
+    export BAT_THEME='Dracula'
+    export FZF_DEFAULT_OPTS=" \
+        --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
+        --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
+        --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
+        --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+else
+    export BAT_THEME='Catppuccin Latte'
+    export FZF_DEFAULT_OPTS=" \
+        --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
+        --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
+        --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
+    zstyle ":fzf-tab:*" fzf-flags --color=hl:0
+fi
+
 # Stricter definition of word when using word-delete i.e. more bash-like
 export WORDCHARS='*?.[]~=&;!#$%^(){}<>'
 

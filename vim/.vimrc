@@ -109,8 +109,8 @@ autocmd ColorScheme * highlight! link SignColumn LineNr
 " theme "
 """""""""
 
-if !empty($vim_background)
-    :let &background = $vim_background
+if !empty($TERM_BG)
+    :let &background = $TERM_BG
     set termguicolors
     colorscheme dracula
 else
