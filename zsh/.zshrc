@@ -99,7 +99,7 @@ if [ ! -f "$bat_themes_dir/Catppuccin Latte.tmTheme" ]; then
 fi
 
 if [[ ! -v TERM_BG && "$(uname)" = "Darwin" ]]; then
-    export TERM_BG="${$(defaults read -g AppleInterfaceStyle):l}"
+    export TERM_BG="${$(defaults read -g AppleInterfaceStyle 2> /dev/null):l}"
 fi
 
 if [ "$TERM_BG" = "dark" ]; then
