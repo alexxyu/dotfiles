@@ -33,6 +33,8 @@ alias lzd="lazydocker"
 # Source any other custom aliases
 [ -f "$HOME/.local/.zsh_aliases" ] && source "$HOME/.local/.zsh_aliases"
 
+export PATH=$HOME/.local/bin:$PATH
+
 #####################
 # Terminal settings #
 #####################
@@ -135,8 +137,6 @@ export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}$(parse_git_branch)${C
 ##################
 # Misc. settings #
 ##################
-
-export PATH=$HOME/.local/bin:$PATH
 
 # nvm sourcing
 export NVM_DIR="$HOME/.nvm"

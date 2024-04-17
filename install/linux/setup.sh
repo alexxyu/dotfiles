@@ -5,11 +5,8 @@ sudo apt update && sudo apt upgrade && sudo apt autoremove
 
 # apt install packages
 sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions vim-gtk \
-    curl python3 python3-pip python3-setuptools bpython tmux tree fzf bat jq \
+    curl python3 python3-pip python3-setuptools bpython tmux tree fzf jq \
     stow btop
-
-# cleanup
-ln -s /usr/bin/batcat $HOME/.local/bin/bat
 
 # install packages that rely on custom scripts
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -17,7 +14,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 cargo install cargo-update
 cargo install git-delta
 cargo install dua-cli
-cargo install zoxide --locked
+cargo install --locked zoxide
+cargo install --locked bat
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
