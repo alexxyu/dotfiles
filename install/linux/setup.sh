@@ -5,7 +5,7 @@ sudo apt update && sudo apt upgrade && sudo apt autoremove
 
 # apt install packages
 sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions vim-gtk \
-    curl python3 python-pip python3-setuptools bpython tmux tree fzf bat jq \
+    curl python3 python3-pip python3-setuptools bpython tmux tree fzf bat jq \
     stow btop
 
 # cleanup
