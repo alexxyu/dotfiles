@@ -69,6 +69,8 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls' # 'eza -1 --color=always $realpath'
 # switch group using `[` and `]`
 zstyle ':fzf-tab:*' switch-group '[' ']'
+# use tab to trigger continuous completion
+zstyle ':fzf-tab:*' continuous-trigger 'tab'
 
 # Setup zsh plugins: syntax highlighting + autosuggestions
 # Allow case-insensitive autocompletion for lowercase characters
