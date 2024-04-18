@@ -155,7 +155,7 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(thefuck --alias)"
 
-export LESS="-IFS --mouse"
+export LESS="-IFSR --mouse"
 
 [ -f "$HOME/.local/.zshrc" ] && source "$HOME/.local/.zshrc"
 
