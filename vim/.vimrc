@@ -76,7 +76,8 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-surround'
 
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
