@@ -64,4 +64,5 @@
     path = ~/.local/.gitconfig
 [delta]
     side-by-side = true
-
+[rerere]
+	enabled = true
