@@ -39,6 +39,11 @@ set updatetime=300
 """""""""""""
 " Shortcuts "
 """""""""""""
+" Set leader to space
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
+" Strip white
 function! StripWhitespace()
 	let save_cursor = getpos(".")
 	let old_query = getreg('/')
@@ -48,8 +53,27 @@ function! StripWhitespace()
 endfunction
 noremap <leader>ss :call StripWhitespace()<CR>
 
-:map <C-a> <Home>
-:map <C-e> <End>
+" Emacs-style navigation
+noremap <C-A> <Home>
+noremap <C-E> <End>
+
+" Auto-closing braces
+inoremap {<cr> {<cr>}<c-o>O
+
+" Quick escape
+inoremap kj <Esc>
+inoremap jk <Esc>
+
+" Redo
+nnoremap U <C-R>
+
+" Clear search highlight on <CR>
+nnoremap <CR> <Cmd>noh<CR><Bar><Cmd>echon<CR><CR>
+
+" Plugin keybindings
+nnoremap <leader>nt :NERDTreeToggle<CR>
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fl :Lines<CR>
 
 """"""""""""
 " vim-plug "
