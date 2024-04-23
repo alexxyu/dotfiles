@@ -74,6 +74,7 @@ nnoremap <CR> <Cmd>noh<CR><Bar><Cmd>echon<CR><CR>
 nnoremap <leader>nt :NERDTreeToggle<CR>
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fl :Lines<CR>
+nnoremap <leader>fr :Rg
 
 """"""""""""
 " vim-plug "
@@ -129,6 +130,15 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 " https://github.com/airblade/vim-gitgutter/issues/696
 highlight! link SignColumn LineNr
 autocmd ColorScheme * highlight! link SignColumn LineNr
+
+"""""""
+" FZF "
+"""""""
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --hidden --glob "!.git/" --line-number --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
 """""""""
 " theme "

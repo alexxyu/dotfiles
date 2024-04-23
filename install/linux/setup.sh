@@ -6,7 +6,7 @@ sudo apt update && sudo apt upgrade && sudo apt autoremove
 # apt install packages
 sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions vim-gtk \
     curl python3 python3-pip python3-setuptools bpython tmux tree fzf jq \
-    stow btop
+    stow btop ripgrep
 
 # install packages that rely on custom scripts
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
