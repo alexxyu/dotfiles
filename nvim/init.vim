@@ -20,6 +20,12 @@ set showmode
 syntax on
 highlight LineNr ctermfg=grey
 
+" neovim changes the terminal cursor; this respects the cursor on exit
+augroup RestoreCursorShapeOnExit
+    autocmd!
+    autocmd VimLeave * set guicursor=a:ver1
+augroup END
+
 """""""""""""""""""""""
 " Set search behavior "
 """""""""""""""""""""""
@@ -146,6 +152,12 @@ command! -bang -nargs=* Rg
   \   'rg --hidden --glob "!.git/" --line-number --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
+""""""""""""""""""""
+" indent-blankline "
+""""""""""""""""""""
+
+lua require("ibl").setup()
+
 """""""""
 " theme "
 """""""""
@@ -158,3 +170,4 @@ else
     :let &background = 'light'
     colorscheme catppuccin-latte
 endif
+

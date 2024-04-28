@@ -19,6 +19,7 @@ else
 fi
 alias la="ls -a"
 alias cd="z"
+alias vim="nvim"
 alias cat="bat -p"
 alias less="bat"
 alias diff="delta"

@@ -4,7 +4,7 @@
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 
 # apt install packages
-sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions vim-gtk \
+sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions neovim \
     curl python3 python3-pip python3-setuptools bpython tmux tree fzf jq \
     stow btop ripgrep
 

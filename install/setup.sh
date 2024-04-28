@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p ~/.config
+
 if [ "$(uname)" = "Darwin" ]; then
     echo "Detected Darwin platform, running MacOS setup..."
     ./macos/setup.sh
@@ -17,6 +19,7 @@ mkdir -p $BACKUP_DIR 2>/dev/null
 mv ~/.gitconfig $BACKUP_DIR 2>/dev/null
 mv ~/.gitignore_global $BACKUP_DIR 2>/dev/null
 mv ~/.vim $BACKUP_DIR 2>/dev/null
+mv ~/.config/nvim $BACKUP_DIR 2>/dev/null
 mv ~/.vimrc $BACKUP_DIR 2>/dev/null
 mv ~/.zshrc $BACKUP_DIR 2>/dev/null
 
@@ -24,8 +27,8 @@ mv ~/.zshrc $BACKUP_DIR 2>/dev/null
 REPO_DIR=$(git rev-parse --show-toplevel)
 cd $REPO_DIR
 stow -t ~ git
-stow -t ~ vim
 stow -t ~ zsh
+mkdir -p ~/.config/nvim && stow -t ~/.config/nvim nvim
 
 # Setup git-credential-manager now since the gitconfig got overridden
 if [ "$(uname)" = "Linux" ]; then
