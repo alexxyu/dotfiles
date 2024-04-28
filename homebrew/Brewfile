@@ -16,6 +16,9 @@ brew "zoxide"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 
+tap "homebrew/cask-fonts"
+cask "font-jetbrains-mono-nerd-font"
+
 # platform devtools
 cask "docker"
 

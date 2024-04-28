@@ -118,7 +118,14 @@ Plug 'Raimondi/delimitMate'
 
 Plug 'lukas-reineke/indent-blankline.nvim'
 
+Plug 'nvim-lualine/lualine.nvim'
+
+Plug 'ryanoasis/vim-devicons'
+
 call plug#end()
+
+lua require("ibl").setup()
+lua require('lualine').setup()
 
 """"""""""""
 " coc.nvim "
@@ -152,11 +159,6 @@ command! -bang -nargs=* Rg
   \   'rg --hidden --glob "!.git/" --line-number --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
-""""""""""""""""""""
-" indent-blankline "
-""""""""""""""""""""
-
-lua require("ibl").setup()
 
 """""""""
 " theme "

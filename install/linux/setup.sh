@@ -27,6 +27,12 @@ curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/i
 
 pip3 install thefuck --user
 
+# custom nerd font
+fontdir=/usr/local/share/fonts
+sudo mkdir -p $fontdir/jetbrains-mono
+wget -qO- https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz | sudo tar -Jxvf - -C $fontdir/jetbrains-mono
+sudo fc-cache -fv
+
 # git setup
 echo "Setting up git-credential-manager..."
 curl -L https://aka.ms/gcm/linux-install-source.sh | sh
