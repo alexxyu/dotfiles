@@ -27,7 +27,7 @@ alias diffy="delta --side-by-side"
 alias rg="rg --hidden --glob '!.git'"
 
 # Interactive ripgrep + fzf search
-function rgf {
+function cs {
     RG_PREFIX="rg --hidden --glob '!.git/' --line-number --color=always --smart-case "
     INITIAL_QUERY="${*:-}"
     : | fzf --ansi --disabled --query "$INITIAL_QUERY" \
@@ -158,26 +158,26 @@ COLOR_GIT=$'%F{39}'
 setopt PROMPT_SUBST
 export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF}$ '
 
+# powerlevel10k.zsh theme
+if [ "$(uname)" = "Darwin" ]; then
+    [[ -f $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme ]] && \
+        source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
+    [[ -f ~/.config/powerlevel10k/p10k.zsh ]] && source ~/.config/powerlevel10k/p10k.zsh
+    [[ -f ~/.config/powerlevel10k/p10k.mise.zsh ]] && source ~/.config/powerlevel10k/p10k.mise.zsh
+fi
+
 ##################
 # Misc. settings #
 ##################
 
-# nvm sourcing
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# pyenv initialize
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# setup other utils
+# Set up shell integrations for misc utils
+eval "$(~/.local/bin/mise activate zsh)"
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(thefuck --alias)"
 
 export LESS="-IFSR --mouse"
 
-[ -f "$HOME/.local/.zshrc" ] && source "$HOME/.local/.zshrc"
+# Source custom zshrc config
+[[ -f "$HOME/.local/.zshrc" ]] && source "$HOME/.local/.zshrc"
 

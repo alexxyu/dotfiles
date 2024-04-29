@@ -49,3 +49,8 @@ desktop.ini
 .idea
 .iml
 *.sublime-workspace
+
+# Versions #
+############
+.mise.toml
+

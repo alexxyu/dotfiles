@@ -22,44 +22,40 @@ sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions \
     stow btop ripgrep
 
 # install packages that rely on custom scripts
-echo_bold "Installing rust from rustup"
+echo_bold "Installing rust via rustup script"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-echo_bold "Installing cargo-update from cargo"
+echo_bold "Installing cargo-update via cargo"
 cargo install cargo-update
 
-echo_bold "Installing git-delta from cargo"
+echo_bold "Installing git-delta via cargo"
 cargo install git-delta
 
-echo_bold "Installing dua-cli from cargo"
+echo_bold "Installing dua-cli via cargo"
 cargo install dua-cli
 
-echo_bold "Installing zoxide from cargo"
+echo_bold "Installing zoxide via cargo"
 cargo install --locked zoxide
 
-echo_bold "Installing bat from cargo"
+echo_bold "Installing bat via cargo"
 cargo install --locked bat
+
+echo_bold "Installing mise via cargo"
+cargo install --root ~/.local mise
 
 mkdir -p .local/bin
 fzf_version=$(get_latest_tag "https://github.com/junegunn/fzf")
 echo_bold "Downloading fzf@$fzf_version from GitHub"
 curl -Lo- https://github.com/junegunn/fzf/releases/download/$fzf_version/fzf-$fzf_version-linux_amd64.tar.gz | tar -xvf - -C ~/.local/bin
 
-nvm_version=$(get_latest_tag "https://github.com/nvm-sh/nvm")
-echo_bold "Installing nvm@$nvm_version from installation script"
-PROFILE=/dev/null curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$nvm_version/install.sh | bash
-
-echo_bold "Installing pyenv from installation script"
-curl https://pyenv.run | bash
-
-echo_bold "Installing docker from installation script"
+echo_bold "Installing docker via installation script"
 curl -fsSL https://get.docker.com | sh
 
-echo_bold "Installing lazydocker from installation script"
+echo_bold "Installing lazydocker via installation script"
 curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
 
-echo_bold "Installing thefuck from pip"
-pip3 install thefuck --user
+echo_bold "Installing thefuck via pip"
+pip3 install --user thefuck
 
 echo_bold "Downloading latest neovim from GitHub"
 sudo rm -rf /opt/nvim
@@ -73,7 +69,7 @@ curl -Lo- https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBr
 sudo fc-cache -fv
 
 # git setup
-echo_bold "Setting up git-credential-manager..."
+echo_bold "Setting up git-credential-manager"
 curl -L https://aka.ms/gcm/linux-install-source.sh | sh
 sudo apt -y install pass
 gpg --gen-key

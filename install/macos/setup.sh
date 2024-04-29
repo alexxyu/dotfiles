@@ -1,6 +1,16 @@
+#!/bin/bash
+
+echo_bold() {
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    echo "${bold}$1${normal}"
+}
+
 #################
 # Initial setup #
 #################
+
+echo_bold "Setting up homebrew"
 sudo chown -R $(whoami):admin /usr/local
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew doctor
@@ -9,6 +19,8 @@ brew update
 #########################
 # Install brew packages #
 #########################
+
+echo_bold "Installing packages from brewfile"
 REPO_PATH=$(git rev-parse --show-toplevel)
 brew bundle --file="$REPO_PATH/homebrew/Brewfile"
 
@@ -17,16 +29,20 @@ brew bundle --file="$REPO_PATH/homebrew/Brewfile"
 ##################################
 
 # Rust
+echo_bold "Installing rust via rustup script"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # bpython
-pip install bpython
+echo_bold "Installing bpython via pip"
+pip install --user bpython
 
-# nvm
-PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
+# mise
+echo_bold "Installing mise via cargo"
+cargo install --root ~/.local mise
 
 ################################
 # Set zsh as the default shell #
 ################################
+
 chsh -s $(which zsh)
 
