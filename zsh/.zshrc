@@ -12,10 +12,10 @@ alias pycrenv="python -m venv .venv --system-site-packages && actenv"
 
 # Shell aliases
 if [ "$(uname)" = "Darwin" ]; then
-    alias ls="gls -lh --color --group-directories-first"
+    alias ls="gls -lhp --color --group-directories-first"
     alias rmds="find . -name \".DS_Store\" -delete"
 else
-    alias ls="ls -lh --color --group-directories-first"
+    alias ls="ls -lhp --color --group-directories-first"
 fi
 alias la="ls -a"
 alias cd="z"
@@ -73,7 +73,7 @@ setopt mark_dirs
 autoload -Uz compinit && compinit
 
 # Enable completion selections powered by fzf
-[ -d "$HOME/.zsh/fzf-tab" ] || git clone https://github.com/Aloxaf/fzf-tab $HOME/.zsh/fzf-tab
+[[ -d "$HOME/.zsh/fzf-tab" ]] || git clone https://github.com/Aloxaf/fzf-tab $HOME/.zsh/fzf-tab
 source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # disable sort when completing `git checkout`
@@ -86,11 +86,15 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
 # preview directory's content with ls when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls' # 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'gls -ahgGp --color=always --group-directories-first $realpath'
 # switch group using `[` and `]`
 zstyle ':fzf-tab:*' switch-group '[' ']'
 # use tab to trigger continuous completion
 zstyle ':fzf-tab:*' continuous-trigger 'tab'
+
+# preview file contents when using vim or nvim
+zstyle ':fzf-tab:complete:vim:*' fzf-preview 'bat --color=always --style=numbers --line-range=:500 $realpath'
+zstyle ':fzf-tab:complete:nvim:*' fzf-preview 'bat --color=always --style=numbers --line-range=:500 $realpath'
 
 # Setup zsh plugins: syntax highlighting + autosuggestions
 # Allow case-insensitive autocompletion for lowercase characters
