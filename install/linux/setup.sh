@@ -13,15 +13,27 @@ echo_bold() {
     echo "${bold}$1${normal}"
 }
 
-# update apt
+##############
+# update apt #
+##############
+
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 
-# apt install packages
+########################
+# apt install packages #
+########################
+
 sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions \
     curl python3 python3-pip python3-setuptools bpython tmux tree jq \
     stow btop ripgrep
 
-# install packages that rely on custom scripts
+################################################
+# install packages that rely on custom scripts #
+################################################
+
+echo_bold "Installing httpie via pip"
+pip install httpie
+
 echo_bold "Installing rust via rustup script"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
@@ -68,7 +80,10 @@ sudo mkdir -p $fontdir/jetbrains-mono
 curl -Lo- https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz | sudo tar -Jxvf - -C $fontdir/jetbrains-mono
 sudo fc-cache -fv
 
-# git setup
+#############
+# git setup #
+#############
+
 echo_bold "Setting up git-credential-manager"
 curl -L https://aka.ms/gcm/linux-install-source.sh | sh
 sudo apt -y install pass
@@ -76,7 +91,10 @@ gpg --gen-key
 read -p "Enter the gpg uid that you just created: " gpg_uid
 pass init $gpg_uid
 
-# set zsh as default shell
+############################
+# set zsh as default shell #
+############################
+
 echo_bold "Setting zsh as default shell"
 chsh -s $(which zsh)
 
