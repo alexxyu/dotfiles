@@ -40,6 +40,9 @@ pip install --user bpython
 echo_bold "Installing mise via cargo"
 cargo install --root ~/.local mise
 
+# set up symlink for coreutils ls
+ln -s $(brew --prefix)/opt/coreutils/libexec/gnubin/ls ~/.local/bin/ls
+
 ################################
 # Set zsh as the default shell #
 ################################

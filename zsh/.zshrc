@@ -86,7 +86,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
 # preview directory's content with ls when completing cd
-zstyle ':fzf-tab:complete:z:*' fzf-preview 'gls -ahgGp --color=always --group-directories-first $realpath'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'ls -ahgGp --color=always --group-directories-first $realpath'
 # switch group using `[` and `]`
 zstyle ':fzf-tab:*' switch-group '[' ']'
 # use tab to trigger continuous completion
@@ -128,8 +128,12 @@ if [ ! -f "$bat_themes_dir/Catppuccin Latte.tmTheme" ]; then
     bat cache --build
 fi
 
-if [[ ! -v TERM_BG && "$(uname)" = "Darwin" ]]; then
-    export TERM_BG="${$(defaults read -g AppleInterfaceStyle 2> /dev/null):l}"
+if [[ ! -v TERM_BG ]]; then
+    if [[ "$(uname)" = "Darwin" ]]; then
+        export TERM_BG="${$(defaults read -g AppleInterfaceStyle 2> /dev/null):l}"
+    elif [[ "$(uname)" = "Linux" ]]; then
+        export TERM_BG="dark"
+    fi
 fi
 
 if [ "$TERM_BG" = "dark" ]; then
