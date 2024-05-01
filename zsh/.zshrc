@@ -51,7 +51,7 @@ alias dc="docker compose"
 alias lzd="lazydocker"
 
 # Source any other custom aliases
-[ -f "$HOME/.local/.zsh_aliases" ] && source "$HOME/.local/.zsh_aliases"
+[[ -f "$HOME/.local/.zsh_aliases" ]] && source "$HOME/.local/.zsh_aliases"
 
 export PATH=$HOME/.local/bin:$PATH
 
@@ -69,12 +69,23 @@ setopt list_types
 # Append trailing slash to directories from filename generation (globbing)
 setopt mark_dirs
 
-# Enable git completion
+# Enable completion scripts
+COMPLETION_DIR=$HOME/.zsh/completion
+if [[ ! -d $COMPLETION_DIR ]]; then
+    echo "Downloading Docker completion script to $COMPLETION_DIR"
+    mkdir -p $COMPLETION_DIR
+    curl -fLo $COMPLETION_DIR/_docker https://raw.github.com/felixr/docker-zsh-completion/master/_docker
+fi
+fpath+=($COMPLETION_DIR)
 autoload -Uz compinit && compinit
 
 # Enable completion selections powered by fzf
-[[ -d "$HOME/.zsh/fzf-tab" ]] || git clone https://github.com/Aloxaf/fzf-tab $HOME/.zsh/fzf-tab
-source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
+FZF_TAB_DIR=$HOME/.zsh/fzf-tab
+if [[ ! -d "$HOME/.zsh/fzf-tab" ]]; then
+    echo "Cloning fzf-tab to $FZF_TAB_DIR"
+    git clone https://github.com/Aloxaf/fzf-tab $FZF_TAB_DIR
+fi
+source $FZF_TAB_DIR/fzf-tab.plugin.zsh
 
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -85,16 +96,53 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
-# preview directory's content with ls when completing cd
-zstyle ':fzf-tab:complete:z:*' fzf-preview 'ls -ahgGp --color=always --group-directories-first $realpath'
 # switch group using `[` and `]`
 zstyle ':fzf-tab:*' switch-group '[' ']'
 # use tab to trigger continuous completion
 zstyle ':fzf-tab:*' continuous-trigger 'tab'
+# general fzf-tab settings
+zstyle ':fzf-tab:*' fzf-min-height 15
 
-# preview file contents when using vim or nvim
-zstyle ':fzf-tab:complete:vim:*' fzf-preview 'bat --color=always --style=numbers --line-range=:500 $realpath'
-zstyle ':fzf-tab:complete:nvim:*' fzf-preview 'bat --color=always --style=numbers --line-range=:500 $realpath'
+# preview directory's content with ls when completing commands involving directories
+zstyle ':fzf-tab:complete:(cd|z|ls|gls|cp|mv|find):*' fzf-preview \
+	'ls -ahgGp --color=always --group-directories-first $realpath'
+# preview file contents when using file editors or viewers
+zstyle ':fzf-tab:complete:(vim|nvim|less|cat|bat):*' fzf-preview \
+	'bat --color=always --style=numbers --line-range=:500 $realpath'
+# preview man pages
+zstyle ':fzf-tab:complete:man:*' fzf-preview \
+	'tldr --color=always $word'
+
+# preview git
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
+	'git diff $realpath | delta  -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
+    'git log --color=always $word'
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
+    'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
+    'case "$group" in
+    "[modified file]") 
+		if [[ -d $realpath ]]; then
+			ls -ahgGp --color=always --group-directories-first $realpath
+		else
+			# https://github.com/wfxr/forgit/issues/121#issuecomment-725358145
+			git diff $realpath | delta -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}
+		fi
+		;;
+    "[recent commit object name]")
+		git show --color=always $word | delta
+		;;
+    *)
+		git log --color=always $word
+		;;
+    esac'
+zstyle ':fzf-tab:complete:git-(add|diff|restore|checkout):*' fzf-flags --height=80% --preview-window=65%:right
+
+# preview docker
+zstyle ':fzf-tab:complete:docker-*:*' fzf-preview '(docker inspect $word | jq -C)'
+zstyle ':fzf-tab:complete:docker-*:*' fzf-flags --height=80% --preview-window=65%:right
+zstyle ':fzf-tab:complete:docker-logs:*' fzf-preview 'docker logs -f $word | bat'
 
 # Setup zsh plugins: syntax highlighting + autosuggestions
 # Allow case-insensitive autocompletion for lowercase characters
@@ -123,8 +171,10 @@ export LSCOLORS=GxFxCxDxBxegedabagaced
 # Terminal themes
 bat_themes_dir="$(bat --config-dir)/themes"
 mkdir -p $bat_themes_dir
-if [ ! -f "$bat_themes_dir/Catppuccin Latte.tmTheme" ]; then
-    curl -o "$bat_themes_dir/Catppuccin Latte.tmTheme" https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Latte.tmTheme
+if [[ ! -f "$bat_themes_dir/Catppuccin Latte.tmTheme" ]]; then
+    echo "Downloading Catppuccin latte theme for bat"
+    curl -o "$bat_themes_dir/Catppuccin Latte.tmTheme" \
+        https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Latte.tmTheme
     bat cache --build
 fi
 
