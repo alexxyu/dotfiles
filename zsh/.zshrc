@@ -104,7 +104,7 @@ zstyle ':fzf-tab:*' continuous-trigger 'tab'
 zstyle ':fzf-tab:*' fzf-min-height 15
 
 # preview directory's content with ls when completing commands involving directories
-zstyle ':fzf-tab:complete:(cd|z|ls|gls|cp|mv|find):*' fzf-preview \
+zstyle ':fzf-tab:complete:(cd|z|ls|gls|cp|mv|find|rm|rmdir):*' fzf-preview \
 	'ls -ahgGp --color=always --group-directories-first $realpath'
 # preview file contents when using file editors or viewers
 zstyle ':fzf-tab:complete:(vim|nvim|less|cat|bat):*' fzf-preview \
@@ -141,7 +141,7 @@ zstyle ':fzf-tab:complete:git-(add|diff|restore|checkout):*' fzf-flags --height=
 
 # preview docker
 zstyle ':fzf-tab:complete:docker-*:*' fzf-preview '(docker inspect $word | jq -C)'
-zstyle ':fzf-tab:complete:docker-*:*' fzf-flags --height=80% --preview-window=65%:right
+zstyle ':fzf-tab:complete:docker-*:*' fzf-flags --height=80% --preview-window=50%:right
 zstyle ':fzf-tab:complete:docker-logs:*' fzf-preview 'docker logs -f $word | bat'
 
 # Setup zsh plugins: syntax highlighting + autosuggestions
