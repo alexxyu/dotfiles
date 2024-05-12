@@ -84,7 +84,8 @@ echo_bold "Cloning powerlevel10k from GitHub"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k ~/.local/powerlevel10k
 
 echo_bold "Installing git-credential-manager"
-curl -L https://aka.ms/gcm/linux-install-source.sh | sh
+gcm_version=$(get_latest_tag "https://github.com/git-ecosystem/git-credential-manager")
+curl -Lo- https://github.com/git-ecosystem/git-credential-manager/releases/download/$gcm_version/gcm-linux_amd64.${gcm_version:1}.tar.gz | sudo tar -xvf - -C ~/.local/bin
 
 ############################
 # set zsh as default shell #
