@@ -25,7 +25,7 @@ sudo apt update && sudo apt upgrade && sudo apt autoremove
 
 sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions \
     curl python3 python3-pip python3-setuptools bpython tmux tree jq \
-    stow btop ripgrep
+    stow btop ripgrep libssl-dev pass
 
 ################################################
 # install packages that rely on custom scripts #
@@ -55,10 +55,10 @@ cargo install --locked bat
 echo_bold "Installing mise via cargo"
 cargo install --root ~/.local mise
 
-mkdir -p .local/bin
+mkdir -p ~/.local/bin
 fzf_version=$(get_latest_tag "https://github.com/junegunn/fzf")
 echo_bold "Downloading fzf@$fzf_version from GitHub"
-curl -Lo- https://github.com/junegunn/fzf/releases/download/$fzf_version/fzf-$fzf_version-linux_amd64.tar.gz | tar -xvf - -C ~/.local/bin
+curl -Lo- https://github.com/junegunn/fzf/releases/download/$fzf_version/fzf-$fzf_version-linux_amd64.tar.gz | tar -xvzf - -C ~/.local/bin
 
 echo_bold "Installing docker via installation script"
 curl -fsSL https://get.docker.com | sh
@@ -80,16 +80,11 @@ sudo mkdir -p $fontdir/jetbrains-mono
 curl -Lo- https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz | sudo tar -Jxvf - -C $fontdir/jetbrains-mono
 sudo fc-cache -fv
 
-#############
-# git setup #
-#############
+echo_bold "Cloning powerlevel10k from GitHub"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k ~/.local/powerlevel10k
 
-echo_bold "Setting up git-credential-manager"
+echo_bold "Installing git-credential-manager"
 curl -L https://aka.ms/gcm/linux-install-source.sh | sh
-sudo apt -y install pass
-gpg --gen-key
-read -p "Enter the gpg uid that you just created: " gpg_uid
-pass init $gpg_uid
 
 ############################
 # set zsh as default shell #

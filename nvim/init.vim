@@ -38,7 +38,7 @@ set incsearch
 """"""""""""""""""""""
 set mouse=a
 set ve+=onemore
-set clipboard=unnamed
+set clipboard^=unnamed,unnamedplus
 set encoding=utf-8
 set updatetime=300
 

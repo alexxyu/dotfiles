@@ -220,9 +220,13 @@ export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}$(parse_git_branch)${C
 if [ "$(uname)" = "Darwin" ]; then
     [[ -f $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme ]] && \
         source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
-    [[ -f ~/.config/powerlevel10k/p10k.zsh ]] && source ~/.config/powerlevel10k/p10k.zsh
-    [[ -f ~/.config/powerlevel10k/p10k.mise.zsh ]] && source ~/.config/powerlevel10k/p10k.mise.zsh
+elif [ "$(uname)" = "Linux" ]; then
+    [[ -f ~/.local/powerlevel10k/powerlevel10k.zsh-theme ]] && \
+        source ~/.local/powerlevel10k/powerlevel10k.zsh-theme
 fi
+[[ -f ~/.config/powerlevel10k/p10k.zsh ]] && source ~/.config/powerlevel10k/p10k.zsh
+[[ -f ~/.config/powerlevel10k/p10k.mise.zsh ]] && source ~/.config/powerlevel10k/p10k.mise.zsh
+
 
 ##################
 # Misc. settings #

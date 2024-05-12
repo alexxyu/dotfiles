@@ -30,15 +30,11 @@ cd $REPO_DIR
 stow -t ~ git
 stow -t ~ zsh
 mkdir -p ~/.config/nvim && stow -t ~/.config/nvim nvim
-mkdir -p ~/.config/powerlevel10k && stow -t ~/.config/powerlevel10k config/powerlevel10k
-
-# Setup git-credential-manager now since the gitconfig got overridden
-if [ "$(uname)" = "Linux" ]; then
-    # This is a hacky way to set the config in the .local/.gitconfig
-    HOME=$HOME/.local git-credential-manager configure
-    HOME=$HOME/.local git config --global credential.credentialStore gpg
-fi
+mkdir -p ~/.config/powerlevel10k && cd config && stow -t ~/.config/powerlevel10k powerlevel10k && cd -
 
 echo "Successfully linked dotfiles to this repo! Your old dotfiles have been moved to $BACKUP_DIR."
 echo
+
+echo "Installing vim plugins for convenience..."
+vim +'PlugInstall --sync' +qa
 
