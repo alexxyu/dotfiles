@@ -44,6 +44,8 @@
     pager = delta
 [push]
     autoSetupRemote = true
+[pull]
+	ff = only
 [diff]
     mnemonicPrefix = true
     renames = true
