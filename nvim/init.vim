@@ -63,9 +63,6 @@ noremap <leader>ss :call StripWhitespace()<CR>
 noremap <C-A> <Home>
 noremap <C-E> <End>
 
-" Auto-closing braces
-inoremap {<cr> {<cr>}<c-o>O
-
 " Quick escape
 inoremap kj <Esc>
 inoremap jk <Esc>
@@ -76,11 +73,15 @@ nnoremap U <C-R>
 " Clear search highlight on <CR>
 nnoremap <CR> <Cmd>noh<CR><Bar><Cmd>echon<CR><CR>
 
+" Buffer navigation
+nnoremap <Tab> :bn<CR>
+nnoremap <S-Tab> :bp<CR>
+
 " Plugin keybindings
 nnoremap <leader>nt :NERDTreeToggle<CR>
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fl :Lines<CR>
-nnoremap <leader>fr :Rg
+nnoremap <leader>cs :Rg<CR>
 
 """"""""""""
 " vim-plug "
@@ -122,17 +123,26 @@ Plug 'nvim-lualine/lualine.nvim'
 
 Plug 'ryanoasis/vim-devicons'
 
-call plug#end()
+Plug 'akinsho/bufferline.nvim'
 
-lua require("ibl").setup()
-lua require('lualine').setup()
+Plug 'AndrewRadev/splitjoin.vim'
+
+call plug#end()
 
 """"""""""""
 " coc.nvim "
 """"""""""""
 
 " install coc plugins
-let g:coc_global_extensions = ['coc-pyright', 'coc-json', 'coc-go', 'coc-tsserver', 'coc-html', 'coc-css', 'coc-yaml']
+let g:coc_global_extensions = [
+     \'coc-yaml',
+     \'coc-json',
+     \'coc-tsserver',
+     \'coc-html',
+     \'coc-css',
+     \'coc-prettier',
+     \'coc-go',
+     \'coc-pyright']
 
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
@@ -140,6 +150,13 @@ let g:gitgutter_set_sign_backgrounds = 1
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+""""""""""""
+" NERDTree "
+""""""""""""
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 """""""""""""
 " gitgutter "
@@ -159,17 +176,35 @@ command! -bang -nargs=* Rg
   \   'rg --hidden --glob "!.git/" --line-number --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
-
 """""""""
 " theme "
 """""""""
-
+ 
+set termguicolors
 if !empty($TERM_BG)
     :let &background = $TERM_BG
-    set termguicolors
     colorscheme dracula
 else
     :let &background = 'light'
     colorscheme catppuccin-latte
 endif
+
+lua require("ibl").setup()
+lua require("lualine").setup()
+lua << EOF
+require("bufferline").setup{
+    highlights = {
+        buffer_selected = {
+            italic = false,
+        },
+    },
+    options = {
+        diagnostics = 'coc',
+        indicator = {
+            style = 'underline',
+        },
+        style_preset = 'no_italic',
+    },
+}
+EOF
 
