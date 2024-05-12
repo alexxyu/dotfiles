@@ -76,6 +76,7 @@ nnoremap <CR> <Cmd>noh<CR><Bar><Cmd>echon<CR><CR>
 " Buffer navigation
 nnoremap <Tab> :bn<CR>
 nnoremap <S-Tab> :bp<CR>
+nnoremap <C-W> :bd<CR>
 
 " Plugin keybindings
 nnoremap <leader>nt :NERDTreeToggle<CR>
@@ -190,7 +191,11 @@ else
 endif
 
 lua require("ibl").setup()
-lua require("lualine").setup()
+lua << EOF
+require("lualine").setup{
+    extensions = { 'nerdtree' },
+}
+EOF
 lua << EOF
 require("bufferline").setup{
     highlights = {
