@@ -130,6 +130,10 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 call plug#end()
 
+lua require("ibl").setup()
+lua require("_lualine")
+lua require("_bufferline")
+
 """"""""""""
 " coc.nvim "
 """"""""""""
@@ -189,27 +193,4 @@ else
     :let &background = 'light'
     colorscheme catppuccin-latte
 endif
-
-lua require("ibl").setup()
-lua << EOF
-require("lualine").setup{
-    extensions = { 'nerdtree' },
-}
-EOF
-lua << EOF
-require("bufferline").setup{
-    highlights = {
-        buffer_selected = {
-            italic = false,
-        },
-    },
-    options = {
-        diagnostics = 'coc',
-        indicator = {
-            style = 'underline',
-        },
-        style_preset = 'no_italic',
-    },
-}
-EOF
 
