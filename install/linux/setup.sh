@@ -71,7 +71,7 @@ pip3 install --user thefuck
 
 echo_bold "Downloading latest neovim from GitHub"
 sudo rm -rf /opt/nvim
-curl -Lo- https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz | sudo tar -xzf - -C /opt
+curl -Lo- https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz | sudo tar -xvzf - -C /opt
 ln -s /opt/nvim-linux64/bin/nvim ~/.local/bin/nvim
 
 echo_bold "Downloading NerdFont"
@@ -85,7 +85,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k ~/.local/powerlevel
 
 echo_bold "Installing git-credential-manager"
 gcm_version=$(get_latest_tag "https://github.com/git-ecosystem/git-credential-manager")
-curl -Lo- https://github.com/git-ecosystem/git-credential-manager/releases/download/$gcm_version/gcm-linux_amd64.${gcm_version:1}.tar.gz | sudo tar -xvf - -C ~/.local/bin
+curl -Lo- https://github.com/git-ecosystem/git-credential-manager/releases/download/$gcm_version/gcm-linux_amd64.${gcm_version:1}.tar.gz | sudo tar -xvzf - -C ~/.local/bin
 
 ############################
 # set zsh as default shell #
