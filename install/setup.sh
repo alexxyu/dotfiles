@@ -18,8 +18,6 @@ BACKUP_DIR=~/.backup
 mkdir -p $BACKUP_DIR 2>/dev/null
 mv ~/.gitconfig $BACKUP_DIR 2>/dev/null
 mv ~/.gitignore_global $BACKUP_DIR 2>/dev/null
-mv ~/.vim $BACKUP_DIR 2>/dev/null
-mv ~/.vimrc $BACKUP_DIR 2>/dev/null
 mv ~/.zshrc $BACKUP_DIR 2>/dev/null
 mv ~/.config/nvim $BACKUP_DIR 2>/dev/null
 mv ~/.config/powerlevel10k $BACKUP_DIR 2>/dev/null
@@ -36,5 +34,5 @@ echo "Successfully linked dotfiles to this repo! Your old dotfiles have been mov
 echo
 
 echo "Installing vim plugins for convenience..."
-vim +'PlugInstall --sync' +qa
+nvim +'PlugInstall --sync' +qa
 
