@@ -151,11 +151,6 @@ let g:coc_global_extensions = [
 
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
-let g:gitgutter_set_sign_backgrounds = 1
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
-
 """"""""""""
 " NERDTree "
 """"""""""""
@@ -171,6 +166,11 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 " https://github.com/airblade/vim-gitgutter/issues/696
 highlight! link SignColumn LineNr
 autocmd ColorScheme * highlight! link SignColumn LineNr
+
+let g:gitgutter_set_sign_backgrounds = 1
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 """""""
 " FZF "
