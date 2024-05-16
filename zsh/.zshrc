@@ -240,6 +240,9 @@ eval "$(thefuck --alias)"
 
 export LESS="-IFSR --mouse"
 
+# HACK: fix delta autocompletion (https://github.com/dandavison/delta/issues/1167#issuecomment-1678568122)
+compdef _gnu_generic delta
+
 # Source custom zshrc config
 [[ -f "$HOME/.local/.zshrc" ]] && source "$HOME/.local/.zshrc"
 
