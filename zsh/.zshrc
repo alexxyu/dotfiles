@@ -69,6 +69,18 @@ setopt list_types
 # Append trailing slash to directories from filename generation (globbing)
 setopt mark_dirs
 
+# History
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
+
 # Enable completion scripts
 COMPLETION_DIR=$HOME/.zsh/completion
 if [[ ! -d $COMPLETION_DIR ]]; then
