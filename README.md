@@ -10,7 +10,6 @@ whatever application.
 
 ## How to use
 
-Clone the repo, and run the install script located at `install/setup.sh`. This will setup all
-necessary packages for whatever OS you are currently running. This script will additionally
-link the dotfiles to this repo using GNU `stow` and change the shell default to `zsh`.
-
+Clone the repo, and run the install script located at `setup.sh`. This will setup all necessary
+packages for whatever OS you are currently running (Linux and MacOS supported). This script will
+additionally link the dotfiles to this repo using GNU `stow` and change the default shell to `zsh`.
