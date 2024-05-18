@@ -25,7 +25,7 @@ sudo apt update && sudo apt upgrade && sudo apt autoremove
 
 sudo apt -y install zsh zsh-syntax-highlighting zsh-autosuggestions \
     curl python3 python3-pip python3-setuptools bpython tmux tree jq \
-    stow btop ripgrep libssl-dev pass
+    stow btop ripgrep pkg-config libssl-dev pass
 
 ################################################
 # install packages that rely on custom scripts #
@@ -36,6 +36,9 @@ pip install httpie
 
 echo_bold "Installing rust via rustup script"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Temporarily source the cargo env to make it available in this shell
+. "$HOME/.cargo/env"
 
 echo_bold "Installing cargo-update via cargo"
 cargo install cargo-update
