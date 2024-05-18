@@ -72,6 +72,7 @@ setopt mark_dirs
 setopt COMPLETE_ALIASES
 
 # History
+HISTFILE=$HOME/.zsh_history
 HISTDUP=erase
 setopt appendhistory
 setopt sharehistory
@@ -168,6 +169,7 @@ else
 fi
 source $INSTALL_PATH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $INSTALL_PATH/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=146,underline"
 
 # Keybindings
 # bindkey '^I'       complete-word       # tab               | complete
