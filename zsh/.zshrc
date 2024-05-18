@@ -68,6 +68,8 @@ set -o emacs
 setopt list_types
 # Append trailing slash to directories from filename generation (globbing)
 setopt mark_dirs
+# Prevent aliases from being substituted when determining completions
+setopt COMPLETE_ALIASES
 
 # History
 HISTDUP=erase
