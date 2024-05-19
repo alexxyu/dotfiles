@@ -17,8 +17,6 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 alias cd="z"
 alias vim="nvim"
-alias cat="bat -p"
-alias less="bat"
 alias diff="delta"
 alias diffy="delta --side-by-side"
 alias rg="rg --hidden --glob '!.git'"
@@ -147,15 +145,9 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=146,underline"
 # bindkey '^I'       complete-word       # tab               | complete
 bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
 
-# Terminal themes
-bat_themes_dir="$(bat --config-dir)/themes"
-mkdir -p $bat_themes_dir
-if [[ ! -f "$bat_themes_dir/Catppuccin Latte.tmTheme" ]]; then
-    echo "Downloading Catppuccin latte theme for bat"
-    curl -o "$bat_themes_dir/Catppuccin Latte.tmTheme" \
-        https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Latte.tmTheme
-    bat cache --build
-fi
+###################
+# Terminal themes #
+###################
 
 if [[ ! -v TERM_BG ]]; then
     if [[ "$(uname)" = "Darwin" ]]; then
@@ -202,8 +194,6 @@ eval "$(mise activate zsh)"
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(thefuck --alias)"
-
-export LESS="-IFSR --mouse"
 
 # HACK: fix delta autocompletion (https://github.com/dandavison/delta/issues/1167#issuecomment-1678568122)
 compdef _gnu_generic delta
