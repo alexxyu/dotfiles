@@ -36,16 +36,14 @@
   home.packages = with pkgs; [
     git
 
-    delta
     dua
     gcc
     git-credential-manager
     httpie
     jq
-    lazydocker
     mise
-    ripgrep
     thefuck
+    tldr
     tmux
     tree
 

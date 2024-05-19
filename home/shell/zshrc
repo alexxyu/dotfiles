@@ -10,9 +10,6 @@ function python () {
 alias pyvenv="source .venv/bin/activate"
 alias pycrenv="python -m venv .venv --system-site-packages && actenv"
 
-# Shell aliases
-alias rg="rg --hidden --glob '!.git'"
-
 # Interactive ripgrep + fzf search
 function cs {
     RG_PREFIX="rg --hidden --glob '!.git/' --line-number --color=always --smart-case "
@@ -30,10 +27,6 @@ function cs {
         --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
         --bind 'enter:become(vim {1} +{2})'
 }
-
-# Dev aliases
-alias nano="nano -ET4"
-alias lzd="lazydocker"
 
 #####################
 # Terminal settings #
