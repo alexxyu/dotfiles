@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ./system    
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -23,11 +24,6 @@
     enable = true;
     desktopManager.plasma5.enable = true;
   };
-
-  fonts.fontDir.enable = true;
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-  ];
 
   system.stateVersion = "23.11";
 

@@ -7,6 +7,7 @@
 }: {
   imports = [
     ./apps
+    ./etc
     ./shell
   ];
 
@@ -41,6 +42,7 @@
     git-credential-manager
     httpie
     jq
+    lazydocker
     mise
     ripgrep
     thefuck

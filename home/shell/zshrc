@@ -33,7 +33,6 @@ function cs {
 
 # Dev aliases
 alias nano="nano -ET4"
-alias dc="docker compose"
 alias lzd="lazydocker"
 
 #####################
