@@ -21,14 +21,7 @@
     source = config.lib.file.mkOutOfStoreSymlink dotfilesPath + "/gitignore_global";
   };                        
 
-  home.file.".config" = {
-    source = ./config;
-    recursive = true;
-    executable = true;
-  };
-
   home.sessionVariables = {
-    EDITOR = "neovim";
     LC_COLLATE = "C";
     LANG = "en_US.UTF-8";
     LC_ALL = "$LANG";
@@ -40,7 +33,6 @@
   # todo: break packages out to their own modules
   home.packages = with pkgs; [
     git
-    neovim
     zsh
 
     bat

@@ -15,8 +15,6 @@ if [ "$(uname)" = "Darwin" ]; then
     alias ls="gls -lhp --color --group-directories-first"
     alias rmds="find . -name \".DS_Store\" -delete"
 fi
-alias cd="z"
-alias vim="nvim"
 alias diff="delta"
 alias diffy="delta --side-by-side"
 alias rg="rg --hidden --glob '!.git'"
