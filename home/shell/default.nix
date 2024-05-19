@@ -3,6 +3,7 @@
     ./bat.nix
     ./delta.nix
     ./fzf.nix
+    ./git.nix
     ./lazydocker.nix
     ./neovim.nix
     ./ripgrep.nix
