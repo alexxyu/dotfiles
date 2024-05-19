@@ -29,7 +29,7 @@
 
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs { system = "${system}"; config = { allowUnfree = true; }; };
-        modules = [ ./home.nix ];
+        modules = [ ./home ];
 
         extraSpecialArgs = {
           username = username;
