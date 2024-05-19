@@ -1,7 +1,7 @@
 {...}: {
   imports = [
     ./bat.nix
-    ./dua.nix
+    ./fzf.nix
     ./neovim.nix
     ./zsh.nix
     ./zoxide.nix

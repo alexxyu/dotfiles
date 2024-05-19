@@ -11,8 +11,6 @@ alias pyvenv="source .venv/bin/activate"
 alias pycrenv="python -m venv .venv --system-site-packages && actenv"
 
 # Shell aliases
-alias diff="delta"
-alias diffy="delta --side-by-side"
 alias rg="rg --hidden --glob '!.git'"
 
 # Interactive ripgrep + fzf search
@@ -34,7 +32,6 @@ function cs {
 }
 
 # Dev aliases
-alias code="code -n"
 alias nano="nano -ET4"
 alias dc="docker compose"
 alias lzd="lazydocker"

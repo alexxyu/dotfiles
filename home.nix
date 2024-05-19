@@ -33,11 +33,9 @@
   # todo: break packages out to their own modules
   home.packages = with pkgs; [
     git
-    zsh
 
-    bat
     delta
-    fzf
+    dua
     git-credential-manager
     httpie
     jq
@@ -47,12 +45,8 @@
     thefuck
     tmux
     tree
-    zoxide
 
     zsh-powerlevel10k
-
-    firefox
-    vscode
   ];
 
   programs.home-manager.enable = true;
