@@ -11,10 +11,6 @@ alias pyvenv="source .venv/bin/activate"
 alias pycrenv="python -m venv .venv --system-site-packages && actenv"
 
 # Shell aliases
-if [ "$(uname)" = "Darwin" ]; then
-    alias ls="gls -lhp --color --group-directories-first"
-    alias rmds="find . -name \".DS_Store\" -delete"
-fi
 alias diff="delta"
 alias diffy="delta --side-by-side"
 alias rg="rg --hidden --glob '!.git'"
@@ -173,15 +169,6 @@ fi
 
 # Stricter definition of word when using word-delete i.e. more bash-like
 export WORDCHARS='*?.[]~=&;!#$%^(){}<>'
-
-# powerlevel10k.zsh theme
-if [ "$(uname)" = "Darwin" ]; then
-    [[ -f $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme ]] && \
-        source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
-fi
-[[ -f ~/.config/powerlevel10k/p10k.zsh ]] && source ~/.config/powerlevel10k/p10k.zsh
-[[ -f ~/.config/powerlevel10k/p10k.mise.zsh ]] && source ~/.config/powerlevel10k/p10k.mise.zsh
-
 
 ##################
 # Misc. settings #
