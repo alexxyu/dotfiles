@@ -36,10 +36,10 @@
 
     delta
     dua
+    gcc
     git-credential-manager
     httpie
     jq
-    libgcc
     mise
     ripgrep
     thefuck
