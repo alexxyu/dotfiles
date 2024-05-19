@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }: {
@@ -9,10 +10,30 @@
 
     programs.zsh = {
       enable = true;
+
       initExtra = ''
         source ~/.config/zsh/zshrc
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+
+        [[ -f "~/.local/zsh/zsh_aliases" ]] && source "~/.local/zsh/zsh_aliases"
+        [[ -f "~/.local/zsh/zshrc" ]] && source "~/.local/zsh/zshrc"
       '';
+
+      shellAliases = {
+        la = "ls -a";
+        ls = "ls -lhp --color --group-directories-first";
+      };
+
+      history = {
+        size = 10000;
+        path = "${config.xdg.dataHome}/zsh/zsh_history";
+
+        expireDuplicatesFirst = true;
+        ignoreAllDups = true;
+        ignoreDups = true;
+        share = true;
+      };
+
       plugins = [
         {
           name = "zsh-autosuggestions";
@@ -30,6 +51,15 @@
             repo = "zsh-syntax-highlighting";
             rev = "0.8.0";
             sha256 = "iJdWopZwHpSyYl5/FQXEW7gl/SrKaYDEtTH9cGP7iPo=";
+          };
+        }
+        {
+          name = "fzf-tab";
+          src = pkgs.fetchFromGitHub {
+            owner = "Aloxaf";
+            repo = "fzf-tab";
+            rev = "v1.1.2";
+            sha256 = "Qv8zAiMtrr67CbLRrFjGaPzFZcOiMVEFLg1Z+N6VMhg=";
           };
         }
         {

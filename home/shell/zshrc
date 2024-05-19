@@ -14,10 +14,7 @@ alias pycrenv="python -m venv .venv --system-site-packages && actenv"
 if [ "$(uname)" = "Darwin" ]; then
     alias ls="gls -lhp --color --group-directories-first"
     alias rmds="find . -name \".DS_Store\" -delete"
-else
-    alias ls="ls -lhp --color --group-directories-first"
 fi
-alias la="ls -a"
 alias cd="z"
 alias vim="nvim"
 alias cat="bat -p"
@@ -50,11 +47,6 @@ alias nano="nano -ET4"
 alias dc="docker compose"
 alias lzd="lazydocker"
 
-# Source any other custom aliases
-[[ -f "$HOME/.local/.zsh_aliases" ]] && source "$HOME/.local/.zsh_aliases"
-
-export PATH=$HOME/.local/bin:$PATH
-
 #####################
 # Terminal settings #
 #####################
@@ -75,16 +67,7 @@ setopt COMPLETE_ALIASES
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
 
-# History
-HISTFILE=$HOME/.zsh_history
-HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
-
+# Make up/down keys search for matching prefix in history
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
@@ -97,14 +80,6 @@ if [[ ! -d $COMPLETION_DIR ]]; then
 fi
 fpath+=($COMPLETION_DIR)
 autoload -Uz compinit && compinit
-
-# Enable completion selections powered by fzf
-FZF_TAB_DIR=$HOME/.zsh/fzf-tab
-if [[ ! -d "$HOME/.zsh/fzf-tab" ]]; then
-    echo "Cloning fzf-tab to $FZF_TAB_DIR"
-    git clone https://github.com/Aloxaf/fzf-tab $FZF_TAB_DIR
-fi
-source $FZF_TAB_DIR/fzf-tab.plugin.zsh
 
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -166,27 +141,11 @@ zstyle ':fzf-tab:complete:docker-logs:*' fzf-preview 'docker logs -f $word | bat
 # Setup zsh plugins: syntax highlighting + autosuggestions
 # Allow case-insensitive autocompletion for lowercase characters
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-if [ "$(uname)" = "Darwin" ]; then
-    INSTALL_PATH="$(brew --prefix)/share"
-else
-    INSTALL_PATH="$HOME/.zsh/plugins"
-fi
-source $INSTALL_PATH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $INSTALL_PATH/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=146,underline"
 
 # Keybindings
 # bindkey '^I'       complete-word       # tab               | complete
 bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
-
-# Case-sensitive file sorting
-export LC_COLLATE=C
-export LANG=en_US.UTF-8
-export LC_ALL=$LANG
-
-# Set terminal colors
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
 
 # Terminal themes
 bat_themes_dir="$(bat --config-dir)/themes"
@@ -225,17 +184,6 @@ fi
 # Stricter definition of word when using word-delete i.e. more bash-like
 export WORDCHARS='*?.[]~=&;!#$%^(){}<>'
 
-# Add git branch name to terminal
-function parse_git_branch() {
-    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
-}
-COLOR_DEF=$'%f'
-COLOR_USR=$'%F{243}'
-COLOR_DIR=$'%F{197}'
-COLOR_GIT=$'%F{39}'
-setopt PROMPT_SUBST
-export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF}$ '
-
 # powerlevel10k.zsh theme
 if [ "$(uname)" = "Darwin" ]; then
     [[ -f $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme ]] && \
@@ -259,7 +207,3 @@ export LESS="-IFSR --mouse"
 
 # HACK: fix delta autocompletion (https://github.com/dandavison/delta/issues/1167#issuecomment-1678568122)
 compdef _gnu_generic delta
-
-# Source custom zshrc config
-[[ -f "$HOME/.local/.zshrc" ]] && source "$HOME/.local/.zshrc"
-

@@ -13,10 +13,6 @@
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11";
 
-  # home.file.".zshrc" = {
-  #   source = config.lib.file.mkOutOfStoreSymlink dotfilesPath + "/zshrc";
-  # };
-
   home.file.".gitconfig" = {
     source = config.lib.file.mkOutOfStoreSymlink dotfilesPath + "/gitconfig";
   };                        
@@ -30,6 +26,16 @@
     recursive = true;
     executable = true;
   };
+
+  home.sessionVariables = {
+    EDITOR = "neovim";
+    LC_COLLATE = "C";
+    LANG = "en_US.UTF-8";
+    LC_ALL = "$LANG";
+  };
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
 
   # todo: break packages out to their own modules
   home.packages = with pkgs; [
