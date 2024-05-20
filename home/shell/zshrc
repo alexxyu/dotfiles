@@ -163,11 +163,5 @@ export WORDCHARS='*?.[]~=&;!#$%^(){}<>'
 # Misc. settings #
 ##################
 
-# Set up shell integrations for misc utils
-eval "$(mise activate zsh)"
-eval "$(fzf --zsh)"
-eval "$(zoxide init zsh)"
-eval "$(thefuck --alias)"
-
 # HACK: fix delta autocompletion (https://github.com/dandavison/delta/issues/1167#issuecomment-1678568122)
 compdef _gnu_generic delta

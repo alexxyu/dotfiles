@@ -8,6 +8,11 @@
 
     home.file.".config/zsh/zshrc".source = ./zshrc;
 
+    programs.fzf.enableZshIntegration = true;
+    programs.mise.enableZshIntegration = true;
+    programs.thefuck.enableZshIntegration = true;
+    programs.zoxide.enableZshIntegration = true;
+
     programs.zsh = {
       enable = true;
 

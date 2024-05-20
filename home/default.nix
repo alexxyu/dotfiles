@@ -29,8 +29,6 @@
     gcc
     httpie
     jq
-    mise
-    thefuck
     tldr
     tmux
     tree
