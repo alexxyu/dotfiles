@@ -25,13 +25,17 @@
   ];
 
   home.packages = with pkgs; [
+    btop
     dua
     gcc
     httpie
+    imagemagick
+    img2pdf
     jq
     tldr
     tmux
     tree
+    yt-dlp
 
     zsh-powerlevel10k
   ];
