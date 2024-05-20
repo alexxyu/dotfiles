@@ -8,6 +8,11 @@
 
     home.file.".config/zsh/zshrc".source = ./zshrc;
 
+    home.sessionVariables = {
+      ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=146,underline";
+      WORDCHARS = "*?.[]~=&;!#$%^(){}<>";
+    };
+
     programs.fzf.enableZshIntegration = true;
     programs.mise.enableZshIntegration = true;
     programs.thefuck.enableZshIntegration = true;

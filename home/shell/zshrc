@@ -122,7 +122,6 @@ zstyle ':fzf-tab:complete:docker-logs:*' fzf-preview 'docker logs -f $word | bat
 # Setup zsh plugins: syntax highlighting + autosuggestions
 # Allow case-insensitive autocompletion for lowercase characters
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=146,underline"
 
 # Keybindings
 # bindkey '^I'       complete-word       # tab               | complete
@@ -155,9 +154,6 @@ else
         --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
     zstyle ":fzf-tab:*" fzf-flags --color=hl:0
 fi
-
-# Stricter definition of word when using word-delete i.e. more bash-like
-export WORDCHARS='*?.[]~=&;!#$%^(){}<>'
 
 ##################
 # Misc. settings #
