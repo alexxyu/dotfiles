@@ -3,6 +3,8 @@
   ...
 }: {
   config = {
+    home.packages = [ pkgs.git-credential-oauth ];
+
     programs.git = {
       enable = true;
 
@@ -51,9 +53,7 @@
           defaultBranch = "main";
         };
 
-        credential.helper = "${
-          pkgs.git.override { withLibsecret = true; }
-        }/bin/git-credential-libsecret";
+        credential.helper = "oauth";
 
         core = {
           excludesfile = "$HOME/.gitignore_global";
