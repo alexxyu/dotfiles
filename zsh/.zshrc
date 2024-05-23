@@ -118,12 +118,13 @@ zstyle ':fzf-tab:*' continuous-trigger 'tab'
 # general fzf-tab settings
 zstyle ':fzf-tab:*' fzf-min-height 15
 
-# preview directory's content with ls when completing commands involving directories
-zstyle ':fzf-tab:complete:(cd|z|ls|gls|cp|mv|find|rm|rmdir):*' fzf-preview \
-	'ls -ahgGp --color=always --group-directories-first $realpath'
-# preview file contents when using file editors or viewers
-zstyle ':fzf-tab:complete:(vim|nvim|less|cat|bat):*' fzf-preview \
-	'bat --color=always --style=numbers --line-range=:500 $realpath'
+# preview contents with ls/bat when completing commands involving directories or regular files
+zstyle ':fzf-tab:complete:(cd|z|ls|gls|cp|mv|find|rm|rmdir|vim|nvim|less|cat|bat):*' fzf-preview \
+	'if [[ -d $realpath ]]; then
+        ls -ahgGp --color=always --group-directories-first $realpath
+    else
+        bat --color=always --style=numbers --line-range=:500 $realpath
+    fi'
 # preview man pages
 zstyle ':fzf-tab:complete:man:*' fzf-preview \
 	'tldr --color=always $word'
