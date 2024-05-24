@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   imports = [
     ./bat.nix
     ./delta.nix
@@ -6,6 +7,7 @@
     ./git.nix
     ./lazydocker.nix
     ./mise.nix
+    ./nix.nix
     ./neovim.nix
     ./ripgrep.nix
     ./thefuck.nix

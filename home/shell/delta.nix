@@ -1,7 +1,5 @@
+{ pkgs, ... }:
 {
-  pkgs,
-  ...
-}: {
   config = {
     home.packages = [ pkgs.delta ];
 

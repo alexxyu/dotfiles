@@ -1,9 +1,20 @@
 {
+  config,
+  lib,
   pkgs,
   ...
-}: {
+}:
+
+with lib;
+{
+  options = {
+    shell.git = {
+      enableCredentialLibsecret = mkEnableOption "Enable credential store git-credential-libsecret";
+    };
+  };
+
   config = {
-    home.packages = [ pkgs.git-credential-oauth ];
+    home.packages = with pkgs; [ git-credential-oauth ];
 
     programs.git = {
       enable = true;
@@ -53,7 +64,14 @@
           defaultBranch = "main";
         };
 
-        credential.helper = "oauth";
+        credential.helper =
+          (
+            if config.shell.git.enableCredentialLibsecret then
+              [ "${pkgs.gitFull}/bin/git-credential-libsecret" ]
+            else
+              [ ]
+          )
+          ++ [ "oauth" ];
 
         core = {
           excludesfile = "$HOME/.gitignore_global";

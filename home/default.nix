@@ -2,30 +2,27 @@
   config,
   pkgs,
   username,
-  dotfilesPath,
   ...
-}: {
+}:
+{
   imports = [
     ./apps
     ./etc
     ./shell
   ];
 
-  home.username = username;
-  home.homeDirectory = "/home/${username}";
-  home.stateVersion = "23.11";                
+  home.stateVersion = "23.11";
 
   home.sessionVariables = {
     LC_COLLATE = "C";
     LANG = "en_US.UTF-8";
     LC_ALL = "$LANG";
   };
-  home.sessionPath = [
-    "$HOME/.local/bin"
-  ];
+  home.sessionPath = [ "$HOME/.local/bin" ];
 
   home.packages = with pkgs; [
     btop
+    coreutils
     dua
     gcc
     httpie
@@ -36,6 +33,9 @@
     tmux
     tree
     yt-dlp
+
+    nixfmt-rfc-style
+    nil
 
     zsh-powerlevel10k
   ];

@@ -1,39 +1,159 @@
 {
   description = "Flake for dotfiles";
 
-  nixConfig = {
-    experimental-features = [ "nix-command" "flakes" ];
-  };
-
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      darwin,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
+      homebrew-bundle,
+      ...
+    }@inputs:
     let
       username = "alex";
+      # pkgs = nixpkgs.legacyPackages.${system};
 
-      system = "aarch64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      defaultPackage.${system} = home-manager.defaultPackage.${system};
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = system;
-        modules = [ ./hosts/configuration.nix ];
+      isDarwin = system: (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
+      homePrefix = system: if isDarwin system then "/Users" else "/home";
 
-        specialArgs = {
-          username = username;
+      mkDarwinConfig =
+        {
+          system ? "aarch64-darwin",
+          nixpkgs ? inputs.nixpkgs,
+          baseModules ? [
+            home-manager.darwinModules.home-manager
+            nix-homebrew.darwinModules.nix-homebrew
+            {
+              nix-homebrew = {
+                user = username;
+                enable = true;
+                taps = {
+                  "homebrew/homebrew-core" = homebrew-core;
+                  "homebrew/homebrew-cask" = homebrew-cask;
+                  "homebrew/homebrew-bundle" = homebrew-bundle;
+                };
+                mutableTaps = false;
+                autoMigrate = true;
+              };
+            }
+            ./hosts/darwin/configuration.nix
+          ],
+          extraModules ? [ ],
+          hostname ? "",
+        }:
+        darwin.lib.darwinSystem {
+          inherit system;
+          modules = [
+            {
+              networking = {
+                hostName = hostname;
+                localHostName = hostname;
+                computerName = hostname;
+              };
+            }
+          ] ++ baseModules ++ extraModules;
+          specialArgs = {
+            username = username;
+          };
+        };
+
+      mkNixosConfig =
+        {
+          system ? "aarch64-darwin",
+          nixpkgs ? inputs.nixpkgs,
+          baseModules ? [ ./hosts/nixos/configuration.nix ],
+          extraModules ? [ ],
+          hostname ? "",
+        }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [ { networking.hostName = hostname; } ] ++ baseModules ++ extraModules;
+          specialArgs = {
+            username = username;
+          };
+        };
+
+      mkHomeConfig =
+        {
+          username,
+          system ? "x86_64-linux",
+          nixpkgs ? inputs.nixpkgs,
+          baseModules ? [
+            {
+              home = {
+                inherit username;
+                homeDirectory = "${homePrefix system}/${username}";
+              };
+
+              apps.enable = true;
+              shell.git.enableCredentialLibsecret = true;
+            }
+            ./home
+          ],
+          extraModules ? [ ],
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          modules = [ ] ++ baseModules ++ extraModules;
+
+          extraSpecialArgs = {
+            username = username;
+          };
+        };
+    in
+    {
+      nixosConfigurations = {
+        nixos = mkNixosConfig {
+          system = "aarch64-linux";
+          hostname = "nixos";
         };
       };
 
-      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "${system}"; config = { allowUnfree = true; }; };
-        modules = [ ./home ];
+      homeConfigurations = {
+        alex = mkHomeConfig {
+          username = "alex";
+          system = "aarch64-linux";
+        };
+      };
 
-        extraSpecialArgs = {
-          username = username;
-          dotfilesPath = ./home/shell;
+      darwinConfigurations = {
+        aarch64-darwin = mkDarwinConfig {
+          system = "aarch64-darwin";
+          hostname = "aarch64-darwin";
         };
       };
     };
