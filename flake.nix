@@ -117,7 +117,6 @@
               };
 
               apps.enable = true;
-              shell.git.enableCredentialLibsecret = true;
             }
             ./home
           ],
@@ -147,6 +146,26 @@
         alex = mkHomeConfig {
           username = "alex";
           system = "aarch64-linux";
+
+          extraModules = [
+            {
+              shell.git.credentialStore = "libsecret";
+              shell.git.useDeviceOauth = false;
+            }
+          ];
+        };
+
+        alexyu = mkHomeConfig {
+          username = "alexyu";
+          system = "x86_64-linux";
+
+          extraModules = [
+            {
+              shell.git.credentialStore = "cache";
+              shell.git.cacheTimeout = 604800;
+              shell.git.useDeviceOauth = true;
+            }
+          ];
         };
       };
 

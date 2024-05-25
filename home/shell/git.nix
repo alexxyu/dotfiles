@@ -9,7 +9,25 @@ with lib;
 {
   options = {
     shell.git = {
-      enableCredentialLibsecret = mkEnableOption "Enable credential store git-credential-libsecret";
+      credentialStore = mkOption {
+        type = types.enum [
+          "libsecret"
+          "cache"
+          "none"
+        ];
+        default = "none";
+        description = "Credential store for git";
+      };
+
+      cacheTimeout = mkOption {
+        type = types.ints.positive;
+        default = 86400;
+        description = "Timeout for cache credential store (if selected)";
+      };
+
+      useDeviceOauth = mkEnableOption "Whether to use device OAuth flow" // {
+        default = false;
+      };
     };
   };
 
@@ -66,12 +84,14 @@ with lib;
 
         credential.helper =
           (
-            if config.shell.git.enableCredentialLibsecret then
+            if config.shell.git.credentialStore == "libsecret" then
               [ "${pkgs.gitFull}/bin/git-credential-libsecret" ]
+            else if config.shell.git.credentialStore == "cache" then
+              [ "cache --timeout ${builtins.toString config.shell.git.cacheTimeout}" ]
             else
               [ ]
           )
-          ++ [ "oauth" ];
+          ++ [ ("oauth" + (if config.shell.git.useDeviceOauth then " -device" else "")) ];
 
         core = {
           excludesfile = "$HOME/.gitignore_global";

@@ -35,7 +35,6 @@
         };
 
         apps.enable = false;
-        shell.git.enableCredentialLibsecret = false;
       };
     };
     extraSpecialArgs = {
