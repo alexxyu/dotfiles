@@ -1,7 +1,4 @@
 { ... }:
 {
-  imports = [
-    ./docker.nix
-    ./fonts.nix
-  ];
+  imports = [ ./docker.nix ];
 }

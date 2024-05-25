@@ -52,10 +52,6 @@
     # Add system-level packages here.
   ];
 
-  # Install custom fonts.
-  fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
-
   # Enable and install homebrew packages.
   homebrew = {
     enable = true;
