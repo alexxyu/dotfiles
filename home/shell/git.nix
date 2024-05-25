@@ -50,7 +50,7 @@ with lib;
         cm = "commit -m";
         co = "checkout";
         cp = "cherry-pick";
-        df = "diff --color-words";
+        diffh = "diff HEAD";
         dummy = "commit --allow-empty";
         ignore = "update-index --assume-unchanged";
         unignore = "update-index --no-assume-unchanged";
