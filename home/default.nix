@@ -37,6 +37,13 @@
     nixfmt-rfc-style
     nil
 
+    gnumake
+
+    (pkgs.python311.withPackages (ppkgs: [
+      ppkgs.bpython
+      ppkgs.numpy
+    ]))
+
     zsh-powerlevel10k
   ];
 
