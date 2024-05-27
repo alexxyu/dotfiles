@@ -186,11 +186,11 @@ command! -bang -nargs=* Rg
 """""""""
  
 set termguicolors
-if !empty($TERM_BG)
-    :let &background = $TERM_BG
-    colorscheme dracula
-else
+if $TERMBG == 'light'
     :let &background = 'light'
     colorscheme catppuccin-latte
+else
+    :let &background = 'dark'
+    colorscheme dracula
 endif
 

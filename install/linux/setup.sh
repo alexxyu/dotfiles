@@ -58,6 +58,9 @@ cargo install --locked bat
 echo_bold "Installing mise via cargo"
 cargo install --root ~/.local mise
 
+echo_bold "Installing rust-script via cargo"
+cargo install rust-script
+
 mkdir -p ~/.local/bin
 fzf_version=$(get_latest_tag "https://github.com/junegunn/fzf")
 echo_bold "Downloading fzf@$fzf_version from GitHub"

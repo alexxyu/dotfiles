@@ -195,43 +195,31 @@ if [[ ! -f "$bat_themes_dir/Catppuccin Latte.tmTheme" ]]; then
     bat cache --build
 fi
 
-if [[ ! -v TERM_BG ]]; then
-    if [[ "$(uname)" = "Darwin" ]]; then
-        export TERM_BG="${$(defaults read -g AppleInterfaceStyle 2> /dev/null):l}"
-    elif [[ "$(uname)" = "Linux" ]]; then
-        export TERM_BG="dark"
+__termbg_precmd_function () {
+    export TERMBG=$(termbg 2> /dev/null)
+    if [[ "$TERMBG" = "light" ]]; then
+        export BAT_THEME='Catppuccin Latte'
+        export FZF_DEFAULT_OPTS=" \
+            --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
+            --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
+            --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
+        zstyle ":fzf-tab:*" fzf-flags --color=hl:0
+    else
+        export BAT_THEME='Dracula'
+        export FZF_DEFAULT_OPTS=" \
+            --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
+            --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
+            --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
+            --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+        export TERMBG='dark'
     fi
-fi
+}
 
-if [ "$TERM_BG" = "dark" ]; then
-    export BAT_THEME='Dracula'
-    export FZF_DEFAULT_OPTS=" \
-        --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
-        --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
-        --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
-        --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
-else
-    export BAT_THEME='Catppuccin Latte'
-    export FZF_DEFAULT_OPTS=" \
-        --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
-        --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
-        --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
-    zstyle ":fzf-tab:*" fzf-flags --color=hl:0
-fi
+typeset -ag precmd_functions;
+precmd_functions=( __termbg_precmd_function ${precmd_functions[@]} )
 
 # Stricter definition of word when using word-delete i.e. more bash-like
 export WORDCHARS='*?.[]~=&;!#$%^(){}<>'
-
-# Add git branch name to terminal
-function parse_git_branch() {
-    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
-}
-COLOR_DEF=$'%f'
-COLOR_USR=$'%F{243}'
-COLOR_DIR=$'%F{197}'
-COLOR_GIT=$'%F{39}'
-setopt PROMPT_SUBST
-export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF}$ '
 
 # powerlevel10k.zsh theme
 if [ "$(uname)" = "Darwin" ]; then
@@ -243,7 +231,6 @@ elif [ "$(uname)" = "Linux" ]; then
 fi
 [[ -f ~/.config/powerlevel10k/p10k.zsh ]] && source ~/.config/powerlevel10k/p10k.zsh
 [[ -f ~/.config/powerlevel10k/p10k.mise.zsh ]] && source ~/.config/powerlevel10k/p10k.mise.zsh
-
 
 ##################
 # Misc. settings #

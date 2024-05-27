@@ -36,9 +36,16 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 echo_bold "Installing bpython via pip"
 pip install --user bpython
 
+# Temporarily source the cargo env to make it available in this shell
+. "$HOME/.cargo/env"
+
 # mise
 echo_bold "Installing mise via cargo"
 cargo install --root ~/.local mise
+
+# rust-script
+echo_bold "Installing rust-script via cargo"
+cargo install rust-script
 
 # set up symlink for coreutils ls
 ln -s $(brew --prefix)/opt/coreutils/libexec/gnubin/ls ~/.local/bin/ls

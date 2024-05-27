@@ -28,6 +28,7 @@ cd $REPO_DIR
 stow -vt ~ git
 stow -vt ~ zsh
 mkdir -vp ~/.config && stow -vt ~/.config config
+mkdir -vp ~/.local/bin && stow -vt ~/.local/bin localbin
 
 echo "Installing vim plugins for convenience..."
 zsh -c ". ~/.zshrc; nvim +PlugInstall +qall"
