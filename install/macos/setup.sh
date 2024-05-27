@@ -21,8 +21,7 @@ brew update
 #########################
 
 echo_bold "Installing packages from brewfile"
-REPO_PATH=$(git rev-parse --show-toplevel)
-brew bundle --file="$REPO_PATH/homebrew/Brewfile"
+brew bundle --file="$(dirname $0)/Brewfile"
 
 ##################################
 # Install any extra dependencies #
