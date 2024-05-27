@@ -1,4 +1,4 @@
-vim.g.VM_theme = os.getenv('TERM_BG') == '' and 'lightblue1' or 'purplegray'
+vim.g.VM_theme = os.getenv('TERMBG') == 'light' and 'lightblue1' or 'purplegray'
 
 require('bufferline').setup{
     highlights = {
