@@ -3,7 +3,14 @@
   config = {
     home.packages = [ pkgs.zsh ];
 
-    home.file.".config/zsh/zshrc".source = ./zshrc;
+    home.file = {
+      ".config/zsh/zshrc".source = ./zshrc;
+
+      ".config/zsh/completion/_docker".source = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/docker/cli/358d4996818ff3b5c4ae518323d02771e52fa9c9/contrib/completion/zsh/_docker";
+        hash = "sha256-wsuSNFsCDZF7VI9Sjshmf0Hr4bJUmq/Sh9b7EqOzA9A=";
+      };
+    };
 
     home.sessionVariables = {
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=146,underline";
@@ -19,6 +26,9 @@
       enable = true;
 
       initExtra = ''
+        fpath+="$HOME/.config/zsh/completion"
+        autoload -Uz compinit && compinit
+
         source ~/.config/zsh/zshrc
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
 

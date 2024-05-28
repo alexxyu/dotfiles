@@ -52,16 +52,6 @@ bindkey "^[[1;3D" backward-word
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
-# Enable completion scripts
-COMPLETION_DIR=$HOME/.zsh/completion
-if [[ ! -d $COMPLETION_DIR ]]; then
-    echo "Downloading Docker completion script to $COMPLETION_DIR"
-    mkdir -p $COMPLETION_DIR
-    curl -fLo $COMPLETION_DIR/_docker https://raw.github.com/felixr/docker-zsh-completion/master/_docker
-fi
-fpath+=($COMPLETION_DIR)
-autoload -Uz compinit && compinit
-
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # set descriptions format to enable group support
@@ -98,7 +88,7 @@ zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
     'git help $word | bat -plman --color=always'
 zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
     'case "$group" in
-    "[modified file]") 
+    "[modified file]")
 		if [[ -d $realpath ]]; then
 			ls -ahgGp --color=always --group-directories-first $realpath
 		else
