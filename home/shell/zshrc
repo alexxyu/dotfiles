@@ -4,7 +4,7 @@
 
 # Python aliases
 alias pip="pip3"
-function python () {
+[[ $(command -v bpython) ]] && function python () {
     test -z "$1" && bpython || python3 "$@";
 }
 alias pyvenv="source .venv/bin/activate"
@@ -25,7 +25,7 @@ function cs {
         --delimiter : \
         --preview 'bat --color=always {1} --highlight-line {2}' \
         --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-        --bind 'enter:become(vim {1} +{2})'
+        --bind 'enter:become(nvim {1} +{2})'
 }
 
 #####################
@@ -122,29 +122,41 @@ bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
 # Terminal themes #
 ###################
 
-if [[ ! -v TERM_BG ]]; then
-    if [[ "$(uname)" = "Darwin" ]]; then
-        export TERM_BG="${$(defaults read -g AppleInterfaceStyle 2> /dev/null):l}"
-    elif [[ "$(uname)" = "Linux" ]]; then
-        export TERM_BG="dark"
-    fi
-fi
+__termbg_precmd_function () {
+    _set_light () {
+        export BAT_THEME='Catppuccin-latte'
+        export FZF_DEFAULT_OPTS=" \
+            --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
+            --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
+            --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
+        zstyle ":fzf-tab:*" fzf-flags --color=hl:0
+        export TERMBG='light'
+    }
 
-if [ "$TERM_BG" = "dark" ]; then
-    export BAT_THEME='Dracula'
-    export FZF_DEFAULT_OPTS=" \
-        --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
-        --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
-        --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
-        --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
-else
-    export BAT_THEME='Catppuccin-latte'
-    export FZF_DEFAULT_OPTS=" \
-        --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
-        --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
-        --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
-    zstyle ":fzf-tab:*" fzf-flags --color=hl:0
-fi
+    _set_dark () {
+        export BAT_THEME='Dracula'
+        export FZF_DEFAULT_OPTS=" \
+            --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
+            --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
+            --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
+            --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+        export TERMBG='dark'
+    }
+
+    local tbg=$(termbg 2> /dev/null)
+    if [[ "$tbg" = "light" ]]; then
+        _set_light
+    elif [[ "$tbg" = "dark" ]]; then
+        _set_dark
+    elif [[ "$TERMBG" = "light" ]]; then
+        _set_light
+    else
+        _set_dark
+    fi
+}
+
+typeset -ag precmd_functions;
+precmd_functions=( __termbg_precmd_function ${precmd_functions[@]} )
 
 ##################
 # Misc. settings #

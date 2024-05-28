@@ -8,6 +8,7 @@
   imports = [
     ./apps
     ./etc
+    ./localbin
     ./shell
   ];
 
@@ -39,10 +40,9 @@
 
     gnumake
 
-    (pkgs.python311.withPackages (ppkgs: [
-      ppkgs.bpython
-      ppkgs.numpy
-    ]))
+    rustup
+
+    (pkgs.python311.withPackages (ppkgs: [ ppkgs.numpy ]))
 
     zsh-powerlevel10k
   ];

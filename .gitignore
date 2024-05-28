@@ -1,0 +1,6 @@
+target/
+*.sw*
+*.a
+*.swp
+
+.DS_Store
