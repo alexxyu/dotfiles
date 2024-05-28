@@ -10,10 +10,14 @@
   "firefox"
   "google-chrome"
 
+  # media
+  "spotify"
+  "vlc"
+
   # misc
+  "appcleaner"
   "maccy"
   "rectangle"
+  "scroll-reverser"
   "the-unarchiver"
-  "appcleaner"
-  "vlc"
 ]
