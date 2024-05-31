@@ -49,6 +49,7 @@
 
       mkDarwinConfig =
         {
+          username,
           system ? "aarch64-darwin",
           nixpkgs ? inputs.nixpkgs,
           baseModules ? [
@@ -84,6 +85,7 @@
             }
           ] ++ baseModules ++ extraModules;
           specialArgs = {
+            system = system;
             username = username;
           };
         };
@@ -173,6 +175,13 @@
         aarch64-darwin = mkDarwinConfig {
           system = "aarch64-darwin";
           hostname = "aarch64-darwin";
+          username = "alex";
+        };
+
+        Alexs-M1-MacBook = mkDarwinConfig {
+          system = "aarch64-darwin";
+          hostname = "Alexs-M1-MacBook";
+          username = "alexyu";
         };
       };
     };

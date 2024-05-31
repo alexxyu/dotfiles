@@ -1,4 +1,9 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  system,
+  username,
+  ...
+}:
 {
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
@@ -19,14 +24,14 @@
   system.stateVersion = 4;
 
   # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.hostPlatform = system;
 
   security.pam.enableSudoTouchIdAuth = true;
 
   # Set up user environment through home-manager.
   home-manager = {
     users = {
-      "alex" = {
+      "${username}" = {
         imports = [ ../../home ];
 
         home = {
@@ -57,6 +62,4 @@
     enable = true;
     casks = import ./casks.nix;
   };
-
-  networking.hostName = "aarch64-darwin";
 }

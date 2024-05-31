@@ -16,8 +16,9 @@
 
   # misc
   "appcleaner"
+  "bitwarden"
   "maccy"
+  "mos"
   "rectangle"
-  "scroll-reverser"
   "the-unarchiver"
 ]
