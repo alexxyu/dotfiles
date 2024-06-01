@@ -31,9 +31,6 @@
 
         source ~/.config/zsh/zshrc
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-
-        [[ -f "~/.local/zsh/zsh_aliases" ]] && source "~/.local/zsh/zsh_aliases"
-        [[ -f "~/.local/zsh/zshrc" ]] && source "~/.local/zsh/zshrc"
       '';
 
       shellAliases = {

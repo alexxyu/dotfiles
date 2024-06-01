@@ -44,13 +44,25 @@ setopt mark_dirs
 # Prevent aliases from being substituted when determining completions
 setopt COMPLETE_ALIASES
 
-# Allow alt/option + arrow keys to navigate by word
+# Allow ctrl/alt + arrow keys to navigate by word
+bindkey "^[[1;5C" forward-word
 bindkey "^[[1;3C" forward-word
+bindkey "^[[1;5D" backward-word
 bindkey "^[[1;3D" backward-word
 
-# Make up/down keys search for matching prefix in history
-bindkey "^[[A" history-beginning-search-backward
-bindkey "^[[B" history-beginning-search-forward
+bindkey '^U'      kill-buffer
+bindkey '^Q'      kill-line
+bindkey "^W"      kill-word
+bindkey "^B"      backward-kill-word
+bindkey "\[[3~"   delete-char
+
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+
+bindkey "^['" quote-line
+bindkey "^[t" transpose-words
+
+bindkey -s '^O' '^U $EDITOR\n'
 
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -164,3 +176,7 @@ precmd_functions=( __termbg_precmd_function ${precmd_functions[@]} )
 
 # HACK: fix delta autocompletion (https://github.com/dandavison/delta/issues/1167#issuecomment-1678568122)
 compdef _gnu_generic delta
+
+# Bind local configs here
+[[ -f "~/.local/zsh/zsh_aliases" ]] && source "~/.local/zsh/zsh_aliases"
+[[ -f "~/.local/zsh/zshrc" ]] && source "~/.local/zsh/zshrc"
