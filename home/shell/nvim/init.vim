@@ -116,7 +116,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-Plug 'Raimondi/delimitMate'
+Plug 'm4xshen/autoclose.nvim'
 
 Plug 'lukas-reineke/indent-blankline.nvim'
 
@@ -130,6 +130,15 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 call plug#end()
 
+lua << EOF
+require("autoclose").setup({
+    options = {
+        disabled_filetypes = { "text", "vim" },
+        disable_when_touch = true,
+        pair_spaces = true,
+    },
+})
+EOF
 lua require("ibl").setup()
 lua require("_lualine")
 lua require("_bufferline")
@@ -148,8 +157,6 @@ let g:coc_global_extensions = [
      \'coc-prettier',
      \'coc-go',
      \'coc-pyright']
-
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 """"""""""""
 " NERDTree "

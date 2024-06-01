@@ -54,7 +54,7 @@ bindkey '^U'      kill-buffer
 bindkey '^Q'      kill-line
 bindkey "^D"      kill-word
 bindkey "^W"      backward-kill-word
-bindkey "\[[3~"   delete-char
+bindkey "\e[3~"   delete-char
 
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
