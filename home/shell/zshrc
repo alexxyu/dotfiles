@@ -52,8 +52,8 @@ bindkey "^[[1;3D" backward-word
 
 bindkey '^U'      kill-buffer
 bindkey '^Q'      kill-line
-bindkey "^W"      kill-word
-bindkey "^B"      backward-kill-word
+bindkey "^D"      kill-word
+bindkey "^W"      backward-kill-word
 bindkey "\[[3~"   delete-char
 
 bindkey "^P" history-beginning-search-backward
@@ -61,6 +61,7 @@ bindkey "^N" history-beginning-search-forward
 
 bindkey "^['" quote-line
 bindkey "^[t" transpose-words
+bindkey "^[u" undo
 
 bindkey -s '^O' '^U $EDITOR\n'
 
