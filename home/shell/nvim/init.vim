@@ -132,18 +132,10 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 call plug#end()
 
-lua << EOF
-require("autoclose").setup({
-    options = {
-        disabled_filetypes = { "text", "vim" },
-        disable_when_touch = true,
-        pair_spaces = true,
-    },
-})
-EOF
-lua require("ibl").setup()
-lua require("_lualine")
-lua require("_bufferline")
+lua require('ibl').setup()
+lua require('_autoclose')
+lua require('_lualine')
+lua require('_bufferline')
 
 """"""""""""
 " coc.nvim "

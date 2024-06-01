@@ -14,4 +14,3 @@ require('bufferline').setup{
         style_preset = 'no_italic',
     },
 }
-
