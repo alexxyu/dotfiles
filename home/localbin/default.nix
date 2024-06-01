@@ -4,4 +4,8 @@ let
 in
 {
   home.packages = [ termbg ];
+
+  home.file = {
+    ".local/bin/vipe".source = ./vipe/vipe;
+  };
 }

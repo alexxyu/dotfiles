@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+# vipe(1) - Pipe in and out of $EDITOR
+#
+# (c) 2014 Julian Gruber <julian@juliangruber.com>.
+# MIT licensed.
+#
+# Examples:
+#
+#   $ echo foo | vipe | gist
+#   $ vipe | gist
+#   $ curl https://httpbin.org/post -X POST -H "Content-Type: application/json" -d "$(vipe -e=json)"
+#
+# This is a lightweight shell only version. For the original impementation in
+# python, check https://github.com/madx/moreutils/blob/master/vipe
+#
+# Original source code at https://github.com/juliangruber/vipe, modified to support file extension argument.
+
+# version
+
+VERSION="0.1.1"
+
+# usage
+
+function __vipe_usage () {
+    echo "usage: vipe [-hV] [-e|--extension]"
+}
+
+ext="txt"
+for i in "$@"; do
+    case $i in
+        "-e="*|"--extension="*)
+            ext="${i#*=}"
+            shift ;; # past argument=value
+    	"-h")
+            __vipe_usage
+            exit 0 ;;
+    	"-V")
+    	    echo "$VERSION"
+    	    exit 0 ;;
+        -*|--*)
+	    echo "unknown option: \"${1}\""
+            __vipe_usage
+            exit 1 ;;
+        *)
+            ;;
+    esac
+done
+
+# temp file
+
+t=/tmp/vipe.$$.$ext
+touch $t
+
+# read from stdin
+
+if [ ! -t 0 ]; then
+  cat > $t
+fi
+
+# spawn editor with stdio connected
+
+${EDITOR} $t < /dev/tty > /dev/tty || exit $?
+
+# write to stdout
+
+cat $t
+
+# cleanup
+
+rm $t
