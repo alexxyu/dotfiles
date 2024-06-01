@@ -1,4 +1,10 @@
-{ pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  home,
+  ...
+}:
 {
   config = {
     programs.neovim = {
@@ -11,7 +17,8 @@
 
     home.file = {
       ".config/nvim" = {
-        source = ./nvim;
+        source =
+          config.lib.file.mkOutOfStoreSymlink /. + "${config.home.homeDirectory}/.dotfiles/home/shell/nvim";
         recursive = true;
       };
     };

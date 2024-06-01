@@ -191,7 +191,7 @@ command! -bang -nargs=* Rg
 """""""""
 " theme "
 """""""""
- 
+
 set termguicolors
 if $TERMBG == 'light'
     :let &background = 'light'
@@ -200,4 +200,3 @@ else
     :let &background = 'dark'
     colorscheme dracula
 endif
-
