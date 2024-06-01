@@ -11,7 +11,7 @@ alias pyvenv="source .venv/bin/activate"
 alias pycrenv="python -m venv .venv --system-site-packages && actenv"
 
 # Interactive ripgrep + fzf search
-function cs {
+function sg {
     RG_PREFIX="rg --hidden --glob '!.git/' --line-number --color=always --smart-case "
     INITIAL_QUERY="${*:-}"
     : | fzf --ansi --disabled --query "$INITIAL_QUERY" \
@@ -179,5 +179,5 @@ precmd_functions=( __termbg_precmd_function ${precmd_functions[@]} )
 compdef _gnu_generic delta
 
 # Bind local configs here
-[[ -f "~/.local/zsh/zsh_aliases" ]] && source "~/.local/zsh/zsh_aliases"
-[[ -f "~/.local/zsh/zshrc" ]] && source "~/.local/zsh/zshrc"
+[[ -f ~/.local/zsh/zsh_aliases ]] && source ~/.local/zsh/zsh_aliases
+[[ -f ~/.local/zsh/zshrc ]] && source ~/.local/zsh/zshrc
