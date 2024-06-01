@@ -8,9 +8,12 @@ This has been primarily tested on the following:
 * My personal M1 MacBook (via [nix-darwin](https://github.com/LnL7/nix-darwin)).
 * A NixOS-arm64 VM running on said MacBook.
 
-This repo replicates the configuration in my [original dotfiles](https://github.com/alexxyu/dotfiles/tree/d917afa4823b1d8b432ef1477f10a12695286e6f) backed by GNU stow.
+This repo replicates the configuration in my [original dotfiles](https://github.com/alexxyu/dotfiles/tree/stow) backed by GNU stow.
 
 ## How to Use
+
+**Note:** In order to properly symlink some dotfiles, this setup expects this repo to be cloned to your home directory like so:
+`git clone https://github.com/alexxyu/dotfiles ~/.dotfiles`.
 
 The repo is structured in the following manner:
 
@@ -38,7 +41,5 @@ To apply changes to home-manager, run `nix run home-manager -- switch --flake .#
 ### Darwin
 
 Note that the Darwin configuration also makes use of [nix-homebrew](https://github.com/zhaofengli/nix-homebrew) to manage installations that nix cannot, particular GUI apps.
-
-It expects for this repo to be cloned at `/Users/${username}/.dotfiles`.
 
 For Darwin, run `nix run nix-darwin -- switch --flake .#HOSTNAME`.
