@@ -1,9 +1,3 @@
-#!/usr/bin/env rust-script
-//! ```cargo
-//! [dependencies]
-//! terminal-colorsaurus = "0.4.1"
-//! ```
-
 use terminal_colorsaurus::{color_scheme, QueryOptions, ColorScheme};
 
 fn main() {
