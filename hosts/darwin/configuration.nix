@@ -31,16 +31,27 @@
   # Set up user environment through home-manager.
   home-manager = {
     users = {
-      "${username}" = {
-        imports = [ ../../home ];
+      "${username}" =
+        { config, lib, ... }:
+        {
+          imports = [ ../../home ];
 
-        home = {
-          inherit username;
-          homeDirectory = "/Users/${username}";
+          home = {
+            inherit username;
+            homeDirectory = "/Users/${username}";
+
+            file = {
+              ".config/iterm2/com.googlecode.iterm2.plist" = {
+                source = config.lib.file.mkOutOfStoreSymlink "/Users/${username}/.dotfiles/hosts/darwin/iterm/com.googlecode.iterm2.plist";
+              };
+              "Library/Application Support/Rectangle/RectangleConfig.json" = {
+                source = config.lib.file.mkOutOfStoreSymlink "/Users/${username}/.dotfiles/hosts/darwin/rectangle/RectangleConfig.json";
+              };
+            };
+          };
+
+          apps.enable = false;
         };
-
-        apps.enable = false;
-      };
     };
     extraSpecialArgs = {
       username = username;
@@ -61,5 +72,46 @@
   homebrew = {
     enable = true;
     casks = import ./casks.nix;
+  };
+
+  system.defaults = {
+    dock.autohide = true;
+    dock.show-recents = false;
+    dock.wvous-br-corner = 12; # Bottom-left hot corner: Notification Center
+
+    trackpad.Clicking = true;
+  };
+
+  system.defaults.NSGlobalDomain = {
+    AppleInterfaceStyleSwitchesAutomatically = true;
+    ApplePressAndHoldEnabled = false;
+    AppleShowAllExtensions = true;
+    InitialKeyRepeat = 25;
+    KeyRepeat = 4;
+    NSAutomaticCapitalizationEnabled = false;
+    NSAutomaticPeriodSubstitutionEnabled = false;
+    NSAutomaticQuoteSubstitutionEnabled = false;
+    NSAutomaticSpellingCorrectionEnabled = false;
+    NSDocumentSaveNewDocumentsToCloud = false;
+    NSNavPanelExpandedStateForSaveMode = true;
+    NSNavPanelExpandedStateForSaveMode2 = true;
+  };
+
+  system.defaults.CustomUserPreferences = {
+    "com.apple.finder" = {
+      FXPreferredViewStyle = "Nlsv";
+      ShowExternalHardDrivesOnDesktop = true;
+      ShowHardDrivesOnDesktop = false;
+      ShowPathbar = true;
+    };
+    "com.apple.desktopservices" = {
+      # Avoid creating .DS_Store files on network or USB volumes
+      DSDontWriteNetworkStores = true;
+      DSDontWriteUSBStores = true;
+    };
+    "com.googlecode.iterm2" = {
+      PrefsCustomFolder = "~/.config/iterm2";
+      LoadPrefsFromCustomFolder = true;
+    };
   };
 }
