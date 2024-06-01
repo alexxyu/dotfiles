@@ -17,8 +17,8 @@
   # misc
   "appcleaner"
   "bitwarden"
+  "logi-options-plus"
   "maccy"
-  "mos"
   "rectangle"
   "the-unarchiver"
 ]
