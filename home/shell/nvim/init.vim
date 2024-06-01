@@ -84,9 +84,10 @@ nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fl :Lines<CR>
 nnoremap <leader>cs :Rg<CR>
 
-""""""""""""
-" vim-plug "
-""""""""""""
+"""""""""""""""
+" vim plugins "
+"""""""""""""""
+
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -98,8 +99,6 @@ call plug#begin()
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 Plug 'dracula/vim', { 'as': 'dracula' }
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'preservim/nerdtree'
 
@@ -130,57 +129,17 @@ Plug 'akinsho/bufferline.nvim'
 
 Plug 'AndrewRadev/splitjoin.vim'
 
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'neovim/nvim-lspconfig'
+
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
 call plug#end()
-
-lua require('ibl').setup()
-lua require('_autoclose')
-lua require('_lualine')
-lua require('_bufferline')
-
-""""""""""""
-" coc.nvim "
-""""""""""""
-
-" install coc plugins
-let g:coc_global_extensions = [
-     \'coc-yaml',
-     \'coc-json',
-     \'coc-tsserver',
-     \'coc-html',
-     \'coc-css',
-     \'coc-prettier',
-     \'coc-go',
-     \'coc-pyright']
-
-""""""""""""
-" NERDTree "
-""""""""""""
-
-" Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-
-"""""""""""""
-" gitgutter "
-"""""""""""""
-
-" Workaround a problem with solarized and vim-gitgutter.
-" https://github.com/airblade/vim-gitgutter/issues/696
-highlight! link SignColumn LineNr
-autocmd ColorScheme * highlight! link SignColumn LineNr
-
-let g:gitgutter_set_sign_backgrounds = 1
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
-
-"""""""
-" FZF "
-"""""""
-
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --hidden --glob "!.git/" --line-number --color=always --smart-case -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>0)
 
 """""""""
 " theme "
@@ -194,3 +153,16 @@ else
     :let &background = 'dark'
     colorscheme dracula
 endif
+
+"""""""""""""""""
+" Setup plugins "
+"""""""""""""""""
+
+lua require('_autoclose')
+lua require('_bufferline')
+lua require('_fzf')
+lua require('_gitgutter')
+lua require('_indentline')
+lua require('_lsp')
+lua require('_lualine')
+lua require('_nerdtree')

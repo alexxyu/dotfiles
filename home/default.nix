@@ -42,8 +42,6 @@
 
     rustup
 
-    (pkgs.python311.withPackages (ppkgs: [ ppkgs.numpy ]))
-
     zsh-powerlevel10k
   ];
 
