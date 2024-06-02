@@ -54,6 +54,9 @@
           nixpkgs ? inputs.nixpkgs,
           baseModules ? [
             home-manager.darwinModules.home-manager
+            ./hosts/darwin/configuration.nix
+          ],
+          extraModules ? [
             nix-homebrew.darwinModules.nix-homebrew
             {
               nix-homebrew = {
@@ -68,9 +71,7 @@
                 autoMigrate = true;
               };
             }
-            ./hosts/darwin/configuration.nix
           ],
-          extraModules ? [ ],
           hostname ? "",
         }:
         darwin.lib.darwinSystem {
