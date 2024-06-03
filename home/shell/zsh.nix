@@ -4,9 +4,9 @@
     home.packages = [ pkgs.zsh ];
 
     home.file = {
-      ".config/zsh/zshrc".source = ./zshrc;
+      ".zsh/zshrc".source = ./zshrc;
 
-      ".config/zsh/completion/_docker".source = pkgs.fetchurl {
+      ".zsh/completion/_docker".source = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/docker/cli/358d4996818ff3b5c4ae518323d02771e52fa9c9/contrib/completion/zsh/_docker";
         hash = "sha256-wsuSNFsCDZF7VI9Sjshmf0Hr4bJUmq/Sh9b7EqOzA9A=";
       };
@@ -25,12 +25,39 @@
     programs.zsh = {
       enable = true;
 
-      initExtra = ''
-        fpath+="$HOME/.config/zsh/completion"
-        autoload -Uz compinit && compinit
+      enableCompletion = true;
 
-        source ~/.config/zsh/zshrc
-        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      initExtraFirst = ''
+        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+        # Initialization code that may require console input (password prompts, [y/n]
+        # confirmations, etc.) must go above this block; everything else may go below.
+        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+        fi
+      '';
+
+      initExtraBeforeCompInit = ''
+        fpath+="$HOME/.zsh/completion"
+      '';
+
+      completionInit = ''
+        # On slow systems, checking the cached .zcompdump file to see if it must be regenerated
+        # adds a noticable delay to zsh startup. This little hack restricts it to once a day.
+        #
+        # https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=2308206#gistcomment-2308206
+        () {
+          setopt extendedglob local_options
+
+          if [[ -n ''${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+            compinit
+          else
+            compinit -C
+          fi
+        }
+      '';
+
+      initExtra = ''
+        source ~/.zsh/zshrc
       '';
 
       shellAliases = {

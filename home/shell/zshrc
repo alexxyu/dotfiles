@@ -32,9 +32,6 @@ function sg {
 # Terminal settings #
 #####################
 
-# Disable terminal ctrl-s behavior to allow bpython to save
-stty -ixon
-
 # Explicitly set emacs keybindings
 set -o emacs
 # Show filetypes in autocompletion list
