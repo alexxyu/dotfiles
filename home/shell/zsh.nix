@@ -40,22 +40,6 @@
         fpath+="$HOME/.zsh/completion"
       '';
 
-      completionInit = ''
-        # On slow systems, checking the cached .zcompdump file to see if it must be regenerated
-        # adds a noticable delay to zsh startup. This little hack restricts it to once a day.
-        #
-        # https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=2308206#gistcomment-2308206
-        () {
-          setopt extendedglob local_options
-
-          if [[ -n ''${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-            compinit
-          else
-            compinit -C
-          fi
-        }
-      '';
-
       initExtra = ''
         source ~/.zsh/zshrc
       '';
