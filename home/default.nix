@@ -25,24 +25,19 @@
     btop
     coreutils
     dua
-    gcc
-    httpie
     imagemagick
     img2pdf
     jq
     tldr
     tmux
     tree
-    yt-dlp
 
     nixfmt-rfc-style
     nil
 
+    gcc
     gnumake
-
     rustup
-
-    zsh-powerlevel10k
   ];
 
   programs.home-manager.enable = true;

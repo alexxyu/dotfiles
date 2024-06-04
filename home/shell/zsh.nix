@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   config = {
-    home.packages = [ pkgs.zsh ];
+    home.packages = [ pkgs.zsh-powerlevel10k ];
 
     home.file = {
       ".zsh/zshrc".source = ./zshrc;
