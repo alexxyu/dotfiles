@@ -132,7 +132,7 @@ bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
 # Terminal themes #
 ###################
 
-__termbg_precmd_function () {
+set_termbg () {
     _set_light () {
         export BAT_THEME='Catppuccin-latte'
         export FZF_DEFAULT_OPTS=" \
@@ -165,8 +165,7 @@ __termbg_precmd_function () {
     fi
 }
 
-typeset -ag precmd_functions;
-precmd_functions=( __termbg_precmd_function ${precmd_functions[@]} )
+set_termbg
 
 ##################
 # Misc. settings #
