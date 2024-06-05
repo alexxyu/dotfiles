@@ -130,3 +130,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 })
 
+vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>re', ':lua vim.lsp.buf.rename()<CR>', { noremap = true })

@@ -14,3 +14,7 @@ require('bufferline').setup{
         style_preset = 'no_italic',
     },
 }
+
+vim.api.nvim_set_keymap('n', '<Tab>', ':bn<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<S-Tab>', ':bp<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-X>', ':bd<CR>', { noremap = true })
