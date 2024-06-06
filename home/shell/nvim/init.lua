@@ -96,12 +96,11 @@ Plug('tpope/vim-surround')
 Plug('tpope/vim-sleuth')
 Plug('tpope/vim-rsi')
 Plug('AndrewRadev/splitjoin.vim')
-Plug('junegunn/vim-peekaboo')
 
-Plug('junegunn/fzf', { ['do'] = function()
-    vim.fn['fzf#install']()
-end })
-Plug('junegunn/fzf.vim')
+Plug('nvim-lua/plenary.nvim')
+Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'CFLAG=-march=native make' })
+Plug('nvim-telescope/telescope.nvim')
+Plug('nvim-telescope/telescope-ui-select.nvim')
 
 Plug('mg979/vim-visual-multi', { ['branch'] = 'master' })
 Plug('m4xshen/autoclose.nvim')
@@ -124,12 +123,12 @@ vim.call('plug#end')
 
 require('_autoclose')
 require('_bufferline')
-require('_fzf')
 require('_gitsigns')
 require('_indentline')
 require('_lsp')
 require('_lualine')
 require('_nerdtree')
+require('_telescope')
 
 ------------
 -- Themes --
