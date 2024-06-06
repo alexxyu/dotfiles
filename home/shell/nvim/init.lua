@@ -49,10 +49,6 @@ vim.opt.updatetime = 300
 -- Set leader to space
 vim.g.mapleader = " "
 
--- Emacs style navigation
-vim.api.nvim_set_keymap('n', '<C-A>', '<Home>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-E>', '<End>', { noremap = true })
-
 -- Convenient redo
 vim.api.nvim_set_keymap('n', 'U', '<C-R>', { noremap = true })
 
@@ -60,12 +56,12 @@ vim.api.nvim_set_keymap('n', 'U', '<C-R>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<CR>', '<Cmd>noh<CR><Bar><Cmd>echon<CR><CR>', { noremap = true })
 
 -- Line navigation
-vim.api.nvim_set_keymap('n', '<A-Down>', '<cmd>m .+1<cr>==', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<A-Up>',   '<cmd>m .-2<cr>==', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<A-Down>', '<Esc><cmd>m .+1<cr>==gi', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<A-Up>',   '<Esc><cmd>m .-2<cr>==gi', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<A-Down>', ":m '>+1<cr>gv=gv", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<A-Up>',   ":m '<-2<cr>gv=gv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<A-j>', '<cmd>m .+1<cr>==', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<A-k>', '<cmd>m .-2<cr>==', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<A-j>', '<Esc><cmd>m .+1<cr>==gi', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<A-k>', '<Esc><cmd>m .-2<cr>==gi', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<A-j>', ":m '>+1<cr>gv=gv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<A-k>', ":m '<-2<cr>gv=gv", { noremap = true, silent = true })
 
 -- Split screen navigation
 vim.api.nvim_set_keymap('n', '<leader>wr', '<C-W>v<CR>', { noremap = true })
@@ -98,6 +94,7 @@ Plug('lewis6991/gitsigns.nvim')
 Plug('tpope/vim-fugitive')
 Plug('tpope/vim-surround')
 Plug('tpope/vim-sleuth')
+Plug('tpope/vim-rsi')
 Plug('AndrewRadev/splitjoin.vim')
 Plug('junegunn/vim-peekaboo')
 
