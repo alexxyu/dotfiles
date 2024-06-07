@@ -1,5 +1,6 @@
 [
   # devtools
+  "bruno"
   "docker"
   "visual-studio-code"
 
