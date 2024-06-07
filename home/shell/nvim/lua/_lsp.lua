@@ -1,9 +1,47 @@
-require('mason').setup()
+require('mason').setup{
+    ensure_installed = {
+        'prettier'
+    },
+}
 
 local servers = {
-    gopls = {},
+    gopls = {
+        settings = {
+            codelenses = {
+                generate = true,
+                test = true,
+                tidy = true,
+            },
+            hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+            },
+        },
+    },
+
     rust_analyzer = {},
-    pyright = {},
+
+    ruff_lsp = {},
+    pyright = {
+        settings = {
+            pyright = {
+                -- Using Ruff's import organizer
+                disableOrganizeImports = true,
+            },
+            python = {
+                analysis = {
+                    -- Ignore all files for analysis to exclusively use Ruff for linting
+                    ignore = { '*' },
+                },
+            },
+        }
+    },
+
     nil_ls = {
         settings = {
             ['nil'] = {
@@ -17,9 +55,35 @@ local servers = {
         },
     },
 
-    tsserver = {},
-    html = {},
     cssls = {},
+    eslint = {},
+    html = {},
+    tsserver = {
+        settings = {
+            javascript = {
+                inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = "all",
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                },
+            },
+            typescript = {
+                inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = "all",
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                },
+            },
+        },
+    },
 
     jsonls = {},
     yamlls = {},
@@ -92,7 +156,7 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
 	formatting = {
 		fields = { "kind", "abbr", "menu" },
@@ -121,14 +185,57 @@ cmp.setup({
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("lsp", { clear = true }),
     callback = function(args)
-      	vim.api.nvim_create_autocmd("BufWritePre", {
-      	    buffer = args.buf,
-      	    callback = function()
-      	    	vim.lsp.buf.format { async = false, id = args.data.client_id }
-      	    end,
-      	})
+        local bufnr = args.buf
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client == nil then
+            return
+        end
+
+        vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true })
+        vim.keymap.set({ 'n', 'v' }, '<leader>re', ':lua vim.lsp.buf.rename()<CR>', { noremap = true })
+
+        if client.server_capabilities.documentFormattingProvider then
+            vim.keymap.set('n', '<leader>fm', function()
+                vim.lsp.buf.format { async = true }
+            end, opts)
+        end
+
+        -- document highlighting
+        if client.server_capabilities.documentHighlightProvider then
+            vim.api.nvim_create_augroup("lsp_document_highlight", {
+                clear = false,
+            })
+            vim.api.nvim_clear_autocmds({
+                buffer = bufnr,
+                group = "lsp_document_highlight",
+            })
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+                group = "lsp_document_highlight",
+                buffer = bufnr,
+                callback = vim.lsp.buf.document_highlight,
+            })
+            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+                group = "lsp_document_highlight",
+                buffer = bufnr,
+                callback = vim.lsp.buf.clear_references,
+            })
+        end
+
+        -- inlay hints
+        if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        end
+
+        -- codelens support
+        if client.server_capabilities.codeLensProvider then
+            vim.lsp.codelens.refresh({ bufnr = bufnr })
+            vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach' }, {
+                buffer = bufnr,
+                callback = function()
+                    vim.lsp.codelens.refresh({ bufnr = bufnr })
+                end,
+            })
+            vim.keymap.set({ 'n', 'v' }, '<leader>cl', ':lua vim.lsp.codelens.run()<CR>', { noremap = true })
+        end
     end
 })
-
-vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>re', ':lua vim.lsp.buf.rename()<CR>', { noremap = true })
