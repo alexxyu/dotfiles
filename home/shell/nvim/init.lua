@@ -109,6 +109,8 @@ Plug('lukas-reineke/indent-blankline.nvim')
 Plug('nvim-lualine/lualine.nvim')
 Plug('akinsho/bufferline.nvim')
 
+Plug('nvim-treesitter/nvim-treesitter')
+Plug('windwp/nvim-ts-autotag')
 Plug('williamboman/mason.nvim')
 Plug('williamboman/mason-lspconfig.nvim')
 Plug('neovim/nvim-lspconfig')
@@ -129,6 +131,7 @@ require('_lsp')
 require('_lualine')
 require('_nerdtree')
 require('_telescope')
+require('_treesitter')
 
 ------------
 -- Themes --
