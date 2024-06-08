@@ -3,4 +3,4 @@ vim.cmd([[
     autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 ]])
 
-vim.api.nvim_set_keymap('n', '<leader>nt', ':NERDTreeToggle<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>nt', ':NERDTreeToggle<CR>', { noremap = true })

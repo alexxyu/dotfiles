@@ -15,6 +15,6 @@ require('bufferline').setup{
     },
 }
 
-vim.api.nvim_set_keymap('n', '<Tab>', ':bn<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<S-Tab>', ':bp<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-X>', ':bd<CR>', { noremap = true })
+vim.keymap.set('n', '<Tab>', ':bn<CR>', { noremap = true })
+vim.keymap.set('n', '<S-Tab>', ':bp<CR>', { noremap = true })
+vim.keymap.set('n', '<C-X>', ':bd<CR>', { noremap = true })

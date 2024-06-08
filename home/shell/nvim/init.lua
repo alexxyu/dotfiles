@@ -43,6 +43,31 @@ vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.encoding = "utf-8"
 vim.opt.updatetime = 300
 
+-- Highlight on yank
+vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = 'YankHighlight',
+  callback = function()
+    vim.highlight.on_yank({ higroup = 'IncSearch', timeout = '1000' })
+  end
+})
+
+-- Remove whitespace on save
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '',
+  command = ":%s/\\s\\+$//e"
+})
+
+-- Enter insert mode when switching to terminal
+vim.api.nvim_create_autocmd('TermOpen', {
+    command = 'setlocal listchars= nonumber norelativenumber nocursorline',
+})
+
+vim.api.nvim_create_autocmd('TermOpen', {
+    pattern = '',
+    command = 'startinsert'
+})
+
 ------------------------
 -- General keybindings -
 ------------------------
@@ -50,24 +75,24 @@ vim.opt.updatetime = 300
 vim.g.mapleader = " "
 
 -- Convenient redo
-vim.api.nvim_set_keymap('n', 'U', '<C-R>', { noremap = true })
+vim.keymap.set('n', 'U', '<C-R>', { noremap = true })
 
 -- Clear search highlight on <CR>
-vim.api.nvim_set_keymap('n', '<CR>', '<Cmd>noh<CR><Bar><Cmd>echon<CR><CR>', { noremap = true })
+vim.keymap.set('n', '<CR>', '<Cmd>noh<CR><Bar><Cmd>echon<CR><CR>', { noremap = true })
 
 -- Line navigation
-vim.api.nvim_set_keymap('n', '<A-j>', '<cmd>m .+1<cr>==', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<A-k>', '<cmd>m .-2<cr>==', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<A-j>', '<Esc><cmd>m .+1<cr>==gi', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<A-k>', '<Esc><cmd>m .-2<cr>==gi', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<A-j>', ":m '>+1<cr>gv=gv", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<A-k>', ":m '<-2<cr>gv=gv", { noremap = true, silent = true })
+vim.keymap.set('n', '<A-j>', '<cmd>m .+1<cr>==', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-k>', '<cmd>m .-2<cr>==', { noremap = true, silent = true })
+vim.keymap.set('i', '<A-j>', '<Esc><cmd>m .+1<cr>==gi', { noremap = true, silent = true })
+vim.keymap.set('i', '<A-k>', '<Esc><cmd>m .-2<cr>==gi', { noremap = true, silent = true })
+vim.keymap.set('v', '<A-j>', ":m '>+1<cr>gv=gv", { noremap = true, silent = true })
+vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { noremap = true, silent = true })
 
 -- Split screen navigation
-vim.api.nvim_set_keymap('n', '<leader>wr', '<C-W>v<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>wb', '<C-W>s<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>ww', '<C-W><C-W><CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>wr', '<C-W>v<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>wb', '<C-W>s<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>ww', '<C-W><C-W><CR>', { noremap = true })
+vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true })
 
 -------------------
 -- Setup plugins --

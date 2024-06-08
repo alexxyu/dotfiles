@@ -5,6 +5,6 @@ vim.cmd([[
         \   fzf#vim#with_preview(), <bang>0)
 ]])
 
-vim.api.nvim_set_keymap('n', '<leader>ff', ':Files<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>fl', ':Lines<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>cs', ':Rg<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>ff', ':Files<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>fl', ':Lines<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>cs', ':Rg<CR>', { noremap = true })
