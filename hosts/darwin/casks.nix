@@ -17,7 +17,6 @@
 
   # misc
   "appcleaner"
-  "bitwarden"
   "logi-options-plus"
   "maccy"
   "rectangle"
