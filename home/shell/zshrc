@@ -132,7 +132,7 @@ bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
 # Terminal themes #
 ###################
 
-set_termbg () {
+tbg () {
     _set_light () {
         export BAT_THEME='Catppuccin-latte'
         export FZF_DEFAULT_OPTS=" \
@@ -153,10 +153,10 @@ set_termbg () {
         export TERMBG='dark'
     }
 
-    local tbg=$(termbg 2> /dev/null)
-    if [[ "$tbg" = "light" ]]; then
+    local bg=$(termbg 2> /dev/null)
+    if [[ "$bg" = "light" ]]; then
         _set_light
-    elif [[ "$tbg" = "dark" ]]; then
+    elif [[ "$bg" = "dark" ]]; then
         _set_dark
     elif [[ "$TERMBG" = "light" ]]; then
         _set_light
@@ -165,7 +165,7 @@ set_termbg () {
     fi
 }
 
-set_termbg
+tbg
 
 ##################
 # Misc. settings #
