@@ -152,17 +152,6 @@ Plug('hrsh7th/nvim-cmp')
 
 vim.call('plug#end')
 
-require('_autoclose')
-require('_bufferline')
-require('_gitsigns')
-require('_incline')
-require('_indentline')
-require('_lsp')
-require('_lualine')
-require('_nerdtree')
-require('_telescope')
-require('_treesitter')
-
 ------------
 -- Themes --
 ------------
