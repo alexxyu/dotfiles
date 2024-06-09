@@ -1,4 +1,3 @@
-
 local builtins = require('telescope.builtin')
 
 vim.keymap.set('n', '<leader>ff', builtins.find_files, {})
@@ -13,19 +12,19 @@ vim.keymap.set('n', '<leader>lp', builtins.lsp_implementations, {})
 vim.keymap.set('n', '<leader>lz', builtins.lsp_document_symbols, {})
 vim.keymap.set('n', '<leader>lx', builtins.lsp_workspace_symbols, {})
 
-require('telescope').setup{
-    extensions = {
-        ['ui-select'] = {
-            require('telescope.themes').get_dropdown()
-        }
+require('telescope').setup {
+  extensions = {
+    ['ui-select'] = {
+      require('telescope.themes').get_dropdown()
+    }
+  },
+  defaults = {
+    path_display = {
+      filename_first = {
+        reverse_directories = false
+      },
     },
-    defaults = {
-        path_display = {
-            filename_first = {
-                reverse_directories = false
-            },
-        },
-    },
+  },
 }
 
 require('telescope').load_extension('ui-select')

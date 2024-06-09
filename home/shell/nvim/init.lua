@@ -18,11 +18,11 @@ vim.opt.number = true
 vim.opt.cursorline = true
 vim.opt.showmode = true
 vim.cmd([[
-    " neovim changes the terminal cursor; this respects the cursor on exit
-    augroup RestoreCursorShapeOnExit
-        autocmd!
-        autocmd VimLeave * set guicursor=a:ver1
-    augroup END
+  " neovim changes the terminal cursor; this respects the cursor on exit
+  augroup RestoreCursorShapeOnExit
+    autocmd!
+    autocmd VimLeave * set guicursor=a:ver1
+  augroup END
 ]])
 vim.opt.splitright = true
 
@@ -60,12 +60,12 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 
 -- Enter insert mode when switching to terminal
 vim.api.nvim_create_autocmd('TermOpen', {
-    command = 'setlocal listchars= nonumber norelativenumber nocursorline',
+  command = 'setlocal listchars= nonumber norelativenumber nocursorline',
 })
 
 vim.api.nvim_create_autocmd('TermOpen', {
-    pattern = '',
-    command = 'startinsert'
+  pattern = '',
+  command = 'startinsert'
 })
 
 ------------------------
@@ -98,11 +98,11 @@ vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true })
 -- Setup plugins --
 -------------------
 vim.cmd([[
-    let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-    if empty(glob(data_dir . '/autoload/plug.vim'))
-        silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    endif
+  let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+  if empty(glob(data_dir . '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
 ]])
 
 local Plug = vim.fn['plug#']
@@ -168,9 +168,9 @@ require('_treesitter')
 ------------
 vim.termguicolors = true
 if os.getenv('TERMBG') == 'light' then
-    vim.g.background = 'light'
-    vim.cmd('silent! colorscheme catppuccin-latte')
+  vim.g.background = 'light'
+  vim.cmd('silent! colorscheme catppuccin-latte')
 else
-    vim.g.background = 'dark'
-    vim.cmd('silent! colorscheme dracula')
+  vim.g.background = 'dark'
+  vim.cmd('silent! colorscheme dracula')
 end
