@@ -19,6 +19,7 @@ require('incline').setup {
       ' ',
       { filename, gui = modified and 'bold,italic' or 'bold' },
       guibg = '#44406e',
+      guifg = '#ffffff',
     }
     if props.focused then
       for _, item in ipairs(navic.get_data(props.buf) or {}) do
