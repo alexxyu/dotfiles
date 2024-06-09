@@ -103,6 +103,10 @@ vim.cmd([[
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
+
+  autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+    \| PlugInstall --sync | source $MYVIMRC
+  \| endif
 ]])
 
 local Plug = vim.fn['plug#']
@@ -119,6 +123,7 @@ Plug('nvim-tree/nvim-web-devicons')
 Plug('SmiteshP/nvim-navic')
 Plug('b0o/incline.nvim')
 
+Plug('ggandor/leap.nvim')
 Plug('lewis6991/gitsigns.nvim')
 Plug('tpope/vim-fugitive')
 Plug('tpope/vim-surround')
@@ -158,6 +163,7 @@ vim.call('plug#end')
 require('which-key').register({
   ["<leader>w"] = { name = "+window" },
   ["g"] = { name = "+goto" },
+  ["z"] = { name = "+fold" },
   ["["] = { name = "+next" },
   ["]"] = { name = "+previous" },
 })
