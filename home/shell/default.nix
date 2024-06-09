@@ -5,6 +5,7 @@
     ./delta.nix
     ./fzf.nix
     ./git.nix
+    ./grpc-client-cli.nix
     ./httpie.nix
     ./lazydocker.nix
     ./mise.nix
