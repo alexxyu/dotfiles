@@ -24,6 +24,8 @@ local servers = {
     },
   },
 
+  omnisharp = {},
+
   rust_analyzer = {},
 
   ruff_lsp = {},
@@ -122,13 +124,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
       return
     end
 
-    vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true })
-    vim.keymap.set({ 'n', 'v' }, '<leader>re', ':lua vim.lsp.buf.rename()<CR>', { noremap = true })
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>',
+      { noremap = true, desc = "Code action" })
+    vim.keymap.set({ 'n', 'v' }, '<leader>cr', ':lua vim.lsp.buf.rename()<CR>',
+      { noremap = true, desc = "Rename symbol" })
 
     if client.server_capabilities.documentFormattingProvider then
-      vim.keymap.set('n', '<leader>fm', function()
+      vim.keymap.set('n', '<leader>cf', function()
         vim.lsp.buf.format { async = true }
-      end, {})
+      end, { desc = "Format code" })
     end
 
     -- document highlighting
@@ -166,7 +170,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
           vim.lsp.codelens.refresh({ bufnr = bufnr })
         end,
       })
-      vim.keymap.set({ 'n', 'v' }, '<leader>cl', ':lua vim.lsp.codelens.run()<CR>', { noremap = true })
+      vim.keymap.set({ 'n', 'v' }, '<leader>cl', ':lua vim.lsp.codelens.run()<CR>',
+        { noremap = true, desc = "Run codelens" })
     end
   end
 })
+
+require('which-key').register({
+  c = { name = "+code" }
+}, { prefix = "<leader>" })

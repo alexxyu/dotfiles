@@ -75,24 +75,24 @@ vim.api.nvim_create_autocmd('TermOpen', {
 vim.g.mapleader = " "
 
 -- Convenient redo
-vim.keymap.set('n', 'U', '<C-R>', { noremap = true })
+vim.keymap.set('n', 'U', '<C-R>', { noremap = true, desc = "Redo" })
 
 -- Clear search highlight on <CR>
 vim.keymap.set('n', '<CR>', '<Cmd>noh<CR><Bar><Cmd>echon<CR><CR>', { noremap = true })
 
 -- Line navigation
-vim.keymap.set('n', '<A-j>', '<cmd>m .+1<cr>==', { noremap = true, silent = true })
-vim.keymap.set('n', '<A-k>', '<cmd>m .-2<cr>==', { noremap = true, silent = true })
-vim.keymap.set('i', '<A-j>', '<Esc><cmd>m .+1<cr>==gi', { noremap = true, silent = true })
-vim.keymap.set('i', '<A-k>', '<Esc><cmd>m .-2<cr>==gi', { noremap = true, silent = true })
-vim.keymap.set('v', '<A-j>', ":m '>+1<cr>gv=gv", { noremap = true, silent = true })
-vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { noremap = true, silent = true })
+vim.keymap.set('n', '<A-j>', '<cmd>m .+1<cr>==', { noremap = true, silent = true, desc = "Move line up" })
+vim.keymap.set('n', '<A-k>', '<cmd>m .-2<cr>==', { noremap = true, silent = true, desc = "Move line down" })
+vim.keymap.set('i', '<A-j>', '<Esc><cmd>m .+1<cr>==gi', { noremap = true, silent = true, desc = "Move line up" })
+vim.keymap.set('i', '<A-k>', '<Esc><cmd>m .-2<cr>==gi', { noremap = true, silent = true, desc = "Move line down" })
+vim.keymap.set('v', '<A-j>', ":m '>+1<cr>gv=gv", { noremap = true, silent = true, desc = "Move line up" })
+vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { noremap = true, silent = true, desc = "Move line down" })
 
 -- Split screen navigation
-vim.keymap.set('n', '<leader>wr', '<C-W>v<CR>', { noremap = true })
-vim.keymap.set('n', '<leader>wb', '<C-W>s<CR>', { noremap = true })
-vim.keymap.set('n', '<leader>ww', '<C-W><C-W><CR>', { noremap = true })
-vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>wr', '<C-W>v', { noremap = true, desc = "Split right" })
+vim.keymap.set('n', '<leader>wb', '<C-W>s', { noremap = true, desc = "Split below" })
+vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { noremap = true, desc = "Switch" })
+vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true, desc = "Split terminal" })
 
 -------------------
 -- Setup plugins --
@@ -126,6 +126,9 @@ Plug('tpope/vim-sleuth')
 Plug('tpope/vim-rsi')
 Plug('AndrewRadev/splitjoin.vim')
 
+-- Pinned to v1.4 because of this bug: https://github.com/folke/which-key.nvim/issues/482
+Plug('folke/which-key.nvim', { ['tag'] = 'v1.4.3' })
+
 Plug('nvim-lua/plenary.nvim')
 Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'CFLAG=-march=native make' })
 Plug('nvim-telescope/telescope.nvim')
@@ -151,6 +154,13 @@ Plug('hrsh7th/cmp-cmdline')
 Plug('hrsh7th/nvim-cmp')
 
 vim.call('plug#end')
+
+require('which-key').register({
+  ["<leader>w"] = { name = "+window" },
+  ["g"] = { name = "+goto" },
+  ["["] = { name = "+next" },
+  ["]"] = { name = "+previous" },
+})
 
 ------------
 -- Themes --

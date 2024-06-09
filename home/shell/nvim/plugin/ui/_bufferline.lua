@@ -15,6 +15,6 @@ require('bufferline').setup {
   },
 }
 
-vim.keymap.set('n', '<Tab>', ':bn<CR>', { noremap = true })
-vim.keymap.set('n', '<S-Tab>', ':bp<CR>', { noremap = true })
-vim.keymap.set('n', '<C-X>', ':bd<CR>', { noremap = true })
+vim.keymap.set('n', ']b', ':bn<CR>', { noremap = true, desc = "Next buffer" })
+vim.keymap.set('n', '[b', ':bp<CR>', { noremap = true, desc = "Previous buffer" })
+vim.keymap.set('n', '<C-X>', ':bd<CR>', { noremap = true, desc = "Close buffer" })
