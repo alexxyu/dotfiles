@@ -97,13 +97,19 @@ require('mason-lspconfig').setup({
     start_delay = 2000,
 })
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lspconfig = require('lspconfig')
+local navic = require('nvim-navic')
+
 for lsp, config in pairs(servers) do
     lspconfig[lsp].setup {
         capabilities = capabilities,
         settings = config.settings,
+        on_attach = function(client, bufnr)
+            if client.server_capabilities.documentSymbolProvider then
+                navic.attach(client, bufnr)
+            end
+        end
     }
 end
 
@@ -159,17 +165,17 @@ cmp.setup({
         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
 	formatting = {
-		fields = { "kind", "abbr", "menu" },
-		format = function(entry, vim_item)
-            -- Kind icons
-            vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-            vim_item.menu = ({
-                luasnip = "[SNP]",
-                buffer = "[BFR]",
-                path = "[PTH]",
-            })[entry.source.name]
-            return vim_item
-        end,
+	    fields = { "kind", "abbr", "menu" },
+	    format = function(entry, vim_item)
+                -- Kind icons
+                vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+                vim_item.menu = ({
+                    luasnip = "[SNP]",
+                    buffer = "[BFR]",
+                    path = "[PTH]",
+                })[entry.source.name]
+                return vim_item
+            end,
 	},
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },

@@ -15,11 +15,8 @@
     };
 
     home.file = {
-      ".config/nvim" = {
-        source =
-          config.lib.file.mkOutOfStoreSymlink /. + "${config.home.homeDirectory}/.dotfiles/home/shell/nvim";
-        recursive = true;
-      };
+      ".config/nvim".source =
+        config.lib.file.mkOutOfStoreSymlink /. + "${config.home.homeDirectory}/.dotfiles/home/shell/nvim";
     };
   };
 }
