@@ -88,7 +88,21 @@ local servers = {
   },
 
   jsonls = {},
-  yamlls = {},
+  yamlls = {
+    settings = {
+      yaml = {
+        validate = true,
+        hover = true,
+        completion = true,
+        schemas = {
+          ['https://json.schemastore.org/github-workflow'] = '.github/workflows/*.{yml,yaml}',
+          ['http://json.schemastore.org/github-action'] = '.github/action.{yml,yaml}',
+          ['https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json'] =
+          '*-compose.{yml,yaml}',
+        },
+      },
+    },
+  },
   marksman = {},
 }
 
