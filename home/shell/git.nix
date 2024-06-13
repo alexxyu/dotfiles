@@ -95,7 +95,6 @@ with lib;
 
         core = {
           excludesfile = "$HOME/.gitignore_global";
-          pager = "delta";
         };
 
         pull = {
@@ -103,17 +102,9 @@ with lib;
         };
 
         diff = {
-          mnemonicPrefix = true;
+          external = "difft";
           renames = true;
           colorMoved = "default";
-        };
-
-        delta = {
-          side-by-side = true;
-        };
-
-        interactive = {
-          diffFilter = "delta --color-only";
         };
 
         push = {

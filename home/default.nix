@@ -24,6 +24,7 @@
   home.packages = with pkgs; [
     btop
     coreutils
+    difftastic
     dua
     imagemagick
     img2pdf
