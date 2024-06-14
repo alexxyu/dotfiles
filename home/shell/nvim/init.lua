@@ -97,75 +97,37 @@ vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true, de
 -------------------
 -- Setup plugins --
 -------------------
-vim.cmd([[
-  let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-  if empty(glob(data_dir . '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  endif
 
-  autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-    \| PlugInstall --sync | source $MYVIMRC
-  \| endif
-]])
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-local Plug = vim.fn['plug#']
-
-vim.call('plug#begin')
-
-Plug('catppuccin/nvim', { ['as'] = 'catppuccin' })
-Plug('dracula/vim', { ['as'] = 'dracula' })
-
-Plug('ryanoasis/vim-devicons')
-Plug('preservim/nerdtree')
-
-Plug('nvim-tree/nvim-web-devicons')
-Plug('SmiteshP/nvim-navic')
-Plug('b0o/incline.nvim')
-
-Plug('ggandor/leap.nvim')
-Plug('lewis6991/gitsigns.nvim')
-Plug('tpope/vim-fugitive')
-Plug('tpope/vim-surround')
-Plug('tpope/vim-sleuth')
-Plug('tpope/vim-rsi')
-Plug('AndrewRadev/splitjoin.vim')
-
--- Pinned to v1.4 because of this bug: https://github.com/folke/which-key.nvim/issues/482
-Plug('folke/which-key.nvim', { ['tag'] = 'v1.4.3' })
-
-Plug('nvim-lua/plenary.nvim')
-Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'CFLAG=-march=native make' })
-Plug('nvim-telescope/telescope.nvim')
-Plug('nvim-telescope/telescope-ui-select.nvim')
-
-Plug('mg979/vim-visual-multi', { ['branch'] = 'master' })
-Plug('m4xshen/autoclose.nvim')
-Plug('lukas-reineke/indent-blankline.nvim')
-
-Plug('nvim-lualine/lualine.nvim')
-Plug('akinsho/bufferline.nvim')
-
-Plug('nvim-treesitter/nvim-treesitter')
-Plug('windwp/nvim-ts-autotag')
-Plug('williamboman/mason.nvim')
-Plug('williamboman/mason-lspconfig.nvim')
-Plug('neovim/nvim-lspconfig')
-
-Plug('hrsh7th/cmp-nvim-lsp')
-Plug('hrsh7th/cmp-buffer')
-Plug('hrsh7th/cmp-path')
-Plug('hrsh7th/cmp-cmdline')
-Plug('hrsh7th/nvim-cmp')
-
-vim.call('plug#end')
+require('lazy').setup({
+  { import = 'plugins' },
+  { import = 'plugins.edit' },
+  { import = 'plugins.ui' },
+}, {
+  install = {
+    missing = true,
+    colorscheme = { 'catppuccin' },
+  },
+})
 
 require('which-key').register({
-  ["<leader>w"] = { name = "+window" },
-  ["g"] = { name = "+goto" },
-  ["z"] = { name = "+fold" },
-  ["["] = { name = "+next" },
-  ["]"] = { name = "+previous" },
+  ['<leader>w'] = { name = '+window' },
+  ['g'] = { name = '+goto' },
+  ['z'] = { name = '+fold' },
+  ['['] = { name = '+next' },
+  [']'] = { name = '+previous' },
 })
 
 ------------
