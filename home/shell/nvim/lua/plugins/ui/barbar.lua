@@ -45,6 +45,6 @@ return {
     map('n', '<C-B>', '<Cmd>BufferPick<CR>', opts('Pick buffer'))
 
     map('n', '<C-X>', '<CMD>BufferClose<CR>', opts("Close buffer"))
-    map('n', '<C-U>', '<Cmd>BufferRestore<CR>', opts('Restore buffer'))
+    map('n', '<C-R>', '<Cmd>BufferRestore<CR>', opts('Restore buffer'))
   end
 };

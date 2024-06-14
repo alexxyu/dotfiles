@@ -116,6 +116,12 @@ require('lazy').setup({
   { import = 'plugins.edit' },
   { import = 'plugins.ui' },
 }, {
+  defaults = {
+    lazy = false,
+  },
+  diff = {
+    cmd = 'terminal_git',
+  },
   install = {
     missing = true,
     colorscheme = { 'catppuccin' },

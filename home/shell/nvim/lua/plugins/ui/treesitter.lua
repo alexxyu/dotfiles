@@ -1,7 +1,7 @@
 return {
   'nvim-treesitter/nvim-treesitter',
   main = 'nvim-treesitter.configs',
-  config = {
+  opts = {
     ensure_installed = {
       'go',
       'rust',
