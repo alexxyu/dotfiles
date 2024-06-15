@@ -42,9 +42,12 @@ return {
     map('n', '<A-9>', '<Cmd>BufferGoto 9<CR>', opts('Go to buffer 9'))
     map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts('Go to last buffer'))
 
-    map('n', '<C-B>', '<Cmd>BufferPick<CR>', opts('Pick buffer'))
+    map('n', '<leader>bb', '<Cmd>BufferPick<CR>', opts('Pick buffer'))
+    map('n', '<leader>bc', '<CMD>BufferClose<CR>', opts("Close buffer"))
+    map('n', '<leader>br', '<Cmd>BufferRestore<CR>', opts('Restore buffer'))
 
-    map('n', '<C-X>', '<CMD>BufferClose<CR>', opts("Close buffer"))
-    map('n', '<C-R>', '<Cmd>BufferRestore<CR>', opts('Restore buffer'))
+    require('which-key').register({
+      ['<leader>b'] = { name = '+buffer' },
+    })
   end
 };
