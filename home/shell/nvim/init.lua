@@ -74,6 +74,12 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -- Set leader to space
 vim.g.mapleader = " "
 
+-- Save
+vim.keymap.set({ 'n', 's', 'x', 'i' }, '<C-S>', '<CMD>w<CR>', { desc = "Save" })
+
+-- Quit all
+vim.keymap.set('n', '<leader>qq', '<CMD>qa<CR>', { desc = "Quit all" })
+
 -- Convenient redo
 vim.keymap.set('n', 'U', '<C-R>', { noremap = true, desc = "Redo" })
 
@@ -93,6 +99,8 @@ vim.keymap.set('n', '<leader>wr', '<C-W>v', { noremap = true, desc = "Split righ
 vim.keymap.set('n', '<leader>wb', '<C-W>s', { noremap = true, desc = "Split below" })
 vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { noremap = true, desc = "Switch" })
 vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true, desc = "Split terminal" })
+
+-- vim.keymap.set('t', '<esc><esc>', '[[<C-\\><C-n>]]', { noremap = true, desc = "Escape terminal" })
 
 -------------------
 -- Setup plugins --
