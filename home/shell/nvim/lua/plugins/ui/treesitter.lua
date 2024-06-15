@@ -3,15 +3,22 @@ return {
   main = 'nvim-treesitter.configs',
   opts = {
     ensure_installed = {
+      'bash',
+      'c_sharp',
       'go',
-      'rust',
-      'python',
       'nix',
+      'python',
+      'rust',
 
       'html',
       'css',
       'javascript',
       'typescript',
+      'json',
+      'yaml',
+
+      'lua',
+      'vimdoc',
     },
     highlight = {
       enable = true,
