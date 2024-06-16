@@ -28,6 +28,18 @@ function sg {
         --bind 'enter:become(nvim {1} +{2})'
 }
 
+# ff - fuzzy find file where you can press
+#   - CTRL-O to open with `open` command,
+#   - CTRL-E or Enter key to open with the $EDITOR
+function ff {
+  IFS=$'\n' out=("$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+  fi
+}
+
 #####################
 # Terminal settings #
 #####################
@@ -91,7 +103,7 @@ zstyle ':fzf-tab:complete:man:*' fzf-preview \
 
 # preview git
 zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
-	'git diff $realpath | delta  -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+	'DFT_COLOR=always DFT_WIDTH=${FZF_PREVIEW_COLUMNS:-$COLUMNS} git diff $realpath'
 zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
     'git log --color=always $word'
 zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
@@ -103,11 +115,11 @@ zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
 			ls -ahgGp --color=always --group-directories-first $realpath
 		else
 			# https://github.com/wfxr/forgit/issues/121#issuecomment-725358145
-			git diff $realpath | delta -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}
+			DFT_COLOR=always DFT_WIDTH=${FZF_PREVIEW_COLUMNS:-$COLUMNS} git diff $realpath
 		fi
 		;;
     "[recent commit object name]")
-		git show --color=always $word | delta
+		git show --color=always $word
 		;;
     *)
 		git log --color=always $word
