@@ -1,6 +1,8 @@
-require('mason').setup({
+require('mason-tool-installer').setup({
   ensure_installed = {
     'prettier',
+    'shellcheck',
+    'shfmt',
   },
 })
 
@@ -24,10 +26,6 @@ local servers = {
       },
     },
   },
-
-  omnisharp = {},
-
-  rust_analyzer = {},
 
   ruff_lsp = {},
   pyright = {
@@ -58,9 +56,21 @@ local servers = {
     },
   },
 
+  lua_ls = {},
+  bashls = {
+    -- >.< shellcheck refuses to check zsh: https://github.com/bash-lsp/bash-language-server/issues/1064
+    filetypes = { 'zsh', 'sh' },
+    bashIde = {
+      shellcheckArguments = '--shell=bash',
+    },
+  },
+  omnisharp = {},
+  rust_analyzer = {},
+
   cssls = {},
   eslint = {},
   html = {},
+
   tsserver = {
     settings = {
       javascript = {
@@ -119,15 +129,14 @@ local lspconfig = require('lspconfig')
 local navic = require('nvim-navic')
 
 for lsp, config in pairs(servers) do
-  lspconfig[lsp].setup({
+  lspconfig[lsp].setup(vim.tbl_extend('force', {
     capabilities = capabilities,
-    settings = config.settings,
     on_attach = function(client, bufnr)
       if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
       end
     end,
-  })
+  }, config))
 end
 
 -- Set up capabilities on LSP attach
@@ -144,10 +153,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set({ 'n', 'v' }, '<leader>cr', ':lua vim.lsp.buf.rename()<CR>', { desc = 'Rename symbol' })
     vim.keymap.set('n', '<leader>td', function()
       if vim.diagnostic.is_enabled({ bufnr = bufnr }) then
-        vim.diagnostic.disable(bufnr)
+        vim.diagnostic.enable(false, { bufnr = bufnr })
         vim.notify('Diagnostics (buffer ' .. bufnr .. ') are now disabled.', 'info')
       else
-        vim.diagnostic.enable(bufnr)
+        vim.diagnostic.enable(true, { bufnr = bufnr })
         vim.notify('Diagnostics (buffer ' .. bufnr .. ') are now enabled.', 'info')
       end
     end, { desc = 'Toggle diagnostics', buffer = bufnr })
@@ -279,7 +288,7 @@ vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
   local client = vim.lsp.get_client_by_id(ctx.client_id)
   local lvl = severity[result.type]
   vim.notify(result.message, lvl, {
-    title = 'LSP | ' .. client.name,
+    title = 'LSP | ' .. (client and client.name or 'nil'),
     keep = function()
       return lvl == 'ERROR' or lvl == 'WARN'
     end,

@@ -100,8 +100,6 @@ vim.keymap.set('n', '<leader>wb', '<C-W>s', { noremap = true, desc = 'Split belo
 vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { noremap = true, desc = 'Switch' })
 vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true, desc = 'Split terminal' })
 
--- vim.keymap.set('t', '<esc><esc>', '[[<C-\\><C-n>]]', { noremap = true, desc = "Escape terminal" })
-
 -------------------
 -- Setup plugins --
 -------------------

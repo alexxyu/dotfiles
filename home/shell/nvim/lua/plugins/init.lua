@@ -8,6 +8,12 @@ return {
     lazy = true,
   },
 
+  {
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {},
+  },
+
   { 'tpope/vim-fugitive' },
   { 'tpope/vim-rsi' },
   { 'tpope/vim-sleuth' },
