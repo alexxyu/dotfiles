@@ -22,50 +22,53 @@ VERSION="0.1.1"
 
 # usage
 
-function __vipe_usage () {
-    echo "usage: vipe [-hV] [-e|--extension]"
+function __vipe_usage() {
+  echo "usage: vipe [-hV] [-e|--extension]"
 }
 
 ext="txt"
 for i in "$@"; do
-    case $i in
-        "-e="*|"--extension="*)
-            ext="${i#*=}"
-            shift ;; # past argument=value
-    	"-h")
-            __vipe_usage
-            exit 0 ;;
-    	"-V")
-    	    echo "$VERSION"
-    	    exit 0 ;;
-        -*|--*)
-	    echo "unknown option: \"${1}\""
-            __vipe_usage
-            exit 1 ;;
-        *)
-            ;;
-    esac
+  case $i in
+  "-e="* | "--extension="*)
+    ext="${i#*=}"
+    shift
+    ;; # past argument=value
+  "-h")
+    __vipe_usage
+    exit 0
+    ;;
+  "-V")
+    echo "$VERSION"
+    exit 0
+    ;;
+  --* | -*)
+    echo "unknown option: \"${1}\""
+    __vipe_usage
+    exit 1
+    ;;
+  *) ;;
+  esac
 done
 
 # temp file
 
 t=/tmp/vipe.$$.$ext
-touch $t
+touch "$t"
 
 # read from stdin
 
 if [ ! -t 0 ]; then
-  cat > $t
+  cat >"$t"
 fi
 
 # spawn editor with stdio connected
 
-${EDITOR} $t < /dev/tty > /dev/tty || exit $?
+${EDITOR} "$t" </dev/tty >/dev/tty || exit $?
 
 # write to stdout
 
-cat $t
+cat "$t"
 
 # cleanup
 
-rm $t
+rm "$t"
