@@ -9,7 +9,6 @@ return {
       changedelete = { text = '▎' },
       untracked = { text = '▎' },
     },
-    word_diff = true,
     current_line_blame = false,
     current_line_blame_opts = {
       virt_text_pos = 'eol',
