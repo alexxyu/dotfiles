@@ -4,6 +4,7 @@ require('mason').setup {
   },
 }
 
+-- Define LSP servers + configurations to install and set up
 local servers = {
   gopls = {
     settings = {
@@ -48,10 +49,10 @@ local servers = {
     settings = {
       ['nil'] = {
         diagnostics = {
-          ignored = { "unused_binding", "unused_with" },
+          ignored = { 'unused_binding', 'unused_with' },
         },
         formatting = {
-          command = { "nixfmt" },
+          command = { 'nixfmt' },
         },
       },
     },
@@ -67,7 +68,7 @@ local servers = {
           includeInlayEnumMemberValueHints = true,
           includeInlayFunctionLikeReturnTypeHints = true,
           includeInlayFunctionParameterTypeHints = true,
-          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHints = 'all',
           includeInlayParameterNameHintsWhenArgumentMatchesName = true,
           includeInlayPropertyDeclarationTypeHints = true,
           includeInlayVariableTypeHints = true,
@@ -78,7 +79,7 @@ local servers = {
           includeInlayEnumMemberValueHints = true,
           includeInlayFunctionLikeReturnTypeHints = true,
           includeInlayFunctionParameterTypeHints = true,
-          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHints = 'all',
           includeInlayParameterNameHintsWhenArgumentMatchesName = true,
           includeInlayPropertyDeclarationTypeHints = true,
           includeInlayVariableTypeHints = true,
@@ -106,6 +107,7 @@ local servers = {
   marksman = {},
 }
 
+-- Install and set up LSP servers
 require('mason-lspconfig').setup({
   ensure_installed = vim.tbl_keys(servers),
   auto_update = false,
@@ -129,8 +131,9 @@ for lsp, config in pairs(servers) do
   }
 end
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("lsp", { clear = true }),
+-- Set up capabilities on LSP attach
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp', { clear = true }),
   callback = function(args)
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -139,32 +142,60 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>',
-      { noremap = true, desc = "Code action" })
+      { desc = 'Code action' })
     vim.keymap.set({ 'n', 'v' }, '<leader>cr', ':lua vim.lsp.buf.rename()<CR>',
-      { noremap = true, desc = "Rename symbol" })
+      { desc = 'Rename symbol' })
+    vim.keymap.set('n', '<leader>td', function()
+      if vim.diagnostic.is_enabled({ bufnr = bufnr }) then
+        vim.diagnostic.disable(bufnr)
+        vim.notify('Diagnostics (buffer ' .. bufnr .. ') are now disabled.', 'info')
+      else
+        vim.diagnostic.enable(bufnr)
+        vim.notify('Diagnostics (buffer ' .. bufnr .. ') are now enabled.', 'info')
+      end
+    end, { desc = 'Toggle diagnostics', buffer = bufnr })
 
+    -- format code
     if client.server_capabilities.documentFormattingProvider then
       vim.keymap.set('n', '<leader>cf', function()
-        vim.lsp.buf.format { async = true }
-      end, { desc = "Format code" })
+        vim.lsp.buf.format({ async = true, bufnr = bufnr })
+      end, { desc = 'Format code', buffer = bufnr })
+
+      vim.keymap.set('n', '<leader>tf', function()
+        vim.b.format_on_save = not vim.b.format_on_save
+        vim.notify(
+          'Format on save (buffer ' .. bufnr .. ') is now ' .. (vim.b.format_on_save and 'enabled' or 'disabled') .. '.',
+          'info')
+      end, { desc = 'Toggle format on save', buffer = bufnr })
+
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        buffer = args.buf,
+        callback = function()
+          if vim.b.format_on_save then
+            vim.lsp.buf.format({ async = false })
+          end
+        end,
+      })
+
+      vim.b.format_on_save = true
     end
 
     -- document highlighting
     if client.server_capabilities.documentHighlightProvider then
-      vim.api.nvim_create_augroup("lsp_document_highlight", {
+      vim.api.nvim_create_augroup('lsp_document_highlight', {
         clear = false,
       })
       vim.api.nvim_clear_autocmds({
         buffer = bufnr,
-        group = "lsp_document_highlight",
+        group = 'lsp_document_highlight',
       })
-      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-        group = "lsp_document_highlight",
+      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        group = 'lsp_document_highlight',
         buffer = bufnr,
         callback = vim.lsp.buf.document_highlight,
       })
-      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        group = "lsp_document_highlight",
+      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+        group = 'lsp_document_highlight',
         buffer = bufnr,
         callback = vim.lsp.buf.clear_references,
       })
@@ -173,6 +204,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- inlay hints
     if client.server_capabilities.inlayHintProvider then
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+
+      vim.keymap.set('n', '<leader>th', function()
+        local value = not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+        vim.lsp.inlay_hint.enable(value, { bufnr = bufnr })
+        vim.notify('Inlay hints (buffer' .. bufnr .. ') are now ' .. (value and 'enabled' or 'disabled') .. '.', 'info')
+      end, { desc = 'Toggle inlay hints', buffer = bufnr })
     end
 
     -- codelens support
@@ -185,11 +222,69 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end,
       })
       vim.keymap.set({ 'n', 'v' }, '<leader>cl', ':lua vim.lsp.codelens.run()<CR>',
-        { noremap = true, desc = "Run codelens" })
+        { noremap = true, desc = 'Run codelens' })
     end
   end
 })
 
+-- Notification for LSP progress
+vim.lsp.handlers['$/progress'] = function(_, result, ctx)
+  local notifs = require('lib.notifs')
+  local client_id = ctx.client_id
+
+  local val = result.value
+
+  if not val.kind then
+    return
+  end
+
+  local notif_data = notifs.get_notif_data(client_id, result.token)
+
+  if val.kind == 'begin' then
+    local message = notifs.format_message(val.message, val.percentage)
+
+    notif_data.notification = vim.notify(message, 'info', {
+      title = notifs.format_title(val.title, vim.lsp.get_client_by_id(client_id).name),
+      icon = notifs.spinner_frames[1],
+      hide_from_history = false,
+    })
+
+    notif_data.spinner = 1
+    notifs.update_spinner(client_id, result.token)
+  elseif val.kind == 'report' and notif_data then
+    notif_data.notification = vim.notify(notifs.format_message(val.message, val.percentage), 'info', {
+      replace = notif_data.notification,
+      hide_from_history = false,
+    })
+  elseif val.kind == 'end' and notif_data then
+    notif_data.notification =
+        vim.notify(val.message and notifs.format_message(val.message) or 'Complete', 'info', {
+          icon = '',
+          replace = notif_data.notification,
+        })
+
+    notif_data.spinner = nil
+  end
+end
+
+-- Notifications for messages sent by LSP
+vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
+  local severity = {
+    'ERROR',
+    'WARN',
+    'INFO',
+    'DEBUG',
+  }
+  local client = vim.lsp.get_client_by_id(ctx.client_id)
+  local lvl = severity[result.type]
+  vim.notify(result.message, lvl, {
+    title = 'LSP | ' .. client.name,
+    keep = function()
+      return lvl == 'ERROR' or lvl == 'WARN'
+    end,
+  })
+end
+
 require('which-key').register({
-  c = { name = "+code" }
-}, { prefix = "<leader>" })
+  c = { name = '+code' }
+}, { prefix = '<leader>' })
