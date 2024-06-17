@@ -4,12 +4,12 @@ return {
   lazy = true,
   opts = {
     popup_mappings = {
-      scroll_down = "<C-f>", -- binding to scroll down inside the popup
-      scroll_up = "<C-b>",   -- binding to scroll up inside the popup
+      scroll_down = '<C-f>', -- binding to scroll down inside the popup
+      scroll_up = '<C-b>', -- binding to scroll up inside the popup
     },
     window = {
       border = 'single',
     },
     ignore_missing = false, -- broken until v2.0.0
   },
-};
+}

@@ -6,9 +6,7 @@ return {
       -- local ratio = result.ratio
       -- local patterns = result.patterns
       -- local status = result.status
-      return 'MULTI ('
-          .. mode
-          .. ') '
+      return 'MULTI (' .. mode .. ') '
       -- .. ' 󱩾 '
       -- .. patterns[1]
       -- .. ' ['
@@ -34,7 +32,7 @@ return {
             end,
           },
         },
-      }
+      },
     })
   end,
-};
+}

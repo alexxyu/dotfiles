@@ -11,6 +11,6 @@ return {
   { 'tpope/vim-fugitive' },
   { 'tpope/vim-rsi' },
   { 'tpope/vim-sleuth' },
-  { 'kylechui/nvim-surround',   opts = {} },
+  { 'kylechui/nvim-surround', opts = {} },
   { 'AndrewRadev/splitjoin.vim' },
-};
+}

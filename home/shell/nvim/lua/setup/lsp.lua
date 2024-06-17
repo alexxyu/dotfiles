@@ -1,8 +1,8 @@
-require('mason').setup {
+require('mason').setup({
   ensure_installed = {
-    'prettier'
+    'prettier',
   },
-}
+})
 
 -- Define LSP servers + configurations to install and set up
 local servers = {
@@ -42,7 +42,7 @@ local servers = {
           ignore = { '*' },
         },
       },
-    }
+    },
   },
 
   nil_ls = {
@@ -98,8 +98,7 @@ local servers = {
         schemas = {
           ['https://json.schemastore.org/github-workflow'] = '.github/workflows/*.{yml,yaml}',
           ['http://json.schemastore.org/github-action'] = '.github/action.{yml,yaml}',
-          ['https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json'] =
-          '*-compose.{yml,yaml}',
+          ['https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json'] = '*-compose.{yml,yaml}',
         },
       },
     },
@@ -120,15 +119,15 @@ local lspconfig = require('lspconfig')
 local navic = require('nvim-navic')
 
 for lsp, config in pairs(servers) do
-  lspconfig[lsp].setup {
+  lspconfig[lsp].setup({
     capabilities = capabilities,
     settings = config.settings,
     on_attach = function(client, bufnr)
       if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
       end
-    end
-  }
+    end,
+  })
 end
 
 -- Set up capabilities on LSP attach
@@ -141,10 +140,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
       return
     end
 
-    vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>',
-      { desc = 'Code action' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>cr', ':lua vim.lsp.buf.rename()<CR>',
-      { desc = 'Rename symbol' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { desc = 'Code action' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>cr', ':lua vim.lsp.buf.rename()<CR>', { desc = 'Rename symbol' })
     vim.keymap.set('n', '<leader>td', function()
       if vim.diagnostic.is_enabled({ bufnr = bufnr }) then
         vim.diagnostic.disable(bufnr)
@@ -165,7 +162,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.b.format_on_save = not vim.b.format_on_save
         vim.notify(
           'Format on save (buffer ' .. bufnr .. ') is now ' .. (vim.b.format_on_save and 'enabled' or 'disabled') .. '.',
-          'info')
+          'info'
+        )
       end, { desc = 'Toggle format on save', buffer = bufnr })
 
       vim.api.nvim_create_autocmd('BufWritePre', {
@@ -221,10 +219,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
           vim.lsp.codelens.refresh({ bufnr = bufnr })
         end,
       })
-      vim.keymap.set({ 'n', 'v' }, '<leader>cl', ':lua vim.lsp.codelens.run()<CR>',
-        { noremap = true, desc = 'Run codelens' })
+      vim.keymap.set(
+        { 'n', 'v' },
+        '<leader>cl',
+        ':lua vim.lsp.codelens.run()<CR>',
+        { noremap = true, desc = 'Run codelens' }
+      )
     end
-  end
+  end,
 })
 
 -- Notification for LSP progress
@@ -257,11 +259,10 @@ vim.lsp.handlers['$/progress'] = function(_, result, ctx)
       hide_from_history = false,
     })
   elseif val.kind == 'end' and notif_data then
-    notif_data.notification =
-        vim.notify(val.message and notifs.format_message(val.message) or 'Complete', 'info', {
-          icon = '',
-          replace = notif_data.notification,
-        })
+    notif_data.notification = vim.notify(val.message and notifs.format_message(val.message) or 'Complete', 'info', {
+      icon = '',
+      replace = notif_data.notification,
+    })
 
     notif_data.spinner = nil
   end
@@ -286,5 +287,5 @@ vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
 end
 
 require('which-key').register({
-  c = { name = '+code' }
+  c = { name = '+code' },
 }, { prefix = '<leader>' })

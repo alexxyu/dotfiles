@@ -6,5 +6,5 @@ return {
   },
   config = function()
     require('setup.lsp')
-  end
-};
+  end,
+}

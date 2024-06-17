@@ -2,7 +2,7 @@
 
 local M = {}
 M.client_notifs = {}
-M.spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
+M.spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' }
 
 M.get_notif_data = function(client_id, token)
   if not M.client_notifs[client_id] then
@@ -36,11 +36,11 @@ M.update_spinner = function(client_id, token)
 end
 
 M.format_title = function(title, client_name)
-  return client_name .. (#title > 0 and ": " .. title or "")
+  return client_name .. (#title > 0 and ': ' .. title or '')
 end
 
 M.format_message = function(message, percentage)
-  return (percentage and percentage .. "%\t" or "") .. (message or "")
+  return (percentage and percentage .. '%\t' or '') .. (message or '')
 end
 
 return M

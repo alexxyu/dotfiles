@@ -35,13 +35,13 @@ return {
     end
 
     map('n', '<leader>bb', '<Cmd>BufferLinePick<CR>', opts('Pick buffer'))
-    map('n', '<leader>bc', '<Cmd>bdelete<CR>', opts("Close buffer"))
+    map('n', '<leader>bc', '<Cmd>bdelete<CR>', opts('Close buffer'))
 
     require('which-key').register({
       ['<leader>b'] = { name = '+buffer' },
     })
   end,
   dependencies = {
-    'nvim-tree/nvim-web-devicons'
-  }
+    'nvim-tree/nvim-web-devicons',
+  },
 }

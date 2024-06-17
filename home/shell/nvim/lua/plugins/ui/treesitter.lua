@@ -24,4 +24,4 @@ return {
       enable = true,
     },
   },
-};
+}

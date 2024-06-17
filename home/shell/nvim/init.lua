@@ -7,7 +7,7 @@ vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.autoindent = true
-vim.opt.backspace = "indent,eol,start"
+vim.opt.backspace = 'indent,eol,start'
 vim.opt.startofline = false
 
 ------------------------
@@ -37,10 +37,10 @@ vim.opt.incsearch = true
 ------------------------
 -- Set other behavior --
 ------------------------
-vim.opt.mouse = "a"
-table.insert(vim.opt.ve, "onemore")
-vim.opt.clipboard = "unnamed,unnamedplus"
-vim.opt.encoding = "utf-8"
+vim.opt.mouse = 'a'
+table.insert(vim.opt.ve, 'onemore')
+vim.opt.clipboard = 'unnamed,unnamedplus'
+vim.opt.encoding = 'utf-8'
 vim.opt.updatetime = 300
 
 -- Highlight on yank
@@ -49,13 +49,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = 'YankHighlight',
   callback = function()
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = '1000' })
-  end
+  end,
 })
 
 -- Remove whitespace on save
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '',
-  command = ":%s/\\s\\+$//e"
+  command = ':%s/\\s\\+$//e',
 })
 
 -- Enter insert mode when switching to terminal
@@ -65,40 +65,40 @@ vim.api.nvim_create_autocmd('TermOpen', {
 
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '',
-  command = 'startinsert'
+  command = 'startinsert',
 })
 
 ------------------------
 -- General keybindings -
 ------------------------
 -- Set leader to space
-vim.g.mapleader = " "
+vim.g.mapleader = ' '
 
 -- Save
-vim.keymap.set({ 'n', 's', 'x', 'i' }, '<C-S>', '<CMD>w<CR>', { desc = "Save" })
+vim.keymap.set({ 'n', 's', 'x', 'i' }, '<C-S>', '<CMD>w<CR>', { desc = 'Save' })
 
 -- Quit all
-vim.keymap.set('n', '<leader>qq', '<CMD>qa<CR>', { desc = "Quit all" })
+vim.keymap.set('n', '<leader>qq', '<CMD>qa<CR>', { desc = 'Quit all' })
 
 -- Convenient redo
-vim.keymap.set('n', 'U', '<C-R>', { noremap = true, desc = "Redo" })
+vim.keymap.set('n', 'U', '<C-R>', { noremap = true, desc = 'Redo' })
 
 -- Clear search highlight on <CR>
 vim.keymap.set('n', '<CR>', '<Cmd>noh<CR><Bar><Cmd>echon<CR><CR>', { noremap = true })
 
 -- Line navigation
-vim.keymap.set('n', '<A-j>', '<cmd>m .+1<cr>==', { noremap = true, silent = true, desc = "Move line up" })
-vim.keymap.set('n', '<A-k>', '<cmd>m .-2<cr>==', { noremap = true, silent = true, desc = "Move line down" })
-vim.keymap.set('i', '<A-j>', '<Esc><cmd>m .+1<cr>==gi', { noremap = true, silent = true, desc = "Move line up" })
-vim.keymap.set('i', '<A-k>', '<Esc><cmd>m .-2<cr>==gi', { noremap = true, silent = true, desc = "Move line down" })
-vim.keymap.set('v', '<A-j>', ":m '>+1<cr>gv=gv", { noremap = true, silent = true, desc = "Move line up" })
-vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { noremap = true, silent = true, desc = "Move line down" })
+vim.keymap.set('n', '<A-j>', '<cmd>m .+1<cr>==', { noremap = true, silent = true, desc = 'Move line up' })
+vim.keymap.set('n', '<A-k>', '<cmd>m .-2<cr>==', { noremap = true, silent = true, desc = 'Move line down' })
+vim.keymap.set('i', '<A-j>', '<Esc><cmd>m .+1<cr>==gi', { noremap = true, silent = true, desc = 'Move line up' })
+vim.keymap.set('i', '<A-k>', '<Esc><cmd>m .-2<cr>==gi', { noremap = true, silent = true, desc = 'Move line down' })
+vim.keymap.set('v', '<A-j>', ":m '>+1<cr>gv=gv", { noremap = true, silent = true, desc = 'Move line up' })
+vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { noremap = true, silent = true, desc = 'Move line down' })
 
 -- Split screen navigation
-vim.keymap.set('n', '<leader>wr', '<C-W>v', { noremap = true, desc = "Split right" })
-vim.keymap.set('n', '<leader>wb', '<C-W>s', { noremap = true, desc = "Split below" })
-vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { noremap = true, desc = "Switch" })
-vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true, desc = "Split terminal" })
+vim.keymap.set('n', '<leader>wr', '<C-W>v', { noremap = true, desc = 'Split right' })
+vim.keymap.set('n', '<leader>wb', '<C-W>s', { noremap = true, desc = 'Split below' })
+vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { noremap = true, desc = 'Switch' })
+vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true, desc = 'Split terminal' })
 
 -- vim.keymap.set('t', '<esc><esc>', '[[<C-\\><C-n>]]', { noremap = true, desc = "Escape terminal" })
 
@@ -106,14 +106,14 @@ vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true, de
 -- Setup plugins --
 -------------------
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
     lazypath,
   })
 end

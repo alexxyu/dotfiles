@@ -1,29 +1,29 @@
 local kind_icons = {
-  Text = "",
-  Method = "󰆧",
-  Function = "󰊕",
-  Constructor = "",
-  Field = "󰇽",
-  Variable = "󰂡",
-  Class = "󰠱",
-  Interface = "",
-  Module = "",
-  Property = "󰜢",
-  Unit = "",
-  Value = "󰎠",
-  Enum = "",
-  Keyword = "󰌋",
-  Snippet = "",
-  Color = "󰏘",
-  File = "󰈙",
-  Reference = "",
-  Folder = "󰉋",
-  EnumMember = "",
-  Constant = "󰏿",
-  Struct = "",
-  Event = "",
-  Operator = "󰆕",
-  TypeParameter = "󰅲",
+  Text = '',
+  Method = '󰆧',
+  Function = '󰊕',
+  Constructor = '',
+  Field = '󰇽',
+  Variable = '󰂡',
+  Class = '󰠱',
+  Interface = '',
+  Module = '',
+  Property = '󰜢',
+  Unit = '',
+  Value = '󰎠',
+  Enum = '',
+  Keyword = '󰌋',
+  Snippet = '',
+  Color = '󰏘',
+  File = '󰈙',
+  Reference = '',
+  Folder = '󰉋',
+  EnumMember = '',
+  Constant = '󰏿',
+  Struct = '',
+  Event = '',
+  Operator = '󰆕',
+  TypeParameter = '󰅲',
 }
 
 local cmp = require('cmp')
@@ -47,7 +47,7 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ["<Tab>"] = cmp.mapping(function(fallback)
+    ['<Tab>'] = cmp.mapping(function(fallback)
       -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
       if cmp.visible() then
         local entry = cmp.get_selected_entry()
@@ -58,17 +58,17 @@ cmp.setup({
       else
         fallback()
       end
-    end, { "i", "s" }),
+    end, { 'i', 's' }),
   }),
   formatting = {
-    fields = { "kind", "abbr", "menu" },
+    fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
       -- Kind icons
-      vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+      vim_item.kind = string.format('%s', kind_icons[vim_item.kind])
       vim_item.menu = ({
-        luasnip = "[SNP]",
-        buffer = "[BFR]",
-        path = "[PTH]",
+        luasnip = '[SNP]',
+        buffer = '[BFR]',
+        path = '[PTH]',
       })[entry.source.name]
       return vim_item
     end,
@@ -86,31 +86,29 @@ cmp.setup({
   }),
   enabled = function()
     -- disable completion in comments
-    local context = require 'cmp.config.context'
+    local context = require('cmp.config.context')
     -- keep command mode completion enabled when cursor is in a comment
     if vim.api.nvim_get_mode().mode == 'c' then
       return true
     else
-      return not context.in_treesitter_capture("comment")
-          and not context.in_syntax_group("Comment")
+      return not context.in_treesitter_capture('comment') and not context.in_syntax_group('Comment')
     end
   end,
 })
 
 cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(
-    {
-      ['<Down>'] = { c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
-      ['<Up>'] = { c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
-    }),
+  mapping = cmp.mapping.preset.cmdline({
+    ['<Down>'] = { c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
+    ['<Up>'] = { c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
+  }),
   sources = cmp.config.sources({
-    { name = 'path' }
+    { name = 'path' },
   }, {
     {
       name = 'cmdline',
       option = {
-        ignore_cmds = { 'Man', '!' }
-      }
-    }
-  })
+        ignore_cmds = { 'Man', '!' },
+      },
+    },
+  }),
 })

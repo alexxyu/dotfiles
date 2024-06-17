@@ -5,7 +5,7 @@ return {
     { 'hrsh7th/cmp-cmdline' },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-path' },
-    { 'SergioRibera/cmp-dotenv' }
+    { 'SergioRibera/cmp-dotenv' },
   },
   config = function()
     require('setup.cmp')

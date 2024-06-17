@@ -7,4 +7,4 @@ return {
       pair_spaces = true,
     },
   },
-};
+}
