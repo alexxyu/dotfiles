@@ -144,7 +144,7 @@ bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
 # Terminal themes #
 ###################
 
-tbg () {
+function tbg {
     _set_light () {
         export BAT_THEME='Catppuccin-latte'
         export FZF_DEFAULT_OPTS=" \
@@ -156,16 +156,25 @@ tbg () {
     }
 
     _set_dark () {
-        export BAT_THEME='Dracula'
+        export BAT_THEME='Catppuccin-macchiato'
         export FZF_DEFAULT_OPTS=" \
-            --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
-            --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
-            --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
-            --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+            --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+            --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+            --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
         export TERMBG='dark'
     }
 
-    local bg=$(termbg 2> /dev/null)
+    local bg
+    if [[ "$(uname)" = "Darwin" ]]; then
+        if [[ "$(defaults read -g AppleInterfaceStyle 2> /dev/null)" = "Dark" ]]; then
+            bg="dark"
+        else
+            bg="light"
+        fi
+    else
+        bg=$(termbg 2> /dev/null)
+    fi
+
     if [[ "$bg" = "light" ]]; then
         _set_light
     elif [[ "$bg" = "dark" ]]; then
@@ -177,7 +186,7 @@ tbg () {
     fi
 }
 
-tbg
+[[ -z "$TERMBG" ]] && tbg
 
 ##################
 # Misc. settings #
