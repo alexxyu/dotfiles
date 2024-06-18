@@ -154,5 +154,5 @@ if os.getenv('TERMBG') == 'light' then
   vim.cmd('silent! colorscheme catppuccin-latte')
 else
   vim.g.background = 'dark'
-  vim.cmd('silent! colorscheme dracula')
+  vim.cmd('silent! colorscheme catppuccin-macchiato')
 end
