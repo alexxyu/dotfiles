@@ -4,28 +4,28 @@
 
 # Python aliases
 alias pip="pip3"
-[[ $(command -v bpython) ]] && function python () {
-    test -z "$1" && bpython || python3 "$@";
+[[ $(command -v bpython) ]] && function python() {
+  test -z "$1" && bpython || python3 "$@"
 }
 alias pyvenv="source .venv/bin/activate"
 alias pycrenv="python -m venv .venv --system-site-packages && actenv"
 
 # Interactive ripgrep + fzf search
 function sg {
-    RG_PREFIX="rg --hidden --glob '!.git/' --line-number --color=always --smart-case "
-    INITIAL_QUERY="${*:-}"
-    : | fzf --ansi --disabled --query "$INITIAL_QUERY" \
-        --bind "start:reload:$RG_PREFIX {q}" \
-        --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-        --bind 'ctrl-t:transform:[[ ! $FZF_PROMPT =~ ripgrep ]] &&
-          echo "rebind(change)+change-prompt(1. ripgrep> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||
-          echo "unbind(change)+change-prompt(2. fzf> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"' \
-        --color "hl:-1:underline,hl+:-1:underline:reverse" \
-        --prompt '1. ripgrep> ' \
-        --delimiter : \
-        --preview 'bat --color=always {1} --highlight-line {2}' \
-        --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-        --bind 'enter:become(nvim {1} +{2})'
+  RG_PREFIX="rg --hidden --glob '!.git/' --line-number --color=always --smart-case "
+  INITIAL_QUERY="${*:-}"
+  : | fzf --ansi --disabled --query "$INITIAL_QUERY" \
+    --bind "start:reload:$RG_PREFIX {q}" \
+    --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+    --bind 'ctrl-t:transform:[[ ! $FZF_PROMPT =~ ripgrep ]] &&
+        echo "rebind(change)+change-prompt(1. ripgrep> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||
+        echo "unbind(change)+change-prompt(2. fzf> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"' \
+    --color "hl:-1:underline,hl+:-1:underline:reverse" \
+    --prompt '1. ripgrep> ' \
+    --delimiter : \
+    --preview 'bat --color=always {1} --highlight-line {2}' \
+    --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+    --bind 'enter:become(nvim {1} +{2})'
 }
 
 # ff - fuzzy find file where you can press
@@ -59,8 +59,8 @@ bindkey "^[[1;3C" forward-word
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;3D" backward-word
 
-bindkey '^U'      kill-buffer
-bindkey '^Q'      kill-line
+bindkey "^U"      kill-buffer
+bindkey "^Q"      kill-line
 bindkey "^D"      kill-word
 bindkey "^W"      backward-kill-word
 bindkey "\e[3~"   delete-char
@@ -72,7 +72,7 @@ bindkey "^['" quote-line
 bindkey "^[t" transpose-words
 bindkey "^[u" undo
 
-bindkey -s '^O' '^U $EDITOR\n'
+bindkey -s "^O" "^U $EDITOR\n"
 
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -92,39 +92,41 @@ zstyle ':fzf-tab:*' fzf-min-height 15
 
 # preview content with ls/bat when completing commands involving directories or regular files
 zstyle ':fzf-tab:complete:(cd|z|ls|gls|cp|mv|find|rm|rmdir|vim|nvim|less|cat|bat):*' fzf-preview \
-	'if [[ -d $realpath ]]; then
-        ls -ahgGp --color=always --group-directories-first $realpath
-    else
-        bat --color=always --style=numbers --line-range=:500 $realpath
-    fi'
+  '
+  if [[ -d $realpath ]]; then
+    ls -ahgGp --color=always --group-directories-first $realpath
+  else
+    bat --color=always --style=numbers --line-range=:500 $realpath
+  fi'
 # preview man pages
 zstyle ':fzf-tab:complete:man:*' fzf-preview \
-	'tldr --color=always $word'
+  'tldr --color=always $word'
 
 # preview git
 zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
-	'DFT_COLOR=always DFT_WIDTH=${FZF_PREVIEW_COLUMNS:-$COLUMNS} git diff $realpath'
+  'DFT_COLOR=always DFT_WIDTH=${FZF_PREVIEW_COLUMNS:-$COLUMNS} git diff $realpath'
 zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
-    'git log --color=always $word'
+  'git log --color=always $word'
 zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
-    'git help $word | bat -plman --color=always'
+  'git help $word | bat -plman --color=always'
 zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
-    'case "$group" in
-    "[modified file]")
-		if [[ -d $realpath ]]; then
-			ls -ahgGp --color=always --group-directories-first $realpath
-		else
-			# https://github.com/wfxr/forgit/issues/121#issuecomment-725358145
-			DFT_COLOR=always DFT_WIDTH=${FZF_PREVIEW_COLUMNS:-$COLUMNS} git diff $realpath
-		fi
-		;;
-    "[recent commit object name]")
-		git show --color=always $word
-		;;
-    *)
-		git log --color=always $word
-		;;
-    esac'
+  '
+  case "$group" in
+  "[modified file]")
+    if [[ -d $realpath ]]; then
+      ls -ahgGp --color=always --group-directories-first $realpath
+    else
+      # https://github.com/wfxr/forgit/issues/121#issuecomment-725358145
+      DFT_COLOR=always DFT_WIDTH=${FZF_PREVIEW_COLUMNS:-$COLUMNS} git diff $realpath
+    fi
+    ;;
+  "[recent commit object name]")
+    git show --color=always $word
+    ;;
+  *)
+    git log --color=always $word
+    ;;
+  esac'
 zstyle ':fzf-tab:complete:git-(add|diff|restore|checkout):*' fzf-flags --height=80% --preview-window=65%:right
 
 # preview docker
@@ -137,53 +139,53 @@ zstyle ':fzf-tab:complete:docker-logs:*' fzf-preview 'docker logs -f $word | bat
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # Keybindings
-# bindkey '^I'       complete-word       # tab               | complete
-bindkey '^[[Z'     autosuggest-accept  # shift + tab       | autosuggest
+# bindkey "^I"       complete-word    # tab               | complete
+bindkey "^[[Z" autosuggest-accept   # shift + tab       | autosuggest
 
 ###################
 # Terminal themes #
 ###################
 
 function tbg {
-    _set_light () {
-        export BAT_THEME='Catppuccin-latte'
-        export FZF_DEFAULT_OPTS=" \
-            --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
-            --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
-            --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
-        zstyle ":fzf-tab:*" fzf-flags --color=hl:0
-        export TERMBG='light'
-    }
+  _set_light() {
+    export BAT_THEME="Catppuccin-latte"
+    export FZF_DEFAULT_OPTS=" \
+      --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
+      --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
+      --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
+    zstyle ":fzf-tab:*" fzf-flags --color=hl:0
+    export TERMBG="light"
+  }
 
-    _set_dark () {
-        export BAT_THEME='Catppuccin-macchiato'
-        export FZF_DEFAULT_OPTS=" \
-            --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
-            --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
-            --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
-        export TERMBG='dark'
-    }
+  _set_dark() {
+    export BAT_THEME="Catppuccin-macchiato"
+    export FZF_DEFAULT_OPTS=" \
+      --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+      --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+      --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
+    export TERMBG="dark"
+  }
 
-    local bg
-    if [[ "$(uname)" = "Darwin" ]]; then
-        if [[ "$(defaults read -g AppleInterfaceStyle 2> /dev/null)" = "Dark" ]]; then
-            bg="dark"
-        else
-            bg="light"
-        fi
+  local bg
+  if [[ "$(uname)" = "Darwin" ]]; then
+    if [[ "$(defaults read -g AppleInterfaceStyle 2> /dev/null)" = "Dark" ]]; then
+      bg="dark"
     else
-        bg=$(termbg 2> /dev/null)
+      bg="light"
     fi
+  else
+    bg=$(termbg 2> /dev/null)
+  fi
 
-    if [[ "$bg" = "light" ]]; then
-        _set_light
-    elif [[ "$bg" = "dark" ]]; then
-        _set_dark
-    elif [[ "$TERMBG" = "light" ]]; then
-        _set_light
-    else
-        _set_dark
-    fi
+  if [[ "$bg" = "light" ]]; then
+    _set_light
+  elif [[ "$bg" = "dark" ]]; then
+    _set_dark
+  elif [[ "$TERMBG" = "light" ]]; then
+    _set_light
+  else
+    _set_dark
+  fi
 }
 
 [[ -z "$TERMBG" ]] && tbg
