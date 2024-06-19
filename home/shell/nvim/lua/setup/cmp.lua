@@ -42,13 +42,25 @@ cmp.setup({
     -- completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
+  preselect = cmp.PreselectMode.None,
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping({
+      i = function(fallback)
+        -- Confirm only if something is explicitly selected
+        if cmp.visible() and cmp.get_active_entry() then
+          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+        else
+          fallback()
+        end
+      end,
+      s = cmp.mapping.confirm({ select = true }),
+    }),
     ['<Tab>'] = cmp.mapping(function(fallback)
-      -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
+      -- Confirm the selection; if no entry is selected, confirm the first item
       if cmp.visible() then
         local entry = cmp.get_selected_entry()
         if not entry then

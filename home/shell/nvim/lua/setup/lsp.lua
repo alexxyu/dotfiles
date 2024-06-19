@@ -10,19 +10,14 @@ require('mason-tool-installer').setup({
 local servers = {
   gopls = {
     settings = {
-      codelenses = {
-        generate = true,
-        test = true,
-        tidy = true,
-      },
-      hints = {
-        assignVariableTypes = true,
-        compositeLiteralFields = true,
-        compositeLiteralTypes = true,
-        constantValues = true,
-        functionTypeParameters = true,
-        parameterNames = true,
-        rangeVariableTypes = true,
+      gopls = {
+        hints = {
+          assignVariableTypes = true,
+          constantValues = true,
+          functionTypeParameters = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
       },
     },
   },
@@ -149,8 +144,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
       return
     end
 
-    vim.keymap.set({ 'n', 'v' }, '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { desc = 'Code action' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>cr', ':lua vim.lsp.buf.rename()<CR>', { desc = 'Rename symbol' })
+    vim.keymap.set('n', '<leader><Space>', vim.lsp.buf.hover, { desc = 'Display hover info' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { desc = 'Show code actions' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>cr', vim.lsp.buf.rename, { desc = 'Rename symbol' })
+
+    vim.keymap.set(
+      { 'n', 'v' },
+      '<leader>cd',
+      vim.diagnostic.open_float,
+      { desc = 'Show diagnostics for current line' }
+    )
     vim.keymap.set('n', '<leader>td', function()
       if vim.diagnostic.is_enabled({ bufnr = bufnr }) then
         vim.diagnostic.enable(false, { bufnr = bufnr })
@@ -293,6 +296,24 @@ vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
       return lvl == 'ERROR' or lvl == 'WARN'
     end,
   })
+end
+
+local border = {
+  { '🭽', 'FloatBorder' },
+  { '▔', 'FloatBorder' },
+  { '🭾', 'FloatBorder' },
+  { '▕', 'FloatBorder' },
+  { '🭿', 'FloatBorder' },
+  { '▁', 'FloatBorder' },
+  { '🭼', 'FloatBorder' },
+  { '▏', 'FloatBorder' },
+}
+
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or border
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
 require('which-key').register({

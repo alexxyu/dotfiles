@@ -36,7 +36,6 @@
     nixfmt-rfc-style
     nil
 
-    gcc
     gnumake
     rustup
   ];

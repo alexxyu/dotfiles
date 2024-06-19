@@ -25,6 +25,7 @@ vim.cmd([[
   augroup END
 ]])
 vim.opt.splitright = true
+vim.opt.wrap = false
 
 -------------------------
 -- Set search behavior --
