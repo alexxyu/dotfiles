@@ -124,3 +124,17 @@ cmp.setup.cmdline(':', {
     },
   }),
 })
+
+local cmp_enabled = true
+vim.api.nvim_create_user_command('ToggleAutoComplete', function()
+  if cmp_enabled then
+    require('cmp').setup.buffer({ enabled = false })
+    cmp_enabled = false
+  else
+    require('cmp').setup.buffer({ enabled = true })
+    cmp_enabled = true
+  end
+  vim.notify('Auto-completion is now ' .. (cmp_enabled and 'enabled' or 'disabled') .. '.', 'info')
+end, {})
+
+vim.keymap.set('n', '<leader>tc', '<cmd>ToggleAutoComplete<cr>', { desc = 'Toggle auto-completion' })
