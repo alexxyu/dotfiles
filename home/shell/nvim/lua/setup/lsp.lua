@@ -151,7 +151,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.diagnostic.open_float,
       { desc = 'Show diagnostics for current line' }
     )
-    vim.keymap.set('n', '<leader>td', function()
+    vim.keymap.set('n', '<leader>xd', function()
       if vim.diagnostic.is_enabled({ bufnr = bufnr }) then
         vim.diagnostic.enable(false, { bufnr = bufnr })
         vim.notify('Diagnostics (buffer ' .. bufnr .. ') are now disabled.', 'info')
@@ -167,7 +167,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.lsp.buf.format({ async = true, bufnr = bufnr })
       end, { desc = 'Format code', buffer = bufnr })
 
-      vim.keymap.set('n', '<leader>tf', function()
+      vim.keymap.set('n', '<leader>xf', function()
         vim.b.format_on_save = not vim.b.format_on_save
         vim.notify(
           'Format on save (buffer ' .. bufnr .. ') is now ' .. (vim.b.format_on_save and 'enabled' or 'disabled') .. '.',
@@ -177,6 +177,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
       vim.api.nvim_create_autocmd('BufWritePre', {
         buffer = args.buf,
+        desc = 'Format on save',
         callback = function()
           if vim.b.format_on_save then
             vim.lsp.buf.format({ async = false })
@@ -210,7 +211,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- inlay hints
     if client.server_capabilities.inlayHintProvider then
-      vim.keymap.set('n', '<leader>th', function()
+      vim.keymap.set('n', '<leader>xh', function()
         local value = not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
         vim.lsp.inlay_hint.enable(value, { bufnr = bufnr })
         vim.notify('Inlay hints (buffer' .. bufnr .. ') are now ' .. (value and 'enabled' or 'disabled') .. '.', 'info')

@@ -137,4 +137,4 @@ vim.api.nvim_create_user_command('ToggleAutoComplete', function()
   vim.notify('Auto-completion is now ' .. (cmp_enabled and 'enabled' or 'disabled') .. '.', 'info')
 end, {})
 
-vim.keymap.set('n', '<leader>tc', '<cmd>ToggleAutoComplete<cr>', { desc = 'Toggle auto-completion' })
+vim.keymap.set('n', '<leader>xa', '<cmd>ToggleAutoComplete<cr>', { desc = 'Toggle auto-completion' })

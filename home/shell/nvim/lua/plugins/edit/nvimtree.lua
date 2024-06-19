@@ -3,6 +3,11 @@ return {
   dependencies = {
     'nvim-tree/nvim-web-devicons',
   },
+  cmd = {
+    'NvimTreeToggle',
+    'NvimTreeFocus',
+    'NvimTreeOpen',
+  },
   config = function()
     require('nvim-tree').setup({
       filters = {
@@ -33,6 +38,7 @@ return {
     -- https://github.com/nvim-tree/nvim-tree.lua/issues/1368#issuecomment-1195557960
     vim.api.nvim_create_autocmd('BufEnter', {
       group = vim.api.nvim_create_augroup('NvimTreeClose', { clear = true }),
+      desc = 'Close if nvim-tree is the last buffer',
       pattern = 'NvimTree_*',
       callback = function()
         local layout = vim.api.nvim_call_function('winlayout', {})

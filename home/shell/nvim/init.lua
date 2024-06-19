@@ -47,26 +47,31 @@ vim.opt.updatetime = 300
 -- Highlight on yank
 vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight on yank',
   group = 'YankHighlight',
   callback = function()
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = '1000' })
   end,
 })
 
--- Remove whitespace on save
 vim.api.nvim_create_autocmd('BufWritePre', {
+  desc = 'Remove whitespace on save',
   pattern = '',
   command = ':%s/\\s\\+$//e',
 })
 
 -- Enter insert mode when switching to terminal
 vim.api.nvim_create_autocmd('TermOpen', {
-  command = 'setlocal listchars= nonumber norelativenumber nocursorline',
-})
-
-vim.api.nvim_create_autocmd('TermOpen', {
-  pattern = '',
-  command = 'startinsert',
+  desc = 'Auto enter insert mode when opening a terminal',
+  pattern = '*',
+  callback = function()
+    -- Wait briefly just in case we immediately switch out of the buffer
+    vim.defer_fn(function()
+      if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' then
+        vim.cmd([[startinsert]])
+      end
+    end, 100)
+  end,
 })
 
 ------------------------
@@ -121,6 +126,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   { import = 'plugins' },
   { import = 'plugins.edit' },
+  { import = 'plugins.lang' },
   { import = 'plugins.themes' },
   { import = 'plugins.ui' },
 }, {
@@ -138,8 +144,9 @@ require('lazy').setup({
 
 require('which-key').register({
   ['<leader>w'] = { name = '+window' },
-  ['<leader>t'] = { name = '+toggle' },
   ['<leader>q'] = { name = '+quit' },
+  ['<leader>t'] = { name = '+test' },
+  ['<leader>x'] = { name = '+switch' },
   ['g'] = { name = '+goto' },
   ['z'] = { name = '+fold' },
   ['['] = { name = '+next' },
