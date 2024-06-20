@@ -145,7 +145,6 @@ require('lazy').setup({
 require('which-key').register({
   ['<leader>w'] = { name = '+window' },
   ['<leader>q'] = { name = '+quit' },
-  ['<leader>t'] = { name = '+test' },
   ['<leader>x'] = { name = '+switch' },
   ['g'] = { name = '+goto' },
   ['z'] = { name = '+fold' },
