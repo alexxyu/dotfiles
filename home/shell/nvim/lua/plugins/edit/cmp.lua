@@ -7,6 +7,7 @@ return {
     { 'hrsh7th/cmp-path' },
     { 'SergioRibera/cmp-dotenv' },
   },
+  event = 'VeryLazy',
   config = function()
     require('setup.cmp')
   end,

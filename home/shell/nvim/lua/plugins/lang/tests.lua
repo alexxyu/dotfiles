@@ -9,7 +9,7 @@ return {
     'nvim-neotest/neotest-go',
     'Issafalcon/neotest-dotnet',
   },
-  event = 'VeryLazy',
+  keys = '<leader>t',
   config = function()
     local neotest = require('neotest')
     neotest.setup({
