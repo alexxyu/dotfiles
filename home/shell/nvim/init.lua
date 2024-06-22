@@ -104,7 +104,7 @@ vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { noremap = true, silent = true
 vim.keymap.set('n', '<leader>wr', '<C-W>v', { noremap = true, desc = 'Split right' })
 vim.keymap.set('n', '<leader>wb', '<C-W>s', { noremap = true, desc = 'Split below' })
 vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { noremap = true, desc = 'Switch' })
-vim.keymap.set('n', '<leader>wt', ':vsplit | term zsh<CR>', { noremap = true, desc = 'Split terminal' })
+vim.keymap.set('t', '<esc>', '<C-\\><C-n>', { noremap = true })
 
 -------------------
 -- Setup plugins --
