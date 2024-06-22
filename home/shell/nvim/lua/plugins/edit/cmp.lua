@@ -6,6 +6,7 @@ return {
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-path' },
     { 'SergioRibera/cmp-dotenv' },
+    { 'saadparwaiz1/cmp_luasnip' },
   },
   event = 'VeryLazy',
   config = function()
