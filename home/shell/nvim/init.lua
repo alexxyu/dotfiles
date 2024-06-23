@@ -106,6 +106,10 @@ vim.keymap.set('n', '<leader>wb', '<C-W>s', { noremap = true, desc = 'Split belo
 vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { noremap = true, desc = 'Switch' })
 vim.keymap.set('t', '<esc>', '<C-\\><C-n>', { noremap = true })
 
+if vim.g.neovide then
+  require('setup.neovide')
+end
+
 -------------------
 -- Setup plugins --
 -------------------

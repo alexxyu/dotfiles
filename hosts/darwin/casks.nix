@@ -2,6 +2,7 @@
   # devtools
   "bruno"
   "docker"
+  "neovide"
   "visual-studio-code"
 
   # dev
