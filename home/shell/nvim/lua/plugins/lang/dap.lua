@@ -20,9 +20,5 @@ return {
     vim.keymap.set('n', '<leader>dj', require('dap').step_over, { desc = 'Step over' })
     vim.keymap.set('n', '<leader>dk', require('dap').step_into, { desc = 'Step into' })
     vim.keymap.set('n', '<leader>dm', require('dap').step_out, { desc = 'Step out' })
-
-    require('which-key').register({
-      ['<leader>d'] = { name = '+debug' },
-    })
   end,
 }

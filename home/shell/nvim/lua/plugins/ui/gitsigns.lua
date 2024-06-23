@@ -40,22 +40,18 @@ return {
         end
       end, { desc = 'Previous hunk' })
 
-      map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'Stage hunk' })
-      map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'Reset hunk' })
-      map('v', '<leader>hs', function()
+      map('n', '<leader>gs', gitsigns.stage_hunk, { desc = 'Stage hunk' })
+      map('n', '<leader>gr', gitsigns.reset_hunk, { desc = 'Reset hunk' })
+      map('v', '<leader>gs', function()
         gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
       end, { desc = 'Stage hunk' })
-      map('v', '<leader>hr', function()
+      map('v', '<leader>gr', function()
         gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
       end, { desc = 'Reset hunk' })
-      map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'Undo stage hunk' })
+      map('n', '<leader>gu', gitsigns.undo_stage_hunk, { desc = 'Undo stage hunk' })
 
-      map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Preview hunk' })
-      map('n', '<leader>hb', ':Gitsigns toggle_current_line_blame<CR>', { desc = 'Toggle blame' })
-
-      require('which-key').register({
-        h = { name = '+git' },
-      }, { prefix = '<leader>' })
+      map('n', '<leader>gp', gitsigns.preview_hunk, { desc = 'Preview hunk' })
+      map('n', '<leader>gb', ':Gitsigns toggle_current_line_blame<CR>', { desc = 'Toggle blame' })
     end,
   },
 }

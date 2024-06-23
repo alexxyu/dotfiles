@@ -75,11 +75,6 @@ return {
     vim.keymap.set('n', '<leader>fC', git_bcommits, { desc = 'List git commits' })
     vim.keymap.set('n', '<leader>fS', git_status, { desc = 'Show git status' })
 
-    require('which-key').register({
-      l = { name = '+lsp' },
-      f = { name = '+find' },
-    }, { prefix = '<leader>' })
-
     require('telescope').load_extension('ui-select')
     require('telescope').load_extension('fzf')
   end,

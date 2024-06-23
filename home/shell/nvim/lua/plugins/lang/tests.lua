@@ -44,9 +44,5 @@ return {
 
     vim.keymap.set({ 'n', 'v' }, '<leader>to', neotest.output_panel.toggle, { desc = 'Toggle test output' })
     vim.keymap.set({ 'n', 'v' }, '<leader>tp', neotest.summary.open, { desc = 'Open test summary' })
-
-    require('which-key').register({
-      ['<leader>t'] = { name = '+test' },
-    })
   end,
 }

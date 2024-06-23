@@ -143,11 +143,22 @@ require('lazy').setup({
 })
 
 require('which-key').register({
-  ['<leader>w'] = { name = '+window' },
-  ['<leader>q'] = { name = '+quit' },
-  ['<leader>x'] = { name = '+switch' },
-  ['g'] = { name = '+goto' },
-  ['z'] = { name = '+fold' },
+  ['<leader>'] = {
+    b = { name = '+buffer' },
+    c = { name = '+code' },
+    d = { name = '+debug' },
+    f = { name = '+find' },
+    g = { name = '+git' },
+    l = { name = '+lsp' },
+    n = { name = '+nvim-tree' },
+    r = { name = '+run' },
+    t = { name = '+test' },
+    q = { name = '+quit' },
+    w = { name = '+window' },
+    x = { name = '+switch' },
+  },
+  g = { name = '+goto' },
+  z = { name = '+fold' },
   ['['] = { name = '+next' },
   [']'] = { name = '+previous' },
 })

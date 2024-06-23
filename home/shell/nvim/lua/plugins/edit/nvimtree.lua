@@ -58,9 +58,5 @@ return {
 
     vim.keymap.set('n', '<leader>nt', ':NvimTreeToggle<CR>', opts('Toggle'))
     vim.keymap.set('n', '<leader>nf', ':NvimTreeFocus<CR>', opts('Focus'))
-
-    require('which-key').register({
-      n = { name = '+nvim-tree' },
-    }, { prefix = '<leader>' })
   end,
 }
