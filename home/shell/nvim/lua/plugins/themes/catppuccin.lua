@@ -8,5 +8,6 @@ return {
         TabLineSel = { bg = colors.pink },
       }
     end,
+    term_colors = true,
   },
 }
