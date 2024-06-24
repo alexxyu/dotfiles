@@ -1,23 +1,19 @@
 return {
   'nvim-telescope/telescope.nvim',
   dependencies = {
-    { 'nvim-lua/plenary.nvim' },
+    'nvim-lua/plenary.nvim',
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'CFLAGS=-march=native make', -- https://github.com/nvim-telescope/telescope-fzf-native.nvim/issues/119#issuecomment-1873653249
     },
-    { 'nvim-telescope/telescope-ui-select.nvim' },
+    'nvim-telescope/telescope-ui-select.nvim',
+    'stevearc/dressing.nvim',
   },
   config = function()
     local builtins = require('telescope.builtin')
     local previewers = require('telescope.previewers')
 
     require('telescope').setup({
-      extensions = {
-        ['ui-select'] = {
-          require('telescope.themes').get_dropdown(),
-        },
-      },
       defaults = {
         path_display = {
           filename_first = {
@@ -75,7 +71,6 @@ return {
     vim.keymap.set('n', '<leader>fC', git_bcommits, { desc = 'List git commits' })
     vim.keymap.set('n', '<leader>fS', git_status, { desc = 'Show git status' })
 
-    require('telescope').load_extension('ui-select')
     require('telescope').load_extension('fzf')
   end,
 }

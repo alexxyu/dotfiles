@@ -143,7 +143,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     vim.keymap.set('n', '<leader><Space>', vim.lsp.buf.hover, { desc = 'Display hover info' })
     vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { desc = 'Show code actions' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>cr', vim.lsp.buf.rename, { desc = 'Rename symbol' })
 
     vim.keymap.set(
       { 'n', 'v' },
