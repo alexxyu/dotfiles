@@ -26,6 +26,7 @@
     coreutils
     difftastic
     dua
+    ffmpeg
     imagemagick
     img2pdf
     jq
