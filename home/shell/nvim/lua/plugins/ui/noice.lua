@@ -25,5 +25,8 @@ return {
         },
       },
     },
+    cmdline = {
+      view = 'cmdline',
+    },
   },
 }
