@@ -67,6 +67,7 @@ with lib;
         stm = "stash -m";
         stp = "stash pop";
         sts = "stash show -p";
+        tag-archive = "! BRANCH_NAME=$(git branch --show-current) && git tag -a archive/$BRANCH_NAME -m \"Branch '$BRANCH_NAME' archived as tag\"";
         unstage = "restore --staged";
         upstack = "rebase --update-refs";
         alias = "! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /";
