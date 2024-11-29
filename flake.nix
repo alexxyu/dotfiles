@@ -57,20 +57,20 @@
             ./hosts/darwin/configuration.nix
           ],
           extraModules ? [
-            nix-homebrew.darwinModules.nix-homebrew
-            {
-              nix-homebrew = {
-                user = username;
-                enable = true;
-                taps = {
-                  "homebrew/homebrew-core" = homebrew-core;
-                  "homebrew/homebrew-cask" = homebrew-cask;
-                  "homebrew/homebrew-bundle" = homebrew-bundle;
-                };
-                mutableTaps = false;
-                autoMigrate = true;
-              };
-            }
+            # nix-homebrew.darwinModules.nix-homebrew
+            # {
+            #   nix-homebrew = {
+            #     user = username;
+            #     enable = true;
+            #     taps = {
+            #       "homebrew/homebrew-core" = homebrew-core;
+            #       "homebrew/homebrew-cask" = homebrew-cask;
+            #       "homebrew/homebrew-bundle" = homebrew-bundle;
+            #     };
+            #     mutableTaps = false;
+            #     autoMigrate = true;
+            #   };
+            # }
           ],
           hostname ? "",
         }:
