@@ -26,6 +26,7 @@
     coreutils
     difftastic
     dua
+    entr
     ffmpeg
     imagemagick
     img2pdf
@@ -33,6 +34,7 @@
     tldr
     tmux
     tree
+    yq
 
     nixfmt-rfc-style
     nil
