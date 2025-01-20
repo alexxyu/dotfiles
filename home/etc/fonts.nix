@@ -17,7 +17,7 @@ with lib;
     fonts.fontconfig.enable = true;
     home.packages = with pkgs; [
       google-fonts
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      nerd-fonts.jetbrains-mono
     ];
   };
 }

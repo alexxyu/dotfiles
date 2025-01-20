@@ -5,7 +5,7 @@
 
 () {
   function prompt_mise() {
-    local plugins=("${(@f)$(mise ls --current --json | jq -r "with_entries(select(.value[0].source.path != \"$HOME/.config/mise/config.toml\")) | to_entries[] | [.key, .value[0].version] | join(\" \")")}")
+    local plugins=("${(@f)$(mise ls --current --json --offline | jq -r "with_entries(select(.value[0].source.path != \"$HOME/.config/mise/config.toml\")) | to_entries[] | [.key, .value[0].version] | join(\" \")")}")
     local plugin
     for plugin in ${(k)plugins}; do
       local parts=("${(@s/ /)plugin}")
