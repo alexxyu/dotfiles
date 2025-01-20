@@ -356,7 +356,7 @@
 
   # Formatter for Git status.
   #
-  # Example output: master wip ⇣42⇡42 *42 merge ~42 +42 !42 ?42.
+  # Example output: master [⇣⇡ merge !+-?].
   #
   # You can edit the function to customize how Git status looks.
   #
@@ -423,46 +423,70 @@
     fi
 
     # Display "wip" if the latest commit's summary contains "wip" or "WIP".
-    if [[ $VCS_STATUS_COMMIT_SUMMARY == (|*[^[:alnum:]])(wip|WIP)(|[^[:alnum:]]*) ]]; then
-      res+=" ${modified}wip"
-    fi
+    # if [[ $VCS_STATUS_COMMIT_SUMMARY == (|*[^[:alnum:]])(wip|WIP)(|[^[:alnum:]]*) ]]; then
+    #   res+=" ${modified}wip"
+    # fi
 
+    local vcs_status
     if (( VCS_STATUS_COMMITS_AHEAD || VCS_STATUS_COMMITS_BEHIND )); then
-      # 42⇣ if behind the remote.
-      (( VCS_STATUS_COMMITS_BEHIND )) && res+=" ${clean}${VCS_STATUS_COMMITS_BEHIND}⇣"
-      # 42⇡ if ahead of the remote; no leading space if also behind the remote: ⇣42⇡42.
-      (( VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )) && res+=" "
-      (( VCS_STATUS_COMMITS_AHEAD  )) && res+="${clean}${VCS_STATUS_COMMITS_AHEAD}⇡"
+      # ⇣ if behind the remote.
+      (( VCS_STATUS_COMMITS_BEHIND )) && vcs_status+="${clean}⇣"
+      # ⇡ if ahead of the remote.
+      (( VCS_STATUS_COMMITS_AHEAD  )) && vcs_status+="${clean}⇡"
     elif [[ -n $VCS_STATUS_REMOTE_BRANCH ]]; then
       # Tip: Uncomment the next line to display '=' if up to date with the remote.
-      # res+=" ${clean}="
+      # vcs_status+="${clean}="
     fi
 
-    # 42⇠ if behind the push remote.
-    (( VCS_STATUS_PUSH_COMMITS_BEHIND )) && res+=" ${clean}⇠${VCS_STATUS_PUSH_COMMITS_BEHIND}"
-    (( VCS_STATUS_PUSH_COMMITS_AHEAD && !VCS_STATUS_PUSH_COMMITS_BEHIND )) && res+=" "
-    # 42⇢ if ahead of the push remote; no leading space if also behind: ⇠42⇢42.
-    (( VCS_STATUS_PUSH_COMMITS_AHEAD  )) && res+="${clean}${VCS_STATUS_PUSH_COMMITS_AHEAD}⇢"
-    # *42 if have stashes.
-    # (( VCS_STATUS_STASHES        )) && res+=" ${clean}*${VCS_STATUS_STASHES}"
+    # ⇠ if behind the push remote.
+    local push_status
+    (( VCS_STATUS_PUSH_COMMITS_BEHIND )) && push_status+="${clean}⇠"
+    # ⇢ if ahead of the push remote
+    (( VCS_STATUS_PUSH_COMMITS_AHEAD  )) && push_status+="${clean}⇢"
+    # * if have stashes.
+    # (( VCS_STATUS_STASHES        )) && push_status+="${clean}*"
+    if [[ -n $push_status ]]; then
+      [[ -n $vcs_status ]] && vcs_status+=" "
+      vcs_status+="${push_status}"
+    fi
+
     # 'merge' if the repo is in an unusual state.
-    [[ -n $VCS_STATUS_ACTION     ]] && res+=" ${conflicted}${VCS_STATUS_ACTION}"
-    # 42~ if have merge conflicts.
-    (( VCS_STATUS_NUM_CONFLICTED )) && res+=" ${conflicted}${VCS_STATUS_NUM_CONFLICTED}~"
-    # 42+ if have staged changes.
-    (( VCS_STATUS_NUM_STAGED     )) && res+=" ${modified}${VCS_STATUS_NUM_STAGED}+"
-    # 42! if have unstaged changes.
-    (( VCS_STATUS_NUM_UNSTAGED   )) && res+=" ${modified}${VCS_STATUS_NUM_UNSTAGED}-"
-    # 42? if have untracked files. It's really a question mark, your font isn't broken.
+    if [[ -n $VCS_STATUS_ACTION ]]; then
+      [[ -n $vcs_status ]] && vcs_status+=" "
+      vcs_status+="${conflicted}${VCS_STATUS_ACTION}"
+    fi
+
+    # Unfortunately, files that aren't included in a sparse checkout will appear as unstaged. In lieu of
+    # an actual fix that accounts for this, we'll disable the unstaged files indicator altogether if
+    # we detect that we're in a sparsely checked out repository
+    local is_sparse=false
+    if [[ -f "$(git rev-parse --git-dir)/info/sparse-checkout" ]]; then
+      is_sparse=true
+    fi
+
+    local action_status
+    # ! if have merge conflicts.
+    (( VCS_STATUS_NUM_CONFLICTED )) && action_status+="${conflicted}!"
+    # + if have staged changes.
+    (( VCS_STATUS_NUM_STAGED     )) && action_status+="${modified}+"
+    # - if have unstaged changes.
+    (( VCS_STATUS_NUM_UNSTAGED   )) && [[ "$is_sparse" = false ]] && action_status+="${modified}-"
+    # ? if have untracked files. It's really a question mark, your font isn't broken.
     # See POWERLEVEL9K_VCS_UNTRACKED_ICON above if you want to use a different icon.
     # Remove the next line if you don't want to see untracked files at all.
-    (( VCS_STATUS_NUM_UNTRACKED  )) && res+=" ${untracked}${VCS_STATUS_NUM_UNTRACKED}${(g::)POWERLEVEL9K_VCS_UNTRACKED_ICON}"
+    (( VCS_STATUS_NUM_UNTRACKED  )) && action_status+="${untracked}${(g::)POWERLEVEL9K_VCS_UNTRACKED_ICON}"
     # "─" if the number of unstaged files is unknown. This can happen due to
     # POWERLEVEL9K_VCS_MAX_INDEX_SIZE_DIRTY (see below) being set to a non-negative number lower
     # than the number of files in the Git index, or due to bash.showDirtyState being set to false
     # in the repository config. The number of staged and untracked files may also be unknown
     # in this case.
-    (( VCS_STATUS_HAS_UNSTAGED == -1 )) && res+=" ${modified}─"
+    (( VCS_STATUS_HAS_UNSTAGED == -1 )) && action_status+="${modified}─"
+    if [[ -n $action_status ]]; then
+      [[ -n $vcs_status ]] && vcs_status+=" "
+      vcs_status+="${action_status}"
+    fi
+
+    [[ -n $vcs_status ]] && res+=" ${meta}[${vcs_status}${meta}]"
 
     typeset -g my_git_format=$res
   }
