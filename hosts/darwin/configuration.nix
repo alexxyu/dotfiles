@@ -69,14 +69,14 @@
   ];
 
   # Enable and install homebrew packages.
-  # homebrew = {
-  #   enable = true;
-  #   casks = import ./casks.nix;
-  #   masApps = {
-  #     # Install through Apple Store for browser integration
-  #     "Bitwarden" = 1352778147;
-  #   };
-  # };
+  homebrew = {
+    enable = false;
+    casks = import ./casks.nix;
+    masApps = {
+      # Install through Apple Store for browser integration
+      "Bitwarden" = 1352778147;
+    };
+  };
 
   system.defaults = {
     dock.autohide = true;
