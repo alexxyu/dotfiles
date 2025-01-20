@@ -142,25 +142,24 @@ require('lazy').setup({
   },
 })
 
-require('which-key').register({
-  ['<leader>'] = {
-    b = { name = '+buffer' },
-    c = { name = '+code' },
-    d = { name = '+debug' },
-    f = { name = '+find' },
-    g = { name = '+git' },
-    l = { name = '+lsp' },
-    n = { name = '+nvim-tree' },
-    r = { name = '+run' },
-    t = { name = '+test' },
-    q = { name = '+quit' },
-    w = { name = '+window' },
-    x = { name = '+switch' },
-  },
-  g = { name = '+goto' },
-  z = { name = '+fold' },
-  ['['] = { name = '+next' },
-  [']'] = { name = '+previous' },
+require('which-key').add({
+  { '<leader>b', group = 'buffer' },
+  { '<leader>c', group = 'code' },
+  { '<leader>d', group = 'debug' },
+  { '<leader>f', group = 'find' },
+  { '<leader>g', group = 'git' },
+  { '<leader>l', group = 'lsp' },
+  { '<leader>n', group = 'nvim-tree' },
+  { '<leader>q', group = 'quit' },
+  { '<leader>r', group = 'run' },
+  { '<leader>t', group = 'test' },
+  { '<leader>w', group = 'window' },
+  { '<leader>x', group = 'switch' },
+
+  { '[', group = 'next' },
+  { ']', group = 'previous' },
+  { 'g', group = 'goto' },
+  { 'z', group = 'fold' },
 })
 
 ------------

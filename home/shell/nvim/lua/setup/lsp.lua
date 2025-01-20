@@ -22,7 +22,7 @@ local servers = {
     },
   },
 
-  ruff_lsp = {},
+  ruff = {},
   basedpyright = {
     settings = {
       basedpyright = {
@@ -63,7 +63,7 @@ local servers = {
   eslint = {},
   html = {},
 
-  tsserver = {
+  ts_ls = {
     settings = {
       javascript = {
         inlayHints = {
