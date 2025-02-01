@@ -52,6 +52,8 @@ setopt list_types
 setopt mark_dirs
 # Prevent aliases from being substituted when determining completions
 setopt COMPLETE_ALIASES
+# Show hidden files in suggestions
+setopt globdots
 
 # Allow ctrl/alt + arrow keys to navigate by word
 bindkey "^[[1;5C" forward-word
