@@ -88,6 +88,16 @@
           };
         }
         {
+          name = "jq-zsh-plugin";
+          file = "jq.plugin.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "reegnz";
+            repo = "jq-zsh-plugin";
+            rev = "v0.6.1";
+            sha256 = "sha256-q/xQZ850kifmd8rCMW+aAEhuA43vB9ZAW22sss9e4SE=";
+          };
+        }
+        {
           name = "powerlevel10k";
           src = pkgs.zsh-powerlevel10k;
           file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
