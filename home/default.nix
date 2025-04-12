@@ -34,7 +34,7 @@
     tldr
     tmux
     tree
-    yq
+    yq-go
 
     nixfmt-rfc-style
     nil
