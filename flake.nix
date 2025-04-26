@@ -42,7 +42,6 @@
     }@inputs:
     let
       username = "alex";
-      # pkgs = nixpkgs.legacyPackages.${system};
 
       isDarwin = system: (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
       homePrefix = system: if isDarwin system then "/Users" else "/home";
@@ -76,15 +75,18 @@
         }:
         darwin.lib.darwinSystem {
           inherit system;
-          modules = [
-            {
-              networking = {
-                hostName = hostname;
-                localHostName = hostname;
-                computerName = hostname;
-              };
-            }
-          ] ++ baseModules ++ extraModules;
+          modules =
+            [
+              {
+                networking = {
+                  hostName = hostname;
+                  localHostName = hostname;
+                  computerName = hostname;
+                };
+              }
+            ]
+            ++ baseModules
+            ++ extraModules;
           specialArgs = {
             system = system;
             username = username;
@@ -93,7 +95,7 @@
 
       mkNixosConfig =
         {
-          system ? "aarch64-darwin",
+          system ? "x86_64-linux",
           nixpkgs ? inputs.nixpkgs,
           baseModules ? [ ./hosts/nixos/configuration.nix ],
           extraModules ? [ ],
@@ -134,6 +136,7 @@
 
           extraSpecialArgs = {
             username = username;
+            os = "linux";
           };
         };
     in

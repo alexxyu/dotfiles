@@ -46,7 +46,7 @@
             };
           };
 
-          apps.enable = false;
+          apps.ghostty.enable = true;
         };
     };
     extraSpecialArgs = {

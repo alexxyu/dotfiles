@@ -4,6 +4,7 @@ with lib;
 {
   imports = [
     ./firefox.nix
+    ./ghostty.nix
     ./vscode.nix
   ];
 
