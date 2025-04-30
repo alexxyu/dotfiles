@@ -16,10 +16,13 @@
 
   config =
     let
-      linuxKeybinds = [ ];
+      linuxKeybinds = [
+        "ctrl+shift+r=reset"
+      ];
 
       macKeybinds = [
         "global:cmd+`=toggle_quick_terminal"
+        "cmd+shift+r=reset"
       ];
 
       keybinds = if pkgs.stdenv.isDarwin then macKeybinds else linuxKeybinds;
