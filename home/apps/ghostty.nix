@@ -19,7 +19,7 @@
       linuxKeybinds = [ ];
 
       macKeybinds = [
-        "global:cmd+shift+`=toggle_quick_terminal"
+        "global:cmd+`=toggle_quick_terminal"
       ];
 
       keybinds = if pkgs.stdenv.isDarwin then macKeybinds else linuxKeybinds;
