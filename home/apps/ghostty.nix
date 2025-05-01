@@ -57,7 +57,7 @@
           shell-integration = "zsh";
           shell-integration-features = "no-cursor";
           quick-terminal-position = "right";
-          quit-after-last-window-closed = true;
+          quit-after-last-window-closed = false;
 
           macos-option-as-alt = true;
 
