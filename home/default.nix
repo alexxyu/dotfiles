@@ -27,6 +27,7 @@
     difftastic
     dua
     entr
+    fd
     ffmpeg
     imagemagick
     img2pdf
@@ -34,6 +35,7 @@
     tldr
     tmux
     tree
+    vivid
     yq-go
 
     nixfmt-rfc-style

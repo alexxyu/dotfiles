@@ -40,6 +40,62 @@ function ff {
   fi
 }
 
+###################
+# Terminal themes #
+###################
+
+function _set_light {
+  export BAT_THEME="Catppuccin-latte"
+  export FZF_DEFAULT_OPTS=" \
+    --color=bg+:#ccd0da,bg:-1,spinner:#dc8a78,hl:#d20f39 \
+    --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
+    --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
+  zstyle ":fzf-tab:*" fzf-flags --color=hl:0
+  export LS_COLORS=$(vivid generate catppuccin-latte)
+  export TERMBG="light"
+}
+
+function _set_dark {
+  export BAT_THEME="Catppuccin-macchiato"
+  export FZF_DEFAULT_OPTS=" \
+    --color=bg+:#363a4f,bg:-1,spinner:#f4dbd6,hl:#ed8796 \
+    --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+    --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
+  export LS_COLORS=$(vivid generate catppuccin-macchiato)
+  export TERMBG="dark"
+}
+
+function tbg {
+  local bg
+  if [[ "$(uname)" = "Darwin" ]]; then
+    if [[ "$(defaults read -g AppleInterfaceStyle 2> /dev/null)" = "Dark" ]]; then
+      bg="dark"
+    else
+      bg="light"
+    fi
+  else
+    bg=$(termbg 2> /dev/null)
+  fi
+
+  if [[ "$bg" = "light" ]]; then
+    _set_light
+  elif [[ "$bg" = "dark" ]]; then
+    _set_dark
+  elif [[ "$TERMBG" = "light" ]]; then
+    _set_light
+  else
+    _set_dark
+  fi
+}
+
+if [[ "$TERMBG" = "dark" ]]; then
+  _set_dark
+elif [[ "$TERMBG" = "light" ]]; then
+  _set_light
+else
+  tbg
+fi
+
 #####################
 # Terminal settings #
 #####################
@@ -143,60 +199,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # Keybindings
 # bindkey "^I"       complete-word    # tab               | complete
 bindkey "^[[Z" autosuggest-accept   # shift + tab       | autosuggest
-
-###################
-# Terminal themes #
-###################
-
-function _set_light {
-  export BAT_THEME="Catppuccin-latte"
-  export FZF_DEFAULT_OPTS=" \
-    --color=bg+:#ccd0da,bg:-1,spinner:#dc8a78,hl:#d20f39 \
-    --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
-    --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
-  zstyle ":fzf-tab:*" fzf-flags --color=hl:0
-  export TERMBG="light"
-}
-
-function _set_dark {
-  export BAT_THEME="Catppuccin-macchiato"
-  export FZF_DEFAULT_OPTS=" \
-    --color=bg+:#363a4f,bg:-1,spinner:#f4dbd6,hl:#ed8796 \
-    --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
-    --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
-  export TERMBG="dark"
-}
-
-function tbg {
-  local bg
-  if [[ "$(uname)" = "Darwin" ]]; then
-    if [[ "$(defaults read -g AppleInterfaceStyle 2> /dev/null)" = "Dark" ]]; then
-      bg="dark"
-    else
-      bg="light"
-    fi
-  else
-    bg=$(termbg 2> /dev/null)
-  fi
-
-  if [[ "$bg" = "light" ]]; then
-    _set_light
-  elif [[ "$bg" = "dark" ]]; then
-    _set_dark
-  elif [[ "$TERMBG" = "light" ]]; then
-    _set_light
-  else
-    _set_dark
-  fi
-}
-
-if [[ "$TERMBG" = "dark" ]]; then
-  _set_dark
-elif [[ "$TERMBG" = "light" ]]; then
-  _set_light
-else
-  tbg
-fi
 
 ##################
 # Misc. settings #
