@@ -14,7 +14,7 @@
 
     home.sessionVariables = {
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=146,underline";
-      WORDCHARS = "*?.[]~=&;!#$%^(){}<>";
+      WORDCHARS = "*?[]~=&;!#$%^(){}<>";
     };
 
     programs.fzf.enableZshIntegration = true;
