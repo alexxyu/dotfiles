@@ -58,18 +58,15 @@
         source ~/.zsh/zshrc
       '';
 
-      shellAliases = {
-        la = "ls -a";
-        ls = "ls -lhp --color --group-directories-first";
-      };
-
       history = {
         size = 10000;
         path = "${config.xdg.dataHome}/zsh/zsh_history";
 
-        expireDuplicatesFirst = true;
+        # TODO: figure out why ls entries do not persist in history
+        append = true;
         ignoreAllDups = true;
         ignoreDups = true;
+        ignoreSpace = true;
         share = true;
       };
 

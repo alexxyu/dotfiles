@@ -3,6 +3,7 @@
   imports = [
     ./bat.nix
     ./delta.nix
+    ./eza.nix
     ./fzf.nix
     ./git.nix
     ./grpc-client-cli.nix
