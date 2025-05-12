@@ -62,7 +62,6 @@
         size = 10000;
         path = "${config.xdg.dataHome}/zsh/zsh_history";
 
-        # TODO: figure out why ls entries do not persist in history
         append = true;
         ignoreAllDups = true;
         ignoreDups = true;
