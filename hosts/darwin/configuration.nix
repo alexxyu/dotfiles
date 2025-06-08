@@ -74,6 +74,7 @@
     };
   };
 
+  system.primaryUser = username;
   system.defaults = {
     dock.autohide = true;
     dock.show-recents = false;

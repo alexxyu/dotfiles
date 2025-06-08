@@ -3,7 +3,7 @@
   config = {
     home.packages = [ pkgs.httpie ];
 
-    programs.zsh.initExtra = ''
+    programs.zsh.initContent = ''
       function httpi () {
         http -v $@ --raw "$(vipe -e=json)"
       }

@@ -13,7 +13,6 @@
     ./nix.nix
     ./neovim.nix
     ./ripgrep.nix
-    ./thefuck.nix
     ./ytdlp.nix
     ./zoxide.nix
     ./zsh.nix

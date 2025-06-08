@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   config = {
     home.packages = [ pkgs.zsh-powerlevel10k ];
@@ -19,7 +24,6 @@
 
     programs.fzf.enableZshIntegration = true;
     programs.mise.enableZshIntegration = true;
-    programs.thefuck.enableZshIntegration = true;
     programs.zoxide.enableZshIntegration = true;
 
     programs.zsh = {
@@ -27,18 +31,29 @@
 
       enableCompletion = true;
 
-      initExtraFirst = ''
-        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-        # Initialization code that may require console input (password prompts, [y/n]
-        # confirmations, etc.) must go above this block; everything else may go below.
-        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-        fi
-      '';
-
-      initExtraBeforeCompInit = ''
-        fpath+="$HOME/.zsh/completion"
-      '';
+      # https://mynixos.com/home-manager/option/programs.zsh.initContent
+      initContent =
+        let
+          zshConfigExtraFirst = lib.mkOrder 500 ''
+            # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+            # Initialization code that may require console input (password prompts, [y/n]
+            # confirmations, etc.) must go above this block; everything else may go below.
+            if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+              source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+            fi
+          '';
+          zshConfigExtraBeforeCompInit = lib.mkOrder 550 ''
+            fpath+="$HOME/.zsh/completion"
+          '';
+          zshConfigExtra = lib.mkOrder 1000 ''
+            source ~/.zsh/zshrc
+          '';
+        in
+        lib.mkMerge [
+          zshConfigExtraFirst
+          zshConfigExtraBeforeCompInit
+          zshConfigExtra
+        ];
 
       completionInit = ''
         # On slow systems, checking the cached .zcompdump file to see if it must be
@@ -52,10 +67,6 @@
         else
           compinit -C;
         fi;
-      '';
-
-      initExtra = ''
-        source ~/.zsh/zshrc
       '';
 
       history = {
