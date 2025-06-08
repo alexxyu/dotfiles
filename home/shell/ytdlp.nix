@@ -5,7 +5,7 @@
 
     home.shellAliases = {
       ytdl = "yt-dlp";
-      ytdla = "ytdl -f 'ba[ext=m4a]'";
+      ytdla = "ytdl -x --audio-format mp3";
     };
   };
 }
