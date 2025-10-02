@@ -48,7 +48,7 @@
           adjust-cell-width = "-10%";
           font-family = "JetBrainsMono Nerd Font Mono";
           font-size = 12;
-          theme = "dark:catppuccin-macchiato,light:catppuccin-latte";
+          theme = "dark:Catppuccin Macchiato,light:Catppuccin Latte";
           window-theme = "system";
 
           # Functionality
