@@ -182,9 +182,9 @@
           username = "alex";
         };
 
-        Alexs-M1-MacBook = mkDarwinConfig {
+        MacBook-Air = mkDarwinConfig {
           system = "aarch64-darwin";
-          hostname = "Alexs-M1-MacBook";
+          hostname = "MacBook-Air";
           username = "alexyu";
         };
       };
