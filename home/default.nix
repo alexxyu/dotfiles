@@ -38,7 +38,7 @@
     vivid
     yq-go
 
-    nixfmt-rfc-style
+    nixfmt
     nil
 
     gnumake

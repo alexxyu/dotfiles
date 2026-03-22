@@ -75,18 +75,17 @@
         }:
         darwin.lib.darwinSystem {
           inherit system;
-          modules =
-            [
-              {
-                networking = {
-                  hostName = hostname;
-                  localHostName = hostname;
-                  computerName = hostname;
-                };
-              }
-            ]
-            ++ baseModules
-            ++ extraModules;
+          modules = [
+            {
+              networking = {
+                hostName = hostname;
+                localHostName = hostname;
+                computerName = hostname;
+              };
+            }
+          ]
+          ++ baseModules
+          ++ extraModules;
           specialArgs = {
             system = system;
             username = username;

@@ -42,4 +42,4 @@ To apply changes to home-manager, run `nix run home-manager -- switch --flake .#
 
 Note that the Darwin configuration also makes use of [nix-homebrew](https://github.com/zhaofengli/nix-homebrew) to manage installations that nix cannot, particular GUI apps.
 
-For Darwin, run `nix run nix-darwin -- switch --flake .#HOSTNAME`.
+For Darwin, run `sudo nix run nix-darwin -- switch --flake .#HOSTNAME`.

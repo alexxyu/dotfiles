@@ -37,48 +37,50 @@ with lib;
     programs.git = {
       enable = true;
 
-      userName = "Alex Yu";
-      userEmail = "yu.alexanderx@gmail.com";
-
-      aliases = {
-        amend = "commit --amend";
-        br = "branch";
-        brd = "branch -D";
-        bru = "branch --unset-upstream";
-        cam = "commit -am";
-        cb = "checkout -b";
-        cm = "commit -m";
-        co = "checkout";
-        cp = "cherry-pick";
-        diffh = "diff HEAD";
-        dummy = "commit --allow-empty";
-        ignore = "update-index --assume-unchanged";
-        unignore = "update-index --no-assume-unchanged";
-        lg = "log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'";
-        pls = "pull --rebase";
-        rename = "branch -m";
-        rs = "reset";
-        rsh = "reset --hard";
-        sparse = "sparse-checkout";
-        st = "stash";
-        stat = "status";
-        stl = "stash list";
-        stls = "stash list --stat";
-        stm = "stash -m";
-        stp = "stash pop";
-        sts = "stash show -p";
-        tag-archive = "! BRANCH_NAME=$(git branch --show-current) && git tag -a archive/$BRANCH_NAME -m \"Branch '$BRANCH_NAME' archived as tag\"";
-        unstage = "restore --staged";
-        upstack = "rebase --update-refs";
-        alias = "! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /";
-        count-lines = "! git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf \"added lines: %s, removed lines: %s, total lines: %s\\n\", add, subs, loc }' #";
-      };
-
       ignores = import ./gitignore.nix;
 
       lfs.enable = true;
 
-      extraConfig = {
+      settings = {
+        user = {
+          name = "Alex Yu";
+          email = "yu.alexanderx@gmail.com";
+        };
+
+        alias = {
+          amend = "commit --amend";
+          br = "branch";
+          brd = "branch -D";
+          bru = "branch --unset-upstream";
+          cam = "commit -am";
+          cb = "checkout -b";
+          cm = "commit -m";
+          co = "checkout";
+          cp = "cherry-pick";
+          diffh = "diff HEAD";
+          dummy = "commit --allow-empty";
+          ignore = "update-index --assume-unchanged";
+          unignore = "update-index --no-assume-unchanged";
+          lg = "log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'";
+          pls = "pull --rebase";
+          rename = "branch -m";
+          rs = "reset";
+          rsh = "reset --hard";
+          sparse = "sparse-checkout";
+          st = "stash";
+          stat = "status";
+          stl = "stash list";
+          stls = "stash list --stat";
+          stm = "stash -m";
+          stp = "stash pop";
+          sts = "stash show -p";
+          tag-archive = "! BRANCH_NAME=$(git branch --show-current) && git tag -a archive/$BRANCH_NAME -m \"Branch '$BRANCH_NAME' archived as tag\"";
+          unstage = "restore --staged";
+          upstack = "rebase --update-refs";
+          alias = "! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /";
+          count-lines = "! git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf \"added lines: %s, removed lines: %s, total lines: %s\\n\", add, subs, loc }' #";
+        };
+
         init = {
           defaultBranch = "main";
         };
