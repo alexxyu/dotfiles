@@ -21,7 +21,7 @@
       ];
 
       macKeybinds = [
-        "global:cmd+`=toggle_quick_terminal"
+        "global:opt+`=toggle_quick_terminal"
         "cmd+shift+r=reset"
       ];
 
