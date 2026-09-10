@@ -9,7 +9,7 @@
     apps.ghostty = {
       enable = lib.mkEnableOption "ghostty";
       enablePackage = lib.mkEnableOption "ghostty-package" // {
-        default = pkgs.stdenv.isLinux;
+        default = pkgs.stdenv.hostPlatform.isLinux;
       };
     };
   };
@@ -25,7 +25,7 @@
         "cmd+shift+r=reset"
       ];
 
-      keybinds = if pkgs.stdenv.isDarwin then macKeybinds else linuxKeybinds;
+      keybinds = if pkgs.stdenv.hostPlatform.isDarwin then macKeybinds else linuxKeybinds;
     in
     lib.mkIf config.apps.ghostty.enable {
       programs.ghostty = {
