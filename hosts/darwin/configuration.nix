@@ -57,7 +57,7 @@
 
   # Enable and install homebrew packages.
   homebrew = {
-    enable = false;
+    enable = true;
     casks = import ./casks.nix;
     masApps = {
       # Install through Apple Store for browser integration

@@ -1,7 +1,7 @@
 [
   # devtools
   "bruno"
-  "docker"
+  "docker-desktop"
   "visual-studio-code"
 
   # browsers
@@ -11,10 +11,15 @@
   # media
   "spotify"
   "vlc"
+  "finetune"
 
   # misc
   "appcleaner"
-  "logi-options-plus"
+  "logi-options+"
   "maccy"
+  "qlmarkdown"
+  "radix"
+  "syntax-highlight"
+  "thaw"
   "the-unarchiver"
 ]
