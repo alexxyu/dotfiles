@@ -35,15 +35,6 @@
           home = {
             inherit username;
             homeDirectory = "/Users/${username}";
-
-            file = {
-              ".config/iterm2/com.googlecode.iterm2.plist" = {
-                source = config.lib.file.mkOutOfStoreSymlink "/Users/${username}/.dotfiles/hosts/darwin/iterm/com.googlecode.iterm2.plist";
-              };
-              "Library/Application Support/Rectangle/RectangleConfig.json" = {
-                source = config.lib.file.mkOutOfStoreSymlink "/Users/${username}/.dotfiles/hosts/darwin/rectangle/RectangleConfig.json";
-              };
-            };
           };
 
           apps.ghostty.enable = true;
