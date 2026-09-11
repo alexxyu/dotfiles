@@ -31,6 +31,11 @@
 
       enableCompletion = true;
 
+      # Homebrew on macOS is not on PATH by default; load its shellenv in login shells.
+      loginExtra = lib.mkIf pkgs.stdenv.isDarwin ''
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      '';
+
       # https://mynixos.com/home-manager/option/programs.zsh.initContent
       initContent =
         let
