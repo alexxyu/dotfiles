@@ -32,7 +32,7 @@
       enableCompletion = true;
 
       # Homebrew on macOS is not on PATH by default; load its shellenv in login shells.
-      loginExtra = lib.mkIf pkgs.stdenv.isDarwin ''
+      loginExtra = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin ''
         eval "$(/opt/homebrew/bin/brew shellenv)"
       '';
 

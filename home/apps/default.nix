@@ -3,6 +3,7 @@
 with lib;
 {
   imports = [
+    ./bettercmdtab.nix
     ./firefox.nix
     ./ghostty.nix
     ./vscode.nix

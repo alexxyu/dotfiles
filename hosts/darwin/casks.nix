@@ -15,6 +15,7 @@
 
   # misc
   "appcleaner"
+  "bettercmdtab"
   "logi-options+"
   "maccy"
   "qlmarkdown"

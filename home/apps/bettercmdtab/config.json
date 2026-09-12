@@ -1,0 +1,41 @@
+{
+  "$schema" : "schema.json",
+  "appExceptions" : [
+    {
+      "bundleID" : "com.apple.finder",
+      "hide" : "whenNoWindows",
+      "ignore" : "never"
+    }
+  ],
+  "applicationsOnly" : false,
+  "boldSelectedLabel" : false,
+  "expandBrowserTabsAsWindows" : false,
+  "expandTabsAsWindows" : false,
+  "experimentalSwipeTrigger" : false,
+  "fontFace" : "system",
+  "fontScale" : "standard",
+  "fuzzySearchEnabled" : true,
+  "hapticOnCommit" : false,
+  "hideMenuBarIcon" : true,
+  "hoverActionsEnabled" : true,
+  "nextScopedShortcutID" : 0,
+  "scopedShortcutList" : [
+
+  ],
+  "shortcutOverrides" : [
+    {
+      "showHidden" : "false",
+      "showMinimized" : "false",
+      "target" : "switchWindows"
+    }
+  ],
+  "showApplicationNames" : true,
+  "showHiddenApps" : true,
+  "showRecentlyClosed" : false,
+  "showWindowlessApps" : false,
+  "showWindowStatusIcons" : true,
+  "stayOpenOnQuickTap" : true,
+  "stayOpenOnRelease" : true,
+  "titleTruncationMode" : "tail",
+  "windowDrillEnabled" : true
+}

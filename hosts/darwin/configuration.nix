@@ -38,6 +38,7 @@
           };
 
           apps.ghostty.enable = true;
+          apps.bettercmdtab.enable = true;
         };
     };
     extraSpecialArgs = {
