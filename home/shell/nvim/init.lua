@@ -60,16 +60,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.api.nvim_create_autocmd('BufWritePre', {
-  desc = 'Remove whitespace on save',
-  pattern = '',
-  callback = function(args)
-    if vim.bo[args.buf].modifiable and not vim.bo[args.buf].readonly then
-      vim.cmd([[%s/\s\+$//e]])
-    end
-  end,
-})
-
 -- Enter insert mode when switching to terminal
 vim.api.nvim_create_autocmd('TermOpen', {
   desc = 'Auto enter insert mode when opening a terminal',

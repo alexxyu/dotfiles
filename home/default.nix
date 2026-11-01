@@ -43,6 +43,12 @@
 
     gnumake
     rustup
+
+    # Baseline runtimes for shell helpers and Mason. Mise can override these per project.
+    nodejs
+    python3
+    go
+    unzip
   ];
 
   programs.home-manager.enable = true;

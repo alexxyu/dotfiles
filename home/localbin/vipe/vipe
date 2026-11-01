@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # vipe(1) - Pipe in and out of $EDITOR
 #
@@ -18,57 +18,72 @@
 
 # version
 
-VERSION="0.1.1"
+set -euo pipefail
+
+VERSION="0.2.0"
 
 # usage
 
 function __vipe_usage() {
-  echo "usage: vipe [-hV] [-e|--extension]"
+  echo "usage: vipe [-hV] [-e=EXT|--extension=EXT]"
 }
 
 ext="txt"
 for i in "$@"; do
   case $i in
-  "-e="* | "--extension="*)
-    ext="${i#*=}"
-    shift
-    ;; # past argument=value
-  "-h")
-    __vipe_usage
-    exit 0
-    ;;
-  "-V")
-    echo "$VERSION"
-    exit 0
-    ;;
-  --* | -*)
-    echo "unknown option: \"${1}\""
-    __vipe_usage
-    exit 1
-    ;;
-  *) ;;
+    "-e="* | "--extension="*)
+      ext="${i#*=}"
+      ;; # past argument=value
+    "-h")
+      __vipe_usage
+      exit 0
+      ;;
+    "-V")
+      echo "$VERSION"
+      exit 0
+      ;;
+    --* | -*)
+      echo "unknown option: \"${i}\"" >&2
+      __vipe_usage >&2
+      exit 1
+      ;;
+    *)
+      echo "unexpected argument: \"${i}\"" >&2
+      exit 1
+      ;;
   esac
 done
 
-# temp file
+# Keep the extension inside the private directory, never interpret it as a path.
+if [[ ! "$ext" =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]*$ ]]; then
+  echo "invalid extension: $ext" >&2
+  exit 1
+fi
 
-t=/tmp/vipe.$$.$ext
+# A private directory works with both BSD and GNU mktemp and supports extensions.
+temp_dir=$(mktemp -d "${TMPDIR:-/tmp}/vipe.XXXXXXXXXX")
+trap 'rm -rf -- "$temp_dir"' EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+umask 077
+t="$temp_dir/buffer.$ext"
 touch "$t"
 
 # read from stdin
 
 if [ ! -t 0 ]; then
-  cat >"$t"
+  cat > "$t"
 fi
 
 # spawn editor with stdio connected
 
-${EDITOR} "$t" </dev/tty >/dev/tty || exit $?
+# Support common values such as "nvim -f" without evaluating shell syntax.
+read -r -a editor_command <<< "${VISUAL:-${EDITOR:-vi}}"
+"${editor_command[@]}" "$t" < /dev/tty > /dev/tty
 
 # write to stdout
 
 cat "$t"
 
-# cleanup
-
-rm "$t"
+# The EXIT trap also cleans up on editor failure or a signal.

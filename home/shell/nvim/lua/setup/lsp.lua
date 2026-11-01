@@ -112,14 +112,17 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local navic = require('nvim-navic')
 
 for lsp, config in pairs(servers) do
-  vim.lsp.config(lsp, vim.tbl_extend('force', {
-    capabilities = capabilities,
-    on_attach = function(client, bufnr)
-      if client.server_capabilities.documentSymbolProvider then
-        navic.attach(client, bufnr)
-      end
-    end,
-  }, config))
+  vim.lsp.config(
+    lsp,
+    vim.tbl_extend('force', {
+      capabilities = capabilities,
+      on_attach = function(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, bufnr)
+        end
+      end,
+    }, config)
+  )
 end
 
 -- gopls probes `go env` while finding a project root. Skip that probe when

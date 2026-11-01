@@ -1,8 +1,7 @@
 [
   # An example global gitignore file
   #
-  # Place a copy if this at ~/.gitignore_global
-  # Run `git config --global core.excludesfile ~/.gitignore_global`
+  # Home Manager writes these patterns to $XDG_CONFIG_HOME/git/ignore.
 
   # Compiled source #
   ###################

@@ -31,6 +31,12 @@
       isDarwin = system: (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
       homePrefix = system: if isDarwin system then "/Users" else "/home";
 
+      forAllSystems = nixpkgs.lib.genAttrs [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+
       mkDarwinConfig =
         {
           username,
@@ -100,6 +106,26 @@
         };
     in
     {
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
+      checks = forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+          configurations = {
+            darwin = self.darwinConfigurations.default.system.drvPath;
+            nixos = self.nixosConfigurations.nixos.config.system.build.toplevel.drvPath;
+          }
+          // nixpkgs.lib.mapAttrs (_: home: home.activationPackage.drvPath) self.homeConfigurations;
+        in
+        {
+          # Force evaluation of every profile, including custom homeConfigurations.
+          # Drop dependency context so this check does not build foreign systems.
+          configuration-evaluation = pkgs.writeText "configuration-evaluation.json" (
+            builtins.unsafeDiscardStringContext (builtins.toJSON configurations)
+          );
+        }
+      );
+
       nixosConfigurations = {
         nixos = mkNixosConfig {
           system = "aarch64-linux";

@@ -8,35 +8,54 @@ alias pip="pip3"
   test -z "$1" && bpython || python3 "$@"
 }
 alias pyvenv="source .venv/bin/activate"
-alias pycrenv="python -m venv .venv --system-site-packages && actenv"
+alias pycrenv="python3 -m venv .venv --system-site-packages && source .venv/bin/activate"
 
 # Interactive ripgrep + fzf search
 function sg {
-  RG_PREFIX="rg --hidden --glob '!.git/' --line-number --color=always --smart-case "
-  INITIAL_QUERY="${*:-}"
-  : | fzf --ansi --disabled --query "$INITIAL_QUERY" \
-    --bind "start:reload:$RG_PREFIX {q}" \
-    --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-    --bind 'ctrl-t:transform:[[ ! $FZF_PROMPT =~ ripgrep ]] &&
-        echo "rebind(change)+change-prompt(1. ripgrep> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||
-        echo "unbind(change)+change-prompt(2. fzf> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"' \
-    --color "hl:-1:underline,hl+:-1:underline:reverse" \
-    --prompt '1. ripgrep> ' \
-    --delimiter : \
-    --preview 'bat --color=always {1} --highlight-line {2}' \
-    --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-    --bind 'enter:become(nvim {1} +{2})'
+  local rg_prefix="rg --hidden --glob '!.git/' --line-number --color=always --smart-case "
+  local initial_query="${*:-}"
+  local state_dir
+  state_dir=$(mktemp -d "${TMPDIR:-/tmp}/rg-fzf.XXXXXXXXXX") || return
+  # Export only for this invocation and its fzf child processes.
+  local -x RG_FZF_STATE_DIR="$state_dir"
+  : > "$state_dir/fzf"
+  : > "$state_dir/ripgrep"
+  {
+    : | fzf --ansi --disabled --query "$initial_query" \
+      --bind "start:reload:$rg_prefix {q}" \
+      --bind "change:reload:sleep 0.1; $rg_prefix {q} || true" \
+      --bind 'ctrl-t:transform:[[ ! $FZF_PROMPT =~ ripgrep ]] &&
+          echo "rebind(change)+change-prompt(1. ripgrep> )+disable-search+transform-query:printf %s \"\$FZF_QUERY\" > \"\$RG_FZF_STATE_DIR/fzf\"; cat \"\$RG_FZF_STATE_DIR/ripgrep\"" ||
+          echo "unbind(change)+change-prompt(2. fzf> )+enable-search+transform-query:printf %s \"\$FZF_QUERY\" > \"\$RG_FZF_STATE_DIR/ripgrep\"; cat \"\$RG_FZF_STATE_DIR/fzf\""' \
+      --color "hl:-1:underline,hl+:-1:underline:reverse" \
+      --prompt '1. ripgrep> ' \
+      --delimiter : \
+      --preview 'bat --color=always {1} --highlight-line {2}' \
+      --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+      --bind 'enter:become(nvim {1} +{2})'
+  } always {
+    rm -rf -- "$state_dir"
+  }
 }
 
 # ff - fuzzy find file where you can press
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
 function ff {
-  IFS=$'\n' out=("$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
+  local out key file
+  out=$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e) || return
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)
   if [ -n "$file" ]; then
-    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+    if [[ "$key" = ctrl-o ]]; then
+      if [[ "$OSTYPE" = darwin* ]]; then
+        open "$file"
+      else
+        xdg-open "$file"
+      fi
+    else
+      ${=EDITOR:-vim} "$file"
+    fi
   fi
 }
 

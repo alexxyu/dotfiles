@@ -16,7 +16,10 @@
       withRuby = false;
       withPython3 = false;
 
-      extraPackages = [ pkgs.tree-sitter ];
+      extraPackages = [
+        pkgs.tree-sitter
+        pkgs.stdenv.cc
+      ];
     };
 
     home.file = {

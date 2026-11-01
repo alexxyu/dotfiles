@@ -96,10 +96,6 @@ with lib;
           )
           ++ [ ("oauth" + (if config.shell.git.useDeviceOauth then " -device" else "")) ];
 
-        core = {
-          excludesfile = "$HOME/.gitignore_global";
-        };
-
         pull = {
           ff = "only";
         };
@@ -119,7 +115,7 @@ with lib;
         };
 
         include = {
-          path = "$HOME/.local/gitconfig";
+          path = "~/.local/gitconfig";
         };
 
         rerere = {

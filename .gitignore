@@ -4,3 +4,6 @@ target/
 *.swp
 
 .DS_Store
+result
+result-*
+__pycache__/

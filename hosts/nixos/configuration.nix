@@ -6,7 +6,10 @@
   ];
 
   # Necessary for using flakes on this system.
-  nix.settings.experimental-features = "nix-command flakes";
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Allow nix to manage boot loaders.
   boot.loader.systemd-boot.enable = true;
@@ -27,10 +30,8 @@
 
   # Enable KDE plasma desktop manager.
   services.displayManager.sddm.enable = true;
-  services.xserver = {
-    enable = true;
-    desktopManager.plasma5.enable = true;
-  };
+  services.xserver.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   system.stateVersion = "23.11";
 

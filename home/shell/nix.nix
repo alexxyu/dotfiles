@@ -3,8 +3,6 @@
 with lib;
 {
   config = {
-    home.packages = with pkgs; [ nixpkgs-fmt ];
-
     nix = {
       package = mkDefault pkgs.nix;
 
@@ -19,7 +17,7 @@ with lib;
       gc = {
         automatic = true;
         dates = "daily";
-        options = "--delete-older-than 3d";
+        options = "--delete-older-than 30d";
       };
     };
   };

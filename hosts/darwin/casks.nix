@@ -2,6 +2,7 @@
   # devtools
   "bruno"
   "docker-desktop"
+  "ghostty"
   "visual-studio-code"
 
   # browsers
