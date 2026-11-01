@@ -40,9 +40,12 @@ To apply changes to home-manager, run `nix run home-manager -- switch --flake .#
 
 ### Darwin
 
-Note that the Darwin configuration also makes use of [nix-homebrew](https://github.com/zhaofengli/nix-homebrew) to manage installations that nix cannot, particular GUI apps.
-
 For Darwin, run `sudo nix run nix-darwin -- switch --flake .#HOSTNAME`.
+
+Both Mac configurations use [nix-homebrew](https://github.com/zhaofengli/nix-homebrew)
+to install Homebrew automatically or migrate an existing installation. GUI apps
+are listed in `hosts/darwin/casks.nix`. You can also install packages directly with
+`brew`; rebuilds preserve manually installed packages and taps.
 
 macOS preferences live in `hosts/darwin/defaults.nix` and apply to both Mac configurations.
 This includes Dock appearance and Spaces behavior, Finder views and search, keyboard

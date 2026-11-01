@@ -14,18 +14,6 @@
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
   };
 
   outputs =
@@ -35,9 +23,6 @@
       home-manager,
       darwin,
       nix-homebrew,
-      homebrew-core,
-      homebrew-cask,
-      homebrew-bundle,
       ...
     }@inputs:
     let
@@ -53,24 +38,10 @@
           nixpkgs ? inputs.nixpkgs,
           baseModules ? [
             home-manager.darwinModules.home-manager
+            nix-homebrew.darwinModules.nix-homebrew
             ./hosts/darwin/configuration.nix
           ],
-          extraModules ? [
-            # nix-homebrew.darwinModules.nix-homebrew
-            # {
-            #   nix-homebrew = {
-            #     user = username;
-            #     enable = true;
-            #     taps = {
-            #       "homebrew/homebrew-core" = homebrew-core;
-            #       "homebrew/homebrew-cask" = homebrew-cask;
-            #       "homebrew/homebrew-bundle" = homebrew-bundle;
-            #     };
-            #     mutableTaps = false;
-            #     autoMigrate = true;
-            #   };
-            # }
-          ],
+          extraModules ? [ ],
           hostname ? "",
         }:
         darwin.lib.darwinSystem {

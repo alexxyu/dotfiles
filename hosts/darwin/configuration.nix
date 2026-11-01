@@ -58,9 +58,19 @@
     # Add system-level packages here.
   ];
 
-  # Enable and install homebrew packages.
+  # Bootstrap Homebrew while keeping taps and packages usable outside Nix.
+  nix-homebrew = {
+    enable = true;
+    user = username;
+    autoMigrate = true;
+    mutableTaps = true;
+    # Leave official taps unpinned so Homebrew uses its current package API.
+  };
+
+  # Install a baseline without removing manually installed packages or taps.
   homebrew = {
     enable = true;
+    onActivation.cleanup = "none";
     casks = import ./casks.nix;
     masApps = {
       # Install through Apple Store for browser integration
