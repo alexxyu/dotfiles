@@ -37,11 +37,6 @@ return {
       neotest.watch.toggle(vim.fn.expand('%'))
     end, { desc = 'Toggle watch' })
 
-    vim.keymap.set({ 'n', 'v' }, '<leader>td', function()
-      neotest.output_panel.clear()
-      neotest.run.run({ strategy = 'dap' })
-    end, { desc = 'Test with debugger' })
-
     vim.keymap.set({ 'n', 'v' }, '<leader>to', neotest.output_panel.toggle, { desc = 'Toggle test output' })
     vim.keymap.set({ 'n', 'v' }, '<leader>tp', neotest.summary.open, { desc = 'Open test summary' })
   end,

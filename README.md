@@ -80,3 +80,5 @@ Keep this list focused on preferences rather than recent files, window positions
 other application state.
 
 Stage new Nix files before rebuilding: Git-backed flakes only include tracked files.
+
+See [the Neovim README](home/shell/nvim/README.md) for editor configuration details.

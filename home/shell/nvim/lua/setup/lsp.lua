@@ -108,20 +108,11 @@ local servers = {
   marksman = {},
 }
 
--- Install and set up LSP servers
-require('mason-lspconfig').setup({
-  ensure_installed = vim.tbl_keys(servers),
-  auto_update = false,
-  run_on_start = true,
-  start_delay = 2000,
-})
-
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local lspconfig = require('lspconfig')
 local navic = require('nvim-navic')
 
 for lsp, config in pairs(servers) do
-  lspconfig[lsp].setup(vim.tbl_extend('force', {
+  vim.lsp.config(lsp, vim.tbl_extend('force', {
     capabilities = capabilities,
     on_attach = function(client, bufnr)
       if client.server_capabilities.documentSymbolProvider then
@@ -130,6 +121,23 @@ for lsp, config in pairs(servers) do
     end,
   }, config))
 end
+
+-- gopls probes `go env` while finding a project root. Skip that probe when
+-- Neovim is launched outside an environment with a Go toolchain on PATH.
+local gopls_root_dir = vim.lsp.config.gopls.root_dir
+vim.lsp.config('gopls', {
+  root_dir = function(bufnr, on_dir)
+    if vim.fn.executable('go') == 1 then
+      gopls_root_dir(bufnr, on_dir)
+    end
+  end,
+})
+
+-- Install and enable servers after their custom configurations are registered.
+require('mason-lspconfig').setup({
+  ensure_installed = vim.tbl_keys(servers),
+  automatic_enable = vim.tbl_keys(servers),
+})
 
 -- Set up capabilities on LSP attach
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -159,33 +167,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.notify('Diagnostics (buffer ' .. bufnr .. ') are now enabled.', 'info')
       end
     end, { desc = 'Toggle diagnostics', buffer = bufnr })
-
-    -- format code
-    if client.server_capabilities.documentFormattingProvider then
-      vim.keymap.set('n', '<leader>cf', function()
-        vim.lsp.buf.format({ async = true, bufnr = bufnr })
-      end, { desc = 'Format code', buffer = bufnr })
-
-      vim.keymap.set('n', '<leader>xf', function()
-        vim.b.format_on_save = not vim.b.format_on_save
-        vim.notify(
-          'Format on save (buffer ' .. bufnr .. ') is now ' .. (vim.b.format_on_save and 'enabled' or 'disabled') .. '.',
-          'info'
-        )
-      end, { desc = 'Toggle format on save', buffer = bufnr })
-
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        buffer = args.buf,
-        desc = 'Format on save',
-        callback = function()
-          if vim.b.format_on_save then
-            vim.lsp.buf.format({ async = false })
-          end
-        end,
-      })
-
-      vim.b.format_on_save = true
-    end
 
     -- document highlighting
     if client.server_capabilities.documentHighlightProvider then
@@ -219,13 +200,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- codelens support
     if client.server_capabilities.codeLensProvider then
-      vim.lsp.codelens.refresh({ bufnr = bufnr })
-      vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach' }, {
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.codelens.refresh({ bufnr = bufnr })
-        end,
-      })
+      if vim.lsp.codelens.enable then
+        vim.lsp.codelens.enable(true, { bufnr = bufnr })
+      else
+        vim.lsp.codelens.refresh({ bufnr = bufnr })
+        vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach' }, {
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.codelens.refresh({ bufnr = bufnr })
+          end,
+        })
+      end
       vim.keymap.set(
         { 'n', 'v' },
         '<leader>cl',
@@ -239,6 +224,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- Notification for LSP progress
 vim.lsp.handlers['$/progress'] = function(_, result, ctx)
   local notifs = require('lib.notifs')
+  -- Call nvim-notify directly: Noice's vim.notify wrapper does not return
+  -- the notification handle needed for progress updates and spinner replacement.
+  local notify = require('notify').notify
   local client_id = ctx.client_id
 
   local val = result.value
@@ -252,7 +240,7 @@ vim.lsp.handlers['$/progress'] = function(_, result, ctx)
   if val.kind == 'begin' then
     local message = notifs.format_message(val.message, val.percentage)
 
-    notif_data.notification = vim.notify(message, 'info', {
+    notif_data.notification = notify(message, 'info', {
       title = notifs.format_title(val.title, vim.lsp.get_client_by_id(client_id).name),
       icon = notifs.spinner_frames[1],
       hide_from_history = false,
@@ -261,12 +249,12 @@ vim.lsp.handlers['$/progress'] = function(_, result, ctx)
     notif_data.spinner = 1
     notifs.update_spinner(client_id, result.token)
   elseif val.kind == 'report' and notif_data then
-    notif_data.notification = vim.notify(notifs.format_message(val.message, val.percentage), 'info', {
+    notif_data.notification = notify(notifs.format_message(val.message, val.percentage), 'info', {
       replace = notif_data.notification,
       hide_from_history = false,
     })
   elseif val.kind == 'end' and notif_data then
-    notif_data.notification = vim.notify(val.message and notifs.format_message(val.message) or 'Complete', 'info', {
+    notif_data.notification = notify(val.message and notifs.format_message(val.message) or 'Complete', 'info', {
       icon = '',
       replace = notif_data.notification,
     })

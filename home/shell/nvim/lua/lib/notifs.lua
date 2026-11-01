@@ -1,4 +1,4 @@
--- Utility functions shared between progress reports for LSP and DAP
+-- Utility functions for LSP progress reports
 
 local M = {}
 M.client_notifs = {}
@@ -20,10 +20,10 @@ M.update_spinner = function(client_id, token)
   local notif_data = M.get_notif_data(client_id, token)
 
   if notif_data.spinner then
-    local new_spinner = (notif_data.spinner + 1) % #M.spinner_frames
+    local new_spinner = (notif_data.spinner % #M.spinner_frames) + 1
     notif_data.spinner = new_spinner
 
-    notif_data.notification = vim.notify(nil, nil, {
+    notif_data.notification = require('notify').notify(nil, nil, {
       hide_from_history = true,
       icon = M.spinner_frames[new_spinner],
       replace = notif_data.notification,

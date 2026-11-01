@@ -6,7 +6,6 @@ return {
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'CFLAGS=-march=native make', -- https://github.com/nvim-telescope/telescope-fzf-native.nvim/issues/119#issuecomment-1873653249
     },
-    'nvim-telescope/telescope-ui-select.nvim',
     'stevearc/dressing.nvim',
   },
   config = function()

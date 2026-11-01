@@ -5,13 +5,13 @@ return {
   end,
   opts = {
     log_level = 'error',
-    auto_save_enabled = true,
-    auto_restore_enabled = false,
-    bypass_session_save_file_types = {
+    auto_save = true,
+    auto_restore = false,
+    bypass_save_filetypes = {
       'gitcommit',
       'alpha',
     },
-    auto_session_suppress_dirs = {
+    suppressed_dirs = {
       '~',
       '/',
     },
@@ -19,9 +19,9 @@ return {
   config = function(_, opts)
     require('auto-session').setup(opts)
 
-    vim.keymap.set('n', '<leader>fs', require('auto-session.session-lens').search_session, { desc = 'Find session' })
-    vim.keymap.set('n', '<leader>qs', '<cmd>SessionSave<cr>', { desc = 'Save session' })
-    vim.keymap.set('n', '<leader>qr', '<cmd>SessionRestore<cr>', { desc = 'Restore session' })
-    vim.keymap.set('n', '<leader>qd', '<cmd>SessionDelete<cr>', { desc = 'Delete session' })
+    vim.keymap.set('n', '<leader>fs', '<cmd>AutoSession search<cr>', { desc = 'Find session' })
+    vim.keymap.set('n', '<leader>qs', '<cmd>AutoSession save<cr>', { desc = 'Save session' })
+    vim.keymap.set('n', '<leader>qr', '<cmd>AutoSession restore<cr>', { desc = 'Restore session' })
+    vim.keymap.set('n', '<leader>qd', '<cmd>AutoSession delete<cr>', { desc = 'Delete session' })
   end,
 }

@@ -38,6 +38,12 @@ vim.opt.incsearch = true
 ------------------------
 -- Set other behavior --
 ------------------------
+-- These remote-plugin hosts are unused; LSP servers run as separate processes.
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 vim.opt.mouse = 'a'
 table.insert(vim.opt.ve, 'onemore')
 vim.opt.clipboard = 'unnamed,unnamedplus'
@@ -50,14 +56,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight on yank',
   group = 'YankHighlight',
   callback = function()
-    vim.highlight.on_yank({ higroup = 'IncSearch', timeout = '1000' })
+    vim.hl.on_yank({ higroup = 'IncSearch', timeout = 1000 })
   end,
 })
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   desc = 'Remove whitespace on save',
   pattern = '',
-  command = ':%s/\\s\\+$//e',
+  callback = function(args)
+    if vim.bo[args.buf].modifiable and not vim.bo[args.buf].readonly then
+      vim.cmd([[%s/\s\+$//e]])
+    end
+  end,
 })
 
 -- Enter insert mode when switching to terminal
@@ -67,7 +77,7 @@ vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
     -- Wait briefly just in case we immediately switch out of the buffer
     vim.defer_fn(function()
-      if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' then
+      if vim.bo.buftype == 'terminal' then
         vim.cmd([[startinsert]])
       end
     end, 100)
@@ -133,6 +143,9 @@ require('lazy').setup({
   defaults = {
     lazy = false,
   },
+  rocks = {
+    enabled = false, -- All configured plugins work without LuaRocks.
+  },
   diff = {
     cmd = 'terminal_git',
   },
@@ -145,7 +158,6 @@ require('lazy').setup({
 require('which-key').add({
   { '<leader>b', group = 'buffer' },
   { '<leader>c', group = 'code' },
-  { '<leader>d', group = 'debug' },
   { '<leader>f', group = 'find' },
   { '<leader>g', group = 'git' },
   { '<leader>l', group = 'lsp' },
