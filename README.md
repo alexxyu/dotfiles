@@ -43,3 +43,16 @@ To apply changes to home-manager, run `nix run home-manager -- switch --flake .#
 Note that the Darwin configuration also makes use of [nix-homebrew](https://github.com/zhaofengli/nix-homebrew) to manage installations that nix cannot, particular GUI apps.
 
 For Darwin, run `sudo nix run nix-darwin -- switch --flake .#HOSTNAME`.
+
+macOS preferences live in `hosts/darwin/defaults.nix` and apply to both Mac configurations.
+This includes Dock appearance and Spaces behavior, Finder views and search, keyboard
+and trackpad preferences. Some preferences
+need an app restart or a logout/login after rebuilding.
+
+To save another preference, inspect it with `defaults read DOMAIN KEY` (for example,
+`defaults read com.apple.dock tilesize`), then add the corresponding `system.defaults`
+option. Use `system.defaults.CustomUserPreferences` for keys without a built-in option.
+Keep this list focused on preferences rather than recent files, window positions, or
+other application state.
+
+Stage new Nix files before rebuilding: Git-backed flakes only include tracked files.

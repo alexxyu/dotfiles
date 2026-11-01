@@ -5,6 +5,8 @@
   ...
 }:
 {
+  imports = [ ./defaults.nix ];
+
   # Necessary for using flakes on this system.
   nix.settings.experimental-features = "nix-command flakes";
 
@@ -67,44 +69,4 @@
   };
 
   system.primaryUser = username;
-  system.defaults = {
-    dock.autohide = true;
-    dock.show-recents = false;
-    dock.wvous-br-corner = 12; # Bottom-left hot corner: Notification Center
-
-    trackpad.Clicking = true;
-  };
-
-  system.defaults.NSGlobalDomain = {
-    AppleInterfaceStyleSwitchesAutomatically = true;
-    ApplePressAndHoldEnabled = false;
-    AppleShowAllExtensions = true;
-    InitialKeyRepeat = 25;
-    KeyRepeat = 4;
-    NSAutomaticCapitalizationEnabled = false;
-    NSAutomaticPeriodSubstitutionEnabled = false;
-    NSAutomaticQuoteSubstitutionEnabled = false;
-    NSAutomaticSpellingCorrectionEnabled = false;
-    NSDocumentSaveNewDocumentsToCloud = false;
-    NSNavPanelExpandedStateForSaveMode = true;
-    NSNavPanelExpandedStateForSaveMode2 = true;
-  };
-
-  system.defaults.CustomUserPreferences = {
-    "com.apple.finder" = {
-      FXPreferredViewStyle = "Nlsv";
-      ShowExternalHardDrivesOnDesktop = true;
-      ShowHardDrivesOnDesktop = false;
-      ShowPathbar = true;
-    };
-    "com.apple.desktopservices" = {
-      # Avoid creating .DS_Store files on network or USB volumes
-      DSDontWriteNetworkStores = true;
-      DSDontWriteUSBStores = true;
-    };
-    "com.googlecode.iterm2" = {
-      PrefsCustomFolder = "~/.config/iterm2";
-      LoadPrefsFromCustomFolder = true;
-    };
-  };
 }
