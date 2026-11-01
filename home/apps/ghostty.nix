@@ -17,12 +17,17 @@
   config =
     let
       linuxKeybinds = [
+        "alt+`=toggle_quick_terminal"
         "ctrl+shift+r=reset"
+        "ctrl+d=new_split:down"
+        "ctrl+shift+d=new_split:right"
       ];
 
       macKeybinds = [
         "global:opt+`=toggle_quick_terminal"
         "cmd+shift+r=reset"
+        "cmd+d=new_split:down"
+        "cmd+shift+d=new_split:right"
       ];
 
       keybinds = if pkgs.stdenv.hostPlatform.isDarwin then macKeybinds else linuxKeybinds;
