@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   system,
   username,
   ...
@@ -69,6 +70,15 @@
     mutableTaps = true;
     # Leave official taps unpinned so Homebrew uses its current package API.
   };
+
+  system.activationScripts.setup-homebrew.text = lib.mkAfter ''
+    # Migration removes the old checkout's completions but leaves links such as
+    # share/zsh/site-functions/_brew pointing there. Follow the managed Homebrew
+    # symlink so these links keep working when its Nix store path changes.
+    if [[ ! -e /opt/homebrew/completions || -L /opt/homebrew/completions ]]; then
+      /bin/ln -shf Library/Homebrew/../../completions /opt/homebrew/completions
+    fi
+  '';
 
   # Install a baseline without removing manually installed packages or taps.
   homebrew = {
