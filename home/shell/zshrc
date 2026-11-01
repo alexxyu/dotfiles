@@ -67,14 +67,13 @@ function _set_dark {
 
 function tbg {
   local bg
-  if [[ "$(uname)" = "Darwin" ]]; then
+  # Prefer the terminal's theme; macOS appearance is only a fallback.
+  if ! bg=$(termbg 2> /dev/null) && [[ "$OSTYPE" = darwin* ]]; then
     if [[ "$(defaults read -g AppleInterfaceStyle 2> /dev/null)" = "Dark" ]]; then
       bg="dark"
     else
       bg="light"
     fi
-  else
-    bg=$(termbg 2> /dev/null)
   fi
 
   if [[ "$bg" = "light" ]]; then

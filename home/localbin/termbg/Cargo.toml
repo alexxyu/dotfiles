@@ -4,4 +4,4 @@ version = "1.0.0"
 edition = "2021"
 
 [dependencies]
-terminal-colorsaurus = "0.4.1"
+terminal-colorsaurus = "1.0.3"
