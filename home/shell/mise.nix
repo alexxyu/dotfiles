@@ -1,7 +1,7 @@
 { ... }:
 {
   config = {
-    # Shared runtimes come from home.packages; use mise.toml for project versions.
+    # Install Mise and its shell integration; keep global versions user-managed.
     programs.mise.enable = true;
   };
 }

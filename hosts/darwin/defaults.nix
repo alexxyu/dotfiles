@@ -54,10 +54,6 @@
         DSDontWriteNetworkStores = true;
         DSDontWriteUSBStores = true;
       };
-      "com.googlecode.iterm2" = {
-        PrefsCustomFolder = "~/.config/iterm2";
-        LoadPrefsFromCustomFolder = true;
-      };
     };
   };
 }

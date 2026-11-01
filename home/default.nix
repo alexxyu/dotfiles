@@ -22,16 +22,18 @@
   home.sessionPath = [ "$HOME/.local/bin" ];
 
   home.packages = with pkgs; [
-    btop
     coreutils
     difftastic
     dua
     entr
     fd
+    fastfetch
     ffmpeg
+    gh
     imagemagick
     img2pdf
     jq
+    spicetify-cli
     tldr
     tmux
     tree

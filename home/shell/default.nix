@@ -2,6 +2,7 @@
 {
   imports = [
     ./bat.nix
+    ./btop.nix
     ./delta.nix
     ./eza.nix
     ./fzf.nix
@@ -14,6 +15,7 @@
     ./neovim.nix
     ./ripgrep.nix
     ./ytdlp.nix
+    ./zellij.nix
     ./zoxide.nix
     ./zsh.nix
   ];

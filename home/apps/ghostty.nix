@@ -37,6 +37,9 @@
         enable = true;
         package = if config.apps.ghostty.enablePackage then pkgs.ghostty else null;
 
+        # Load integration below only for shells talking directly to Ghostty.
+        enableZshIntegration = false;
+
         settings = {
           # Display
           cursor-style = "bar";
@@ -69,5 +72,13 @@
           keybind = keybinds;
         };
       };
+
+      programs.zsh.initContent = lib.mkAfter ''
+        # Ghostty prompt markers conflict with Powerlevel10k inside tmux.
+        if [[ "$TERM" == xterm-ghostty && -z "$TMUX" && -z "$STY" && -z "$ZELLIJ" && \
+              -r "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration" ]]; then
+          source "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
+        fi
+      '';
     };
 }

@@ -85,6 +85,7 @@
     enable = true;
     onActivation.cleanup = "none";
     casks = import ./casks.nix;
+    brews = [ "dark-mode" ];
     masApps = {
       # Install through Apple Store for browser integration
       "Bitwarden" = 1352778147;
