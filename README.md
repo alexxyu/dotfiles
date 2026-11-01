@@ -12,6 +12,9 @@ This repo replicates the configuration in my [original dotfiles](https://github.
 
 ## How to Use
 
+Install Nix using the [official installation instructions](https://nixos.org/download/),
+then open a new terminal.
+
 **Note:** In order to properly symlink some dotfiles, this setup expects this repo to be cloned to your home directory like so:
 `git clone https://github.com/alexxyu/dotfiles ~/.dotfiles`.
 
@@ -36,18 +39,36 @@ See `flake.nix` for existing configurations that also serve as examples for addi
 
 To apply changes to the NixOS system configuration, run `sudo nixos-rebuild switch --flake .#HOSTNAME`.
 
-To apply changes to home-manager, run `nix run home-manager -- switch --flake .#USERNAME`.
+To apply changes to home-manager, run:
+
+```sh
+NIX_CONFIG='extra-experimental-features = nix-command flakes' \
+nix run home-manager -- switch --flake .#USERNAME
+```
 
 ### Darwin
 
-For Darwin, run `sudo nix run nix-darwin -- switch --flake .#HOSTNAME`.
+On a new Mac, run from `~/.dotfiles` to bootstrap nix-darwin and apply this configuration:
 
-Both Mac configurations use [nix-homebrew](https://github.com/zhaofengli/nix-homebrew)
+```sh
+sudo env NIX_CONFIG='extra-experimental-features = nix-command flakes' \
+  nix run github:nix-darwin/nix-darwin#darwin-rebuild -- switch --flake .#default
+```
+
+This installs nix-darwin; no separate setup is needed.
+The system configuration enables these features permanently.
+Afterward, open a new terminal and apply changes with:
+
+```sh
+sudo darwin-rebuild switch --flake ~/.dotfiles#default
+```
+
+The Mac configuration uses [nix-homebrew](https://github.com/zhaofengli/nix-homebrew)
 to install Homebrew automatically or migrate an existing installation. GUI apps
 are listed in `hosts/darwin/casks.nix`. You can also install packages directly with
 `brew`; rebuilds preserve manually installed packages and taps.
 
-macOS preferences live in `hosts/darwin/defaults.nix` and apply to both Mac configurations.
+macOS preferences live in `hosts/darwin/defaults.nix`.
 This includes Dock appearance and Spaces behavior, Finder views and search, keyboard
 and trackpad preferences. Some preferences
 need an app restart or a logout/login after rebuilding.

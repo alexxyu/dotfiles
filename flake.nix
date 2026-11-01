@@ -42,21 +42,10 @@
             ./hosts/darwin/configuration.nix
           ],
           extraModules ? [ ],
-          hostname ? "",
         }:
         darwin.lib.darwinSystem {
           inherit system;
-          modules = [
-            {
-              networking = {
-                hostName = hostname;
-                localHostName = hostname;
-                computerName = hostname;
-              };
-            }
-          ]
-          ++ baseModules
-          ++ extraModules;
+          modules = baseModules ++ extraModules;
           specialArgs = {
             system = system;
             username = username;
@@ -146,15 +135,8 @@
       };
 
       darwinConfigurations = {
-        aarch64-darwin = mkDarwinConfig {
+        default = mkDarwinConfig {
           system = "aarch64-darwin";
-          hostname = "aarch64-darwin";
-          username = "alex";
-        };
-
-        MacBook-Air = mkDarwinConfig {
-          system = "aarch64-darwin";
-          hostname = "MacBook-Air";
           username = "alexyu";
         };
       };
